@@ -42,7 +42,6 @@ This repository is more than just a collection of tools and techniques; it’s a
 - **Practitioner** 🔵: 26/171 (15.2%)
 - **Expert** 🟣: 0/39 (0.0%)
 
-## Topic Progress
 | Topic 📖                              | Labs 🔬 | Progress ✅ | Status ⭕️ | Last Updated 🗓️ |
 | ------------------------------------ | ------ | ---------- | :------: | -------------- |
 | **Server-side topics 🟧**             |        |            |          |                |
