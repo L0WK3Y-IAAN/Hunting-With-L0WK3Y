@@ -1,7 +1,7 @@
 # Projects 🧪
 
 ![Banner](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/src/img/HWL.gif?raw=true)
-![Visitor Count](https://profile-counter.glitch.me/L0WK3Y/count.svg)
+![Visitor Count](https://profile-counter.glitch.me/Hunting-With-L0WK3Y/count.svg)
 
 Welcome to the **Projects 🧪** page of "Hunting with L0WK3Y"! Here, you'll find a showcase of the tools, scripts, and experiments I've created or contributed to during my bug bounty journey. Each project represents a step forward in my mission to uncover vulnerabilities, enhance security, and grow as a cybersecurity professional.  
 
