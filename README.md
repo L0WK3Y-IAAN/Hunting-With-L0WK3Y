@@ -1,5 +1,3 @@
-# Hunting With L0WK3Y 👾
-
 ![Banner](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/src/img/HWL.gif?raw=true)
 ![Visitor Count](https://profile-counter.glitch.me/L0WK3Y/count.svg)
 
