@@ -27,14 +27,11 @@ This resource hub is a living document, and will be constantly updated with reso
   <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y">
     <img src="https://img.shields.io/badge/Home-930b18?style=for-the-badge&logo=github&logoColor=white" alt="Home">
   </a>
-  <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/resources">
-    <img src="https://img.shields.io/badge/Resources-00800c?style=for-the-badge&logo=github&logoColor=white" alt="Resources">
-  </a>
-  <a href="https://github.com/L0WK3Y/L0WK3Ys-Bug-Bounty-Journey/projects">
-    <img src="https://img.shields.io/badge/Projects-930b18?style=for-the-badge&logo=github&logoColor=white" alt="Projects">
+  <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Projects">
+    <img src="https://img.shields.io/badge/Projects-00800c?style=for-the-badge&logo=github&logoColor=white" alt="Projects">
   </a>
   <a href="https://infophreak.com/author/l0wk3y">
-    <img src="https://img.shields.io/badge/Blog-00800c?style=for-the-badge&logo=blog&logoColor=white" alt="Blog">
+    <img src="https://img.shields.io/badge/Blog-930b18?style=for-the-badge&logo=blog&logoColor=white" alt="Blog">
   </a>
 </div>
 
