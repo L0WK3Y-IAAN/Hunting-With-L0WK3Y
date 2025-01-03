@@ -1,7 +1,7 @@
 # Resources 📖
 
 ![Banner](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/src/img/HWL.gif?raw=true)
-![Visitor Count](https://profile-counter.glitch.me/L0WK3Y/count.svg)
+![Visitor Count](https://profile-counter.glitch.me/Hunting-With-L0WK3Y/count.svg)
 
 
 Welcome to the **Resources 📖** page of the "Hunting with L0WK3Y" repository! 🛠️ Here, you’ll find a curated collection of essential tools, guides, and references that have helped me navigate the bug bounty landscape. These resources are designed to empower ethical hackers at all skill levels, from beginners to seasoned hunters.  
