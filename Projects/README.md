@@ -34,7 +34,7 @@ Each project comes with detailed explanations, usage instructions, and, when pos
 
 
 ## 🔍 Latest Project
-![PortSwigger Academy Tracker](https://github.com/L0WK3Y-IAAN/PortSwigger-Academy-Tracker/tree/main)
+[PortSwigger Academy Tracker](https://github.com/L0WK3Y-IAAN/PortSwigger-Academy-Tracker/tree/main)
 
 
 ## 🛠️ Tools & Technologies
