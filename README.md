@@ -19,7 +19,7 @@ This repository is more than just a collection of tools and techniques; it’s a
 ### Let’s hunt! 🕵️‍♂️💻  
 
 
-## 📊 Quick Links
+## 🔗 Quick Links
 
 <div align="left">
   <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y">
