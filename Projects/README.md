@@ -18,7 +18,7 @@ Each project comes with detailed explanations, usage instructions, and, when pos
 
 
 
-## 📊 Quick Links
+## 🔗 Quick Links
 
 <div align="left">
   <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y">
