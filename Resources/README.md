@@ -21,7 +21,7 @@ Welcome to the **Resources 📖** page of the "Hunting with L0WK3Y" repository! 
 This resource hub is a living document, and will be constantly updated with resources that I come across as I learn more. Whether you're looking to learn, solve a specific challenge, or level up your toolkit, this page has something for everyone.  
 
 
-## 📊 Quick Links
+## 🔗 Quick Links
 
 <div align="left">
   <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y">
