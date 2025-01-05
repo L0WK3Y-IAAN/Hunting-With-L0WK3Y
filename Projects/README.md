@@ -39,7 +39,6 @@ Each project comes with detailed explanations, usage instructions, and, when pos
 🔵 - In Development
 🔴 - Discontinued
 </div><br>
-
 🟢 [PortSwigger Academy Tracker](https://github.com/L0WK3Y-IAAN/PortSwigger-Academy-Tracker/tree/main)
 
 
