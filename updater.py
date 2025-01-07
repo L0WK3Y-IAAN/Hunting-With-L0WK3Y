@@ -101,7 +101,7 @@ def main():
         print("README updated with new entries. Committing changes...")
 
         subprocess.run(["git", "add", README_PATH], check=True)
-        subprocess.run(["git", "commit", "-m", "chore: 🟢 New Write-up Added!"], check=True)
+        subprocess.run(["git", "commit", "-m", "🟢 New Write-up Added!"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
     else:
         print("No changes detected in README.md.")
