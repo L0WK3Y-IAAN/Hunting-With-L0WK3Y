@@ -22,9 +22,9 @@ I then proceed to click on one of the product “View details” buttons and spo
 Here's a breakdown of the components of the URL in the image:
 
 1. **https://**: This indicates that the URL is using the HTTPS protocol, which is a secure version of HTTP.
-2. [**0aba008d0441c60a8ae1056600f00075.web-security-academy.net**](http://0aba008d0441c60a8ae1056600f00075.web-security-academy.net/):
+2. **0aba008d0441c60a8ae1056600f00075.web-security-academy.net**:
     - **0aba008d0441c60a8ae1056600f00075**: This is likely a subdomain or a unique identifier for a specific user, session, or resource.
-    - [**web-security-academy.net**](http://web-security-academy.net/): This is the main domain name. It indicates that the site belongs to the Web Security Academy, which is likely related to cybersecurity training or education.
+    - **web-security-academy.net**: This is the main domain name. It indicates that the site belongs to the Web Security Academy, which is likely related to cybersecurity training or education.
 3. **/product**: This is the path of the URL, indicating that the resource being accessed is related to products.
 4. **?productId=1**: This is a query parameter.
     - **?**: Indicates the start of the query string.
