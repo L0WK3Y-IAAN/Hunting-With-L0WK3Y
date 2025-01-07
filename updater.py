@@ -35,7 +35,7 @@ def generate_markdown_links(paths):
     """
     md_lines = []
     # Get today's date in YYYY-MM-DD format
-    today_str = datetime.now().strftime("%Y-%m-%d")
+    today_str = datetime.now().strftime("%m-%d-%Y")
 
     for p in sorted(paths):
         # The folder name becomes the link text
