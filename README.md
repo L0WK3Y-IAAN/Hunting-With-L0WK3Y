@@ -81,6 +81,9 @@ This repository is more than just a collection of tools and techniques; it’s a
 
 ## 🔍 Latest Blog Posts
 
+- [Information disclosure in error messages
+](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20in%20error%20messages/README.md) - 01-07-2025
+
 
 
 
