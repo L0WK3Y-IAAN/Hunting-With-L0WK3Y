@@ -37,10 +37,7 @@ This resource hub is a living document, and will be constantly updated with reso
 
 
 ## 🔍 Latest Blog Posts
-**Coming soon!**
-<!-- - [Understanding SQL Injection](https://yourblogurl.com/sql-injection)
-- [Top 10 OWASP Vulnerabilities](https://yourblogurl.com/owasp-top10)
-- [Automating Recon with Python](https://yourblogurl.com/automation-recon) -->
+
 
 
 
