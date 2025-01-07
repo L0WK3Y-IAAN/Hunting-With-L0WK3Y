@@ -80,6 +80,8 @@ This repository is more than just a collection of tools and techniques; it’s a
 | Essential skills                     | 2      | 0/2        |    🔴     | 01/02/2025     |
 
 ## 🔍 Latest Blog Posts
+- [Information disclosure in error messages](Resources/Personal/Write-ups/PortSwigger Academy/Server-side topics/Information disclosure/Information disclosure in error messages/README.md)
+
 **Coming soon!**
 <!-- - [Understanding SQL Injection](https://yourblogurl.com/sql-injection)
 - [Top 10 OWASP Vulnerabilities](https://yourblogurl.com/owasp-top10)
