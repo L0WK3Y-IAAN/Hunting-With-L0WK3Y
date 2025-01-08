@@ -19,7 +19,7 @@ jobs:
         run: |
           pip install --upgrade pip
           python -m pip install requests  # or any other packages you need
-          python update_writeups.py
+          python updater.py
         env:
           # This token is automatically provided by GitHub Actions
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
