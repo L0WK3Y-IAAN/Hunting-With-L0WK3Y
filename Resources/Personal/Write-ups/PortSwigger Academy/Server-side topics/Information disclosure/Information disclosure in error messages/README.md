@@ -9,13 +9,13 @@
 
 In this lab, I start things off by scanning for directories like normal although nothing of interest was found. 
 
-![1.png](Information%20disclosure%20in%20error%20messages/1.png)
+![1.png img](Information%20disclosure%20in%20error%20messages/1.png)
 
 I then proceed to click on one of the product “View details” buttons and spot a query added to the URL.
 
-![2.png](Information%20disclosure%20in%20error%20messages/2.png)
+![2.png img](Information%20disclosure%20in%20error%20messages/2.png)
 
-![3.png](Information%20disclosure%20in%20error%20messages/3.png)
+![3.png img](Information%20disclosure%20in%20error%20messages/3.png)
 
 *Image by codecademy.com*
 
