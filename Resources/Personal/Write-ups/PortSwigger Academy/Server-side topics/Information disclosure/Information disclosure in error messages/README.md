@@ -9,13 +9,13 @@
 
 In this lab, I start things off by scanning for directories like normal although nothing of interest was found. 
 
-![Screenshot 2024-06-29 at 8.33.17 PM.png](Information%20disclosure%20in%20error%20messages/Screenshot_2024-06-29_at_8.33.17_PM.png)
+![1.png](Information%20disclosure%20in%20error%20messages/1.png)
 
 I then proceed to click on one of the product “View details” buttons and spot a query added to the URL.
 
-![Screenshot 2024-07-05 at 1.27.50 PM.png](Information%20disclosure%20in%20error%20messages/Screenshot_2024-07-05_at_1.27.50_PM.png)
+![2.png](Information%20disclosure%20in%20error%20messages/2.png)
 
-![Untitled](Information%20disclosure%20in%20error%20messages/Untitled.png)
+![3.png](Information%20disclosure%20in%20error%20messages/3.png)
 
 *Image by codecademy.com*
 
