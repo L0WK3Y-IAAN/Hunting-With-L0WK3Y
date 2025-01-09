@@ -87,7 +87,7 @@ def configure_git():
         )
         if not result.stdout.strip():
             subprocess.run(
-                ["git", "config", "user.name", "Your Name"],
+                ["git", "config", "user.name", "L0WK3Y-IAAN"],
                 check=True
             )
             print("Configured git user.name.")
