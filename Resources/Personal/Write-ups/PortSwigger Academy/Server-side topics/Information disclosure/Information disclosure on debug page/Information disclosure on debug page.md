@@ -1,11 +1,11 @@
 # Information disclosure on debug page
 
-<aside>
+```
 ❓
 
 This lab contains a debug page that discloses sensitive information about the application. To solve the lab, obtain and submit the `SECRET_KEY` environment variable.
 
-</aside>
+```
 
 In the screenshot, we see that while inspecting the home page’s source code, a commented-out anchor tag was discovered pointing to:
 
