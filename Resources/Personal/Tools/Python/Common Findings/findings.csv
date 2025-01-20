@@ -1,0 +1,58 @@
+URL,Status,Details
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.env,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/config.php,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/settings.py,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/web.config,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/application.yml,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/config.json,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/backup.zip,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/db_backup.sql,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.bak,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.old,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.tmp,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/error.log,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/access.log,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/debug.log,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/id_rsa,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/id_rsa.pub,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.ssh/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/keys/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/secrets/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/robots.txt,Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.htaccess,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.git/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/.DS_Store,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/crossdomain.xml,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/sitemap.xml,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/admin/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/login/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/register/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/dashboard/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/user/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net/api/,Not Found
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Headers,"{'Content-Type': 'text/html; charset=utf-8', 'Set-Cookie': 'session=BZX3aXDpAiSTTzLPrMyRhcYF8osIKRll; Secure; HttpOnly; SameSite=None', 'X-Frame-Options': 'SAMEORIGIN', 'Content-Encoding': 'gzip', 'Connection': 'close', 'Content-Length': '1596'}"
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Missing Content-Security-Policy header
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Missing Strict-Transport-Security header
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,SSL/TLS configuration is in place
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,https://portswigger.net/web-security/information-disclosure/exploiting/lab-infoleak-via-backup-files
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=1
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=2
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=3
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=4
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=5
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=6
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=7
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=8
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=9
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=10
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=11
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=12
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=13
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=14
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=15
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=16
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=17
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=18
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=19
+https://0ad70089033e1f5a80ca9ef200880083.web-security-academy.net,Found link,/product?productId=20
