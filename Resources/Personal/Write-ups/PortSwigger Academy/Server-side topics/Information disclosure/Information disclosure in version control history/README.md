@@ -2,7 +2,7 @@
 
 <aside>
 ❓ This lab discloses sensitive information via its version control history. To solve the lab, obtain the password for the `administrator` user then log in and delete the user `carlos`.
-
+  
 </aside>
 
 To begin, I start off by doing a directory scan of the lab to see what we can find.
