@@ -40,8 +40,9 @@ Each project comes with detailed explanations, usage instructions, and, when pos
 🔴 - Discontinued
 </div><br>
 
-🟢 [PortSwigger Academy Tracker](https://github.com/L0WK3Y-IAAN/PortSwigger-Academy-Tracker/tree/main)
+🟢 [PortSwigger Academy Tracker](https://github.com/L0WK3Y-IAAN/PortSwigger-Academy-Tracker)
 
+🟢 [Burp Suite Sitemap Tree Visualizer](https://github.com/L0WK3Y-IAAN/Burp-Suite-Sitemap-Tree-Visualizer)
 
 ## 🛠️ Tools & Technologies
 
