@@ -44,6 +44,8 @@ Each project comes with detailed explanations, usage instructions, and, when pos
 
 🟢 [Burp Suite Sitemap Tree Visualizer](https://github.com/L0WK3Y-IAAN/Burp-Suite-Sitemap-Tree-Visualizer)
 
+🟢 [Mobile Reverse Engineering Toolkit](https://github.com/L0WK3Y-IAAN/Mobile-RE-Toolkit)
+
 ## 🛠️ Tools & Technologies
 
 <div align="left">
