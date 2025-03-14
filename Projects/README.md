@@ -42,7 +42,7 @@ Each project comes with detailed explanations, usage instructions, and, when pos
 
 🟢 [PortSwigger Academy Tracker](https://github.com/L0WK3Y-IAAN/PortSwigger-Academy-Tracker)
 
-🟢 [Burp Suite Sitemap Tree Visualizer](https://github.com/L0WK3Y-IAAN/Burp-Suite-Sitemap-Tree-Visualizer)
+🔵 [Burp Suite Sitemap Tree Visualizer](https://github.com/L0WK3Y-IAAN/Burp-Suite-Sitemap-Tree-Visualizer)
 
 🟢 [Mobile Reverse Engineering Toolkit](https://github.com/L0WK3Y-IAAN/Mobile-RE-Toolkit)
 
