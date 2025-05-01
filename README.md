@@ -38,9 +38,9 @@ This repository is more than just a collection of tools and techniques; it’s a
 
 ## My PortSwigger Academy Progress
 
-- **Apprentice**: 37/59 (62.7%)
-- **Practitioner**: 29/171 (17.0%)
-- **Expert**: 0/39 (0.0%)
+- **Apprentice 🟢**: 37/59 (62.7%)
+- **Practitioner 🔵**: 29/171 (17.0%)
+- **Expert 🟣**: 0/39 (0.0%)
 
 ## Topic Progress
 | Topic 📖 | Labs 🔬 | Progress ✅ | Status ⭕️ | Last Updated 🗓️ |
