@@ -31,8 +31,8 @@ This repository is more than just a collection of tools and techniques; it’s a
   <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Projects">
     <img src="https://img.shields.io/badge/Projects-930b18?style=for-the-badge&logo=github&logoColor=white" alt="Projects">
   </a>
-  <a href="https://infophreak.com/author/l0wk3y">
-    <img src="https://img.shields.io/badge/Blog-00800c?style=for-the-badge&logo=blog&logoColor=white" alt="Blog">
+  <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups">
+    <img src="https://img.shields.io/badge/Blog-00800c?style=for-the-badge&logo=blog&logoColor=white" alt="Write-ups">
   </a>
 </div>
 
