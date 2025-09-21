@@ -5,110 +5,160 @@ import subprocess
 import urllib.parse
 from datetime import datetime
 
+# Configuration
 WRITEUPS_DIR = "Resources/Personal/Write-ups"
 README_PATH = "README.md"
 LATEST_SECTION_HEADER = "## 🔍 Latest Blog Posts"
 GITHUB_BASE_URL = "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main"
 
-LINK_LINE_RE = re.compile(r"^- \[(?P<text>.+?)\]\((?P<url>https?://[^\)]+)\)\s+–\s+(?P<date>\d{2}-\d{2}-\d{4})\s*$")
+# GitHub-flavored Markdown table header (required header + separator)
+TABLE_HEADER = (
+    "| Platform | Lab | Category | Date Posted |\n"
+    "| --- | --- | --- | --- |\n"
+)
 
-def get_writeup_readmes(directory):
-    found_readmes = []
+# Regex helpers
+ROW_RE = re.compile(
+    r"^\|\s*(?P<platform>.+?)\s*\|\s*(?P<lab>.+?)\s*\|\s*(?P<category>.+?)\s*\|\s*(?P<date>\d{2}-\d{2}-\d{4})\s*\|$"
+)
+
+def url_for_rel(rel_path: str) -> str:
+    # Encode path segments but keep "/" intact for GitHub URLs
+    encoded = urllib.parse.quote(rel_path, safe="/")
+    return f"{GITHUB_BASE_URL}/{encoded}"
+
+def get_writeup_readmes(directory: str):
+    """Find all readme.md under WRITEUPS_DIR (case-insensitive)."""
+    found = []
     if not os.path.exists(directory):
         print(f"Directory '{directory}' does not exist.")
-        return found_readmes
+        return found
     for root, dirs, files in os.walk(directory):
         for f in files:
             if f.lower() == "readme.md":
-                found_readmes.append(os.path.join(root, f))
-    return found_readmes
+                found.append(os.path.join(root, f))
+    return found
 
-def build_link_line(path, today_str):
-    folder_name = os.path.basename(os.path.dirname(path))
-    rel_path = os.path.relpath(path, ".").replace("\\", "/")
-    encoded_path = urllib.parse.quote(rel_path)
-    final_url = f"{GITHUB_BASE_URL}/{encoded_path}"
-    return f"- [{folder_name}]({final_url}) – {today_str}", final_url
+def parse_platform_category_lab(rel_path: str):
+    """
+    Map repo paths to (platform, category, lab).
+    Handles:
+      - Resources/.../Write-ups/Platform/Category/Lab/README.md
+      - Resources/.../Write-ups/Platform/<group>/Category/Lab/README.md
+    Uses the directory before Lab as Category so deeper trees still resolve correctly.
+    """
+    parts = rel_path.split("/")
+    try:
+        base_idx = parts.index("Write-ups")
+    except ValueError:
+        return None
+    rest = parts[base_idx + 1 :]  # after "Write-ups"
+    # Need at least Platform, ..., Category, Lab, README.md
+    if len(rest) < 4 or rest[-1].lower() != "readme.md":
+        return None
+    platform = rest[0]
+    lab = rest[-2]                 # folder that contains README.md
+    category = rest[-3]            # folder before Lab, supports deeper trees
+    return platform, category, lab
 
-def read_file(fp):
-    with open(fp, "r", encoding="utf-8") as f:
+def generate_table_rows(paths, today_str):
+    """
+    For each README path, build a Markdown table row:
+      | [Platform](url) | [Lab](url) | Category | MM-DD-YYYY |
+    Both Platform and Lab cells link to the GitHub web view of that README path.
+    """
+    rows = []
+    for p in sorted(paths):
+        rel_path = os.path.relpath(p, ".").replace("\\", "/")
+        pcl = parse_platform_category_lab(rel_path)
+        if not pcl:
+            continue
+        platform, category, lab = pcl
+        url = url_for_rel(rel_path)
+        plat_md = f"[{platform}]({url})"
+        lab_md = f"[{lab}]({url})"
+        row = f"| {plat_md} | {lab_md} | {category} | {today_str} |"
+        rows.append((row, url))
+    return rows
+
+def read_file(filepath):
+    with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
-def write_file(fp, content):
-    with open(fp, "w", encoding="utf-8") as f:
+def write_file(filepath, content):
+    with open(filepath, "w", encoding="utf-8") as f:
         f.write(content)
 
-def parse_section(readme_content):
+def parse_section(readme_content: str):
     """
-    Returns: (prefix, section_body, suffix)
-    Where section_body is the text after the header up to the next H2/H1 or EOF.
+    Split README into: prefix (up to and including header line),
+                       section_body (content after header until next H1/H2 or EOF),
+                       suffix (rest).
+    If the header is missing, create it at the top.
     """
-    # Find header
-    header_idx = readme_content.find(LATEST_SECTION_HEADER)
-    if header_idx == -1:
-        # If header missing, create it at top
-        return "", "", readme_content
-    # From header to end
-    after = readme_content[header_idx:]
-    # Find the next header start after current header line
-    m = re.search(r"(?m)^(#{1,2})\s+", after[len(LATEST_SECTION_HEADER):])
+    idx = readme_content.find(LATEST_SECTION_HEADER)
+    if idx == -1:
+        # No header found; put it at the top
+        return LATEST_SECTION_HEADER + "\n\n", "", readme_content
+    after = readme_content[idx + len(LATEST_SECTION_HEADER):]
+    # Find next H1/H2 after header to bound the section
+    m = re.search(r"(?m)^(#{1,2})\s+", after)
     if m:
-        split_pos = header_idx + len(LATEST_SECTION_HEADER) + m.start()
-        prefix = readme_content[:header_idx]
-        section_plus_header = readme_content[header_idx:split_pos]
+        split_pos = idx + len(LATEST_SECTION_HEADER) + m.start()
+        prefix = readme_content[:idx] + LATEST_SECTION_HEADER + "\n\n"
+        section_body = readme_content[idx + len(LATEST_SECTION_HEADER):split_pos]
         suffix = readme_content[split_pos:]
     else:
-        prefix = readme_content[:header_idx]
-        section_plus_header = readme_content[header_idx:]
+        prefix = readme_content[:idx] + LATEST_SECTION_HEADER + "\n\n"
+        section_body = readme_content[idx + len(LATEST_SECTION_HEADER):]
         suffix = ""
-    # Separate header line from body
-    lines = section_plus_header.splitlines()
-    # first line is header
-    header_line = lines[0]
-    body = "\n".join(lines[1:]).lstrip("\n")
-    # Rebuild prefix to include header line
-    new_prefix = prefix + header_line + "\n"
-    return new_prefix, body, suffix
+    return prefix, section_body.strip("\n"), suffix
 
-def extract_existing_urls(section_body):
+def extract_existing_urls_from_table(section_body: str):
+    """
+    Collect all URLs from Markdown links within the table block (any line with | ... and ](URL)).
+    This is used for deduplication across reruns.
+    """
     urls = set()
     for line in section_body.splitlines():
-        m = LINK_LINE_RE.match(line.strip())
-        if m:
-            urls.add(m.group("url"))
+        if "](" in line and line.strip().startswith("|"):
+            for match in re.finditer(r"\]\((https?://[^\)]+)\)", line):
+                urls.add(match.group(1))
     return urls
 
-def merge_links(existing_body, new_lines):
+def build_table(existing_body: str, candidate_rows):
     """
-    Prepend only lines whose URL is not already present in existing_body.
-    Preserve existing_body as-is to keep prior dates.
+    Build a table that prepends new rows (by unique URL) above existing rows,
+    preserving previous entries and their original dates.
     """
-    existing_urls = extract_existing_urls(existing_body)
-    unique_new = []
-    for line in new_lines:
-        m = LINK_LINE_RE.match(line)
-        url = None
-        if m:
-            url = m.group("url")
-        else:
-            # Fallback: try to pull URL via simple search
-            url_match = re.search(r"\((https?://[^\)]+)\)", line)
-            if url_match:
-                url = url_match.group(1)
-        if url and url not in existing_urls:
-            unique_new.append(line)
-    if not unique_new:
-        return existing_body
-    # Prepend new items above existing list, with a blank line after
-    new_block = "\n".join(unique_new).rstrip()
-    existing_body_clean = existing_body.lstrip("\n")
-    if existing_body_clean:
-        merged = new_block + "\n" + existing_body_clean
-    else:
-        merged = new_block + "\n"
-    return merged
+    existing_urls = extract_existing_urls_from_table(existing_body)
+    new_rows = [r for r, u in candidate_rows if u not in existing_urls]
+
+    # Extract any existing table rows after header/separator if present
+    existing_lines = [ln for ln in existing_body.splitlines() if ln.strip()]
+    existing_table_rows = []
+    if existing_lines and existing_lines[0].strip().startswith("|"):
+        # Detect a header + separator structure and skip them
+        start_idx = 0
+        if len(existing_lines) >= 2 and existing_lines[1].strip().startswith("|"):
+            start_idx = 2
+        existing_table_rows = existing_lines[start_idx:]
+
+    # Compose the table
+    table = TABLE_HEADER
+    if new_rows:
+        table += "\n".join(new_rows)
+        if existing_table_rows:
+            table += "\n"
+    if existing_table_rows:
+        table += "\n".join(existing_table_rows)
+    # Ensure trailing newline
+    if not table.endswith("\n"):
+        table += "\n"
+    return table
 
 def configure_git():
+    """Set git identity if missing to allow committing in CI/local."""
     try:
         result = subprocess.run(["git", "config", "user.name"], capture_output=True, text=True)
         if not result.stdout.strip():
@@ -132,10 +182,7 @@ def main():
         return
 
     today_str = datetime.now().strftime("%m-%d-%Y")
-    candidate_lines = []
-    for p in sorted(paths):
-        line, _url = build_link_line(p, today_str)
-        candidate_lines.append(line)
+    candidate_rows = generate_table_rows(paths, today_str)
 
     if not os.path.exists(README_PATH):
         print(f"Could not find '{README_PATH}' in the current directory. Exiting.")
@@ -143,13 +190,9 @@ def main():
 
     original = read_file(README_PATH)
     prefix, section_body, suffix = parse_section(original)
-    # Ensure there’s at least a blank line after header before entries
-    if section_body and not section_body.startswith("\n"):
-        section_body = "\n" + section_body
 
-    merged_body = merge_links(section_body, candidate_lines)
-
-    updated = prefix + merged_body.rstrip() + ("\n\n" if not merged_body.endswith("\n") else "\n") + suffix
+    merged_table = build_table(section_body, candidate_rows)
+    updated = prefix + merged_table + "\n" + suffix
 
     if updated != original:
         write_file(README_PATH, updated)
@@ -162,4 +205,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
