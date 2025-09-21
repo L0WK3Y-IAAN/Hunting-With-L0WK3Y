@@ -1,25 +1,59 @@
 name: Update README with new write-ups
+
 on:
   push:
     paths:
       - 'Resources/Personal/Write-ups/**'
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
 jobs:
   update-readme:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
+
     steps:
       - name: Check out repo
-        uses: actions/checkout@v2
-        
+        uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.9'
-      
-      - name: Run updater script
+
+      - name: Install dependencies
         run: |
-          pip install --upgrade pip
-          python -m pip install requests  # or any other packages you need
+          python -m pip install --upgrade pip
+          python -m pip install requests
+
+      - name: Configure git author
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Run updater
+        run: |
           python updater.py
-        env:
-          # This token is automatically provided by GitHub Actions
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changes (if any)
+        run: |
+          git add -A
+          git diff --staged --quiet || git commit -m "🟢 New Write-up Added!"
+
+      - name: Push to main
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: |
+          git push origin HEAD:main
+
+      - name: Push branch and open PR (for protected main)
+        if: ${{ github.ref != 'refs/heads/main' }}
+        run: |
+          BR="auto/readme-update-${{ github.run_id }}"
+          git push origin HEAD:$BR
+          echo "Opened branch $BR; create a PR to main as needed."
