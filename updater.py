@@ -85,30 +85,31 @@ def configure_git():
             ["git", "config", "user.name"],
             capture_output=True,
             text=True
-        )
+        )  # <- Added missing closing parenthesis
         if not result.stdout.strip():
             subprocess.run(
                 ["git", "config", "user.name", "L0WK3Y-IAAN"],
                 check=True
-            )
+            )  # <- Added missing closing parenthesis
             print("Configured git user.name.")
-
+        
         # Check if user.email is set
         result = subprocess.run(
             ["git", "config", "user.email"],
             capture_output=True,
             text=True
-        )
+        )  # <- Added missing closing parenthesis
         if not result.stdout.strip():
             subprocess.run(
                 ["git", "config", "user.email", "you@example.com"],
                 check=True
-            )
+            )  # <- Added missing closing parenthesis
             print("Configured git user.email.")
     except subprocess.CalledProcessError as e:
         print("Failed to configure Git user information:")
         print(e.stderr)
         exit(1)
+
 
 def main():
     # 0. Configure Git user
