@@ -1,5 +1,5 @@
 ![Banner](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/src/img/HWL.gif?raw=true)
-![Visitor Count](https://komarev.com/ghpvc/?username=L0WK3Y-IAAN&color=red)
+![Visitor Count](https://komarev.com/ghpvc/?username=L0WK3Y-IAAN&color=red&style=for-the-badge)
 
 
 Welcome to **Hunting with L0WK3Y 👾** — a comprehensive repository documenting my journey in the exciting world of bug bounty hunting and ethical hacking.  
