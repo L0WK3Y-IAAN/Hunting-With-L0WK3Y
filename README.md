@@ -83,15 +83,6 @@ This repository is more than just a collection of tools and techniques; it’s a
 
 ## 🔍 Latest Blog Posts
 
-- [Manager](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/Manager/README.md) – 09-22-2025
-- [User role controlled by request parameter](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Access%20control/User%20role%20controlled%20by%20request%20parameter/README.md) – 09-22-2025
-- [Authentication bypass via information disclosure](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Authentication%20bypass%20via%20information%20disclosure/README.md) – 09-22-2025
-- [Information disclosure in error messages](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20in%20error%20messages/README.md) – 09-22-2025
-- [Information disclosure in version control history](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20in%20version%20control%20history/README.md) – 09-22-2025
-- [Information disclosure on debug page](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20on%20debug%20page/README.md) – 09-22-2025
-- [Source code disclosure via backup files](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Source%20code%20disclosure%20via%20backup%20files/README.md) – 09-22-2025
-- [Write-ups](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/README.md) – 09-22-2025
-
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
 | HackTheBox | [Manager](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/Manager/README.md) | Mobile | 09-21-2025 |
