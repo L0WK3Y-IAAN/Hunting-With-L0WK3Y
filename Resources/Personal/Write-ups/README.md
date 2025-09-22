@@ -34,12 +34,19 @@ Each write-up is crafted to be educational and reproducible, providing not just 
   <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Projects">
     <img src="https://img.shields.io/badge/Projects-00800c?style=for-the-badge&logo=github&logoColor=white" alt="Projects">
   </a>
-  <a href="https://infophreak.com/author/l0wk3y">
-    <img src="https://img.shields.io/badge/Blog-930b18?style=for-the-badge&logo=blog&logoColor=white" alt="Blog">
-  </a>
 </div>
 
 ## 🔍 Latest Blog Posts
+
+| Platform | Lab | Category | Date Posted |
+| --- | --- | --- | --- |
+| HackTheBox | [Manager](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/Manager/README.md) | Mobile | 09-21-2025 |
+| PortSwigger Academy | [User role controlled by request parameter](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Access%20control/User%20role%20controlled%20by%20request%20parameter/README.md) | Access control | 09-21-2025 |
+| PortSwigger Academy | [Authentication bypass via information disclosure](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Authentication%20bypass%20via%20information%20disclosure/README.md) | Information disclosure | 09-21-2025 |
+| PortSwigger Academy | [Information disclosure in error messages](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20in%20error%20messages/README.md) | Information disclosure | 09-21-2025 |
+| PortSwigger Academy | [Information disclosure in version control history](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20in%20version%20control%20history/README.md) | Information disclosure | 09-21-2025 |
+| PortSwigger Academy | [Information disclosure on debug page](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20on%20debug%20page/README.md) | Information disclosure | 09-21-2025 |
+| PortSwigger Academy | [Source code disclosure via backup files](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Source%20code%20disclosure%20via%20backup%20files/README.md) | Information disclosure | 09-21-2025 |
 
 ## 🛠️ Tools & Technologies
 
