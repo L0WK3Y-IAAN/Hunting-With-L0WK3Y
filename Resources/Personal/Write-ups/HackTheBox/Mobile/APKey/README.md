@@ -5,7 +5,7 @@
 ### ***"This app contains some unique keys. Can you get one?"***
 
 
-The Android app had several Java classes—each holding small fragments of what eventually formed two critical pieces of data:
+The Android app had several Java classes each holding small fragments of what eventually formed two critical pieces of data:
 
 1. **The AES Decryption Key:** Built by concatenating individual characters selected from various string arrays.
 2. **The Encrypted Flag:** Constructed by piecing together substrings from multiple arrays into one long Base64‑encoded ciphertext.
@@ -106,7 +106,7 @@ public class b {
 }
 ```
 
-The decryption key and the ciphertext aren’t stored in one place. Instead, multiple classes—such as `a`, `c`, `d`, `e`, `f`, `h`, and `i`—each hold fragments of data. Each class has a method `a()` that returns a string extracted from an array. For instance:
+The decryption key and the ciphertext aren’t stored in one place. Instead, multiple classes such as `a`, `c`, `d`, `e`, `f`, `h`, and `i` each hold fragments of data. Each class has a method `a()` that returns a string extracted from an array. For instance:
 
 ```java
 public class e {
@@ -257,7 +257,7 @@ Inside class `b`, the following steps occur:
 
 ## Bringing It All Together with a Python Script
 
-For verification—and to illustrate the process outside of the Android environment—we can mimic the decryption with a Python script using [PyCryptodome](https://pycryptodome.readthedocs.io/). Here’s the complete script:
+For verification and to illustrate the process outside of the Android environment we can mimic the decryption with a Python script using [PyCryptodome](https://pycryptodome.readthedocs.io/). Here’s the complete script:
 
 ```python
 #!/usr/bin/env python3
