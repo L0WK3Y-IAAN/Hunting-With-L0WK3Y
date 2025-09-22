@@ -3,146 +3,229 @@ import os
 import re
 import subprocess
 import urllib.parse
-from datetime import datetime  # <-- for appending today's date
+from datetime import datetime
 
-# Adjust these constants to your project
+# Configuration - now supporting multiple READMEs
 WRITEUPS_DIR = "Resources/Personal/Write-ups"
-README_PATH = "README.md"
+README_PATHS = [
+    "README.md",  # Root README
+    "Resources/README.md",  # Resources README  
+    "Resources/Personal/Write-ups/README.md"  # Write-ups README
+]
 LATEST_SECTION_HEADER = "## 🔍 Latest Blog Posts"
 GITHUB_BASE_URL = "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main"
 
-def get_writeup_readmes(directory):
-    """
-    Recursively scan `directory` for any 'readme.md' files, case-insensitive.
-    Returns a list of full file paths.
-    """
-    found_readmes = []
+
+# GitHub-flavored Markdown table header (required header + separator)
+TABLE_HEADER = (
+    "| Platform | Lab | Category | Date Posted |\n"
+    "| --- | --- | --- | --- |\n"
+)
+
+# Regex helpers
+ROW_RE = re.compile(
+    r"^\|\s*(?P<platform>.+?)\s*\|\s*(?P<lab>.+?)\s*\|\s*(?P<category>.+?)\s*\|\s*(?P<date>\d{2}-\d{2}-\d{4})\s*\|$"
+)
+
+def url_for_rel(rel_path: str) -> str:
+    # Encode path segments but keep "/" intact for GitHub URLs
+    encoded = urllib.parse.quote(rel_path, safe="/")
+    return f"{GITHUB_BASE_URL}/{encoded}"
+
+def get_writeup_readmes(directory: str):
+    """Find all readme.md under WRITEUPS_DIR (case-insensitive)."""
+    found = []
     if not os.path.exists(directory):
         print(f"Directory '{directory}' does not exist.")
-        return found_readmes
-
+        return found
     for root, dirs, files in os.walk(directory):
         for f in files:
             if f.lower() == "readme.md":
-                full_path = os.path.join(root, f)
-                found_readmes.append(full_path)
-    return found_readmes
+                found.append(os.path.join(root, f))
+    return found
 
-def generate_markdown_links(paths):
+def parse_platform_category_lab(rel_path: str):
     """
-    Convert each README file path to a full GitHub URL,
-    with the parent folder as the link text, and append today's date.
+    Map repo paths to (platform, category, lab).
+    Handles:
+      - Resources/.../Write-ups/Platform/Category/Lab/README.md
+      - Resources/.../Write-ups/Platform/<group>/Category/Lab/README.md
+    Uses the directory before Lab as Category so deeper trees still resolve correctly.
     """
-    md_lines = []
-    # Get today's date in MM-DD-YYYY format
-    today_str = datetime.now().strftime("%m-%d-%Y")
+    parts = rel_path.split("/")
+    try:
+        base_idx = parts.index("Write-ups")
+    except ValueError:
+        return None
+    rest = parts[base_idx + 1 :]  # after "Write-ups"
+    # Need at least Platform, ..., Category, Lab, README.md
+    if len(rest) < 4 or rest[-1].lower() != "readme.md":
+        return None
+    platform = rest[0]
+    lab = rest[-2]                 # folder that contains README.md
+    category = rest[-3]            # folder before Lab, supports deeper trees
+    return platform, category, lab
 
+def generate_table_rows(paths, today_str):
+    """
+    For each README path, build a Markdown table row:
+      | [Platform] | [Lab](url) | Category | MM-DD-YYYY |
+    Both Platform and Lab cells link to the GitHub web view of that README path.
+    """
+    rows = []
     for p in sorted(paths):
-        # The folder name becomes the link text
-        folder_name = os.path.basename(os.path.dirname(p))
-
-        # Relative path from the current working directory
-        rel_path = os.path.relpath(p, ".")
-        # Replace backslashes with forward slashes
-        forward_slash_path = rel_path.replace("\\", "/")
-        # URL-encode to handle spaces, etc. (keep slashes unencoded)
-        encoded_path = urllib.parse.quote(forward_slash_path, safe="/")
-
-        # Combine with base URL, e.g.:
-        # https://github.com/.../tree/main/Resources/...
-        final_url = f"{GITHUB_BASE_URL}/{encoded_path}"
-
-        # Format: - [FolderName](full_url) – MM-DD-YYYY
-        md_lines.append(f"- [{folder_name}]({final_url}) – {today_str}")
-
-    return "\n".join(md_lines)
+        rel_path = os.path.relpath(p, ".").replace("\\", "/")
+        pcl = parse_platform_category_lab(rel_path)
+        if not pcl:
+            continue
+        platform, category, lab = pcl
+        url = url_for_rel(rel_path)
+        plat_md = f"{platform}"
+        lab_md = f"[{lab}]({url})"
+        row = f"| {plat_md} | {lab_md} | {category} | {today_str} |"
+        rows.append((row, url))
+    return rows
 
 def read_file(filepath):
-    """Return the text content of a file."""
     with open(filepath, "r", encoding="utf-8") as f:
         return f.read()
 
 def write_file(filepath, content):
-    """Write text content to a file."""
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(content)
 
-def insert_into_readme(readme_content, insert_text):
+def parse_section(readme_content: str):
     """
-    Insert `insert_text` immediately after the header line "## 🔍 Latest Blog Posts".
-    If multiple matches exist, the first occurrence is replaced.
+    Split README into: prefix (up to and including header line),
+                       section_body (content after header until next H1/H2 or EOF),
+                       suffix (rest).
+    If the header is missing, create it at the top.
     """
-    pattern = rf"({re.escape(LATEST_SECTION_HEADER)}\s*\n+)"
-    replacement = rf"\1{insert_text}\n\n"
-    updated = re.sub(pattern, replacement, readme_content, count=1)
-    return updated
+    idx = readme_content.find(LATEST_SECTION_HEADER)
+    if idx == -1:
+        # No header found; put it at the top
+        return LATEST_SECTION_HEADER + "\n\n", "", readme_content
+    after = readme_content[idx + len(LATEST_SECTION_HEADER):]
+    # Find next H1/H2 after header to bound the section
+    m = re.search(r"(?m)^(#{1,2})\s+", after)
+    if m:
+        split_pos = idx + len(LATEST_SECTION_HEADER) + m.start()
+        prefix = readme_content[:idx] + LATEST_SECTION_HEADER + "\n\n"
+        section_body = readme_content[idx + len(LATEST_SECTION_HEADER):split_pos]
+        suffix = readme_content[split_pos:]
+    else:
+        prefix = readme_content[:idx] + LATEST_SECTION_HEADER + "\n\n"
+        section_body = readme_content[idx + len(LATEST_SECTION_HEADER):]
+        suffix = ""
+    return prefix, section_body.strip("\n"), suffix
+
+def extract_existing_urls_from_table(section_body: str):
+    """
+    Collect all URLs from Markdown links within the table block (any line with | ... and ](URL)).
+    This is used for deduplication across reruns.
+    """
+    urls = set()
+    for line in section_body.splitlines():
+        if "](" in line and line.strip().startswith("|"):
+            for match in re.finditer(r"\]\((https?://[^\)]+)\)", line):
+                urls.add(match.group(1))
+    return urls
+
+def build_table(existing_body: str, candidate_rows):
+    """
+    Build a table that prepends new rows (by unique URL) above existing rows,
+    preserving previous entries and their original dates.
+    """
+    existing_urls = extract_existing_urls_from_table(existing_body)
+    new_rows = [r for r, u in candidate_rows if u not in existing_urls]
+
+    # Extract any existing table rows after header/separator if present
+    existing_lines = [ln for ln in existing_body.splitlines() if ln.strip()]
+    existing_table_rows = []
+    if existing_lines and existing_lines[0].strip().startswith("|"):
+        # Detect a header + separator structure and skip them
+        start_idx = 0
+        if len(existing_lines) >= 2 and existing_lines[1].strip().startswith("|"):
+            start_idx = 2
+        existing_table_rows = existing_lines[start_idx:]
+
+    # Compose the table
+    table = TABLE_HEADER
+    if new_rows:
+        table += "\n".join(new_rows)
+        if existing_table_rows:
+            table += "\n"
+    if existing_table_rows:
+        table += "\n".join(existing_table_rows)
+    # Ensure trailing newline
+    if not table.endswith("\n"):
+        table += "\n"
+    return table
+
+def process_readme(readme_path, candidate_rows):
+    """Update a single README file with the table."""
+    if not os.path.exists(readme_path):
+        print(f"Could not find '{readme_path}'. Skipping.")
+        return False
+    
+    print(f"Processing {readme_path}...")
+    original = read_file(readme_path)
+    prefix, section_body, suffix = parse_section(original)
+    merged_table = build_table(section_body, candidate_rows)
+    updated = prefix + merged_table + "\n" + suffix
+    
+    if updated != original:
+        write_file(readme_path, updated)
+        print(f"Updated {readme_path}")
+        return True
+    else:
+        print(f"No changes needed for {readme_path}")
+        return False
+
 
 def configure_git():
-    """Configure Git user name and email if not already set."""
+    """Set git identity if missing to allow committing in CI/local."""
     try:
-        # Check if user.name is set
-        result = subprocess.run(
-            ["git", "config", "user.name"],
-            capture_output=True,
-            text=True
-        )  # <- Added missing closing parenthesis
+        result = subprocess.run(["git", "config", "user.name"], capture_output=True, text=True)
         if not result.stdout.strip():
-            subprocess.run(
-                ["git", "config", "user.name", "L0WK3Y-IAAN"],
-                check=True
-            )  # <- Added missing closing parenthesis
+            subprocess.run(["git", "config", "user.name", "L0WK3Y-IAAN"], check=True)
             print("Configured git user.name.")
-        
-        # Check if user.email is set
-        result = subprocess.run(
-            ["git", "config", "user.email"],
-            capture_output=True,
-            text=True
-        )  # <- Added missing closing parenthesis
+        result = subprocess.run(["git", "config", "user.email"], capture_output=True, text=True)
         if not result.stdout.strip():
-            subprocess.run(
-                ["git", "config", "user.email", "you@example.com"],
-                check=True
-            )  # <- Added missing closing parenthesis
+            subprocess.run(["git", "config", "user.email", "you@example.com"], check=True)
             print("Configured git user.email.")
     except subprocess.CalledProcessError as e:
         print("Failed to configure Git user information:")
         print(e.stderr)
         exit(1)
 
-
 def main():
-    # 0. Configure Git user
     configure_git()
 
-    # 1. Collect all subdirectory READMEs
-    readme_paths = get_writeup_readmes(WRITEUPS_DIR)
-    if not readme_paths:
+    paths = get_writeup_readmes(WRITEUPS_DIR)
+    if not paths:
         print(f"No 'readme.md' files found under '{WRITEUPS_DIR}'. Exiting.")
         return
 
-    # 2. Generate new markdown links for these READMEs
-    new_md_content = generate_markdown_links(readme_paths)
+    today_str = datetime.now().strftime("%m-%d-%Y")
+    candidate_rows = generate_table_rows(paths, today_str)
 
-    # 3. Read the top-level README.md
-    if not os.path.exists(README_PATH):
-        print(f"Could not find '{README_PATH}' in the current directory. Exiting.")
-        return
-    original_readme = read_file(README_PATH)
+    # Process each README file
+    files_changed = []
+    for readme_path in README_PATHS:
+        if process_readme(readme_path, candidate_rows):
+            files_changed.append(readme_path)
 
-    # 4. Insert or update the "Latest Blog Posts" section
-    updated_readme = insert_into_readme(original_readme, new_md_content)
-
-    # 5. If changes were made, write them and commit
-    if updated_readme != original_readme:
-        write_file(README_PATH, updated_readme)
-        print("README updated with new entries. Committing changes...")
-
-        subprocess.run(["git", "add", README_PATH], check=True)
+    # Commit and push if any files changed
+    if files_changed:
+        print(f"README files updated: {', '.join(files_changed)}. Committing changes...")
+        for file_path in files_changed:
+            subprocess.run(["git", "add", file_path], check=True)
         subprocess.run(["git", "commit", "-m", "🟢 New Write-up Added!"], check=True)
         subprocess.run(["git", "push", "origin", "main"], check=True)
     else:
-        print("No changes detected in README.md.")
+        print("No changes detected in any README files.")
+
 
 if __name__ == "__main__":
     main()
