@@ -28,7 +28,7 @@ Each project comes with detailed explanations, usage instructions, and, when pos
     <img src="https://img.shields.io/badge/Resources-00800c?style=for-the-badge&logo=github&logoColor=white" alt="Resources">
   </a>
   <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups">
-    <img src="https://img.shields.io/badge/Blog-930b18?style=for-the-badge&logo=blog&logoColor=white" alt="Blog">
+    <img src="https://img.shields.io/badge/Blog-930b18?style=for-the-badge&logo=github&logoColor=white" alt="Blog">
   </a>
 </div>
 
