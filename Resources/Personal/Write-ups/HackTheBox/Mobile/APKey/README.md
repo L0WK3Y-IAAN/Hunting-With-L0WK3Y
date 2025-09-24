@@ -184,7 +184,7 @@ public class g {
         arrayList2.add("ftr56r");
         arrayList2.add("kikoi9");
         arrayList2.add("kdoO0o");
-        arrayList2.add("2DabnR");
+        arrayList2.add("2DabnR"); // Key piece
         sb.append((String) arrayList2.get(9));
         sb.append(c.a());
         ArrayList arrayList3 = new ArrayList();
@@ -193,7 +193,7 @@ public class g {
         arrayList3.add("fr5GtE");
         arrayList3.add("Hg5f6Y");
         arrayList3.add("o0J8G5");
-        arrayList3.add("Wod2bk");
+        arrayList3.add("Wod2bk"); // Key piece
         arrayList3.add("Yuu7Y5");
         arrayList3.add("kI9ko0");
         arrayList3.add("dS4Er5");
