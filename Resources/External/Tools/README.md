@@ -10,12 +10,15 @@ This page lists useful tools and repositories I frequently use or recommend. Eac
 ## Mobile
 ### Android
 - [Ch0pin/medusa](https://github.com/Ch0pin/medusa) 
-  - What it is: Binary instrumentation framework based on FRIDA
+  - What it is: Binary instrumentation framework based on FRIDA.
+- [Djini.AI](https://djini.ai/)
+  - What it is: AI Assisted Vulnerability Researcher.
 
 
 ## Exploit Development
 - [Gallopsled/pwntools](https://github.com/Gallopsled/pwntools)
   - What it is: Practical Python lib for exploit development and CTF tasks.
+
 
 ## Disclaimer
 
@@ -23,3 +26,4 @@ These are external resources maintained by their original authors. This reposito
 
 - Respect original authors' licenses and attribution requirements.
 - Avoid duplicating content; link to canonical copies where possible.
+
