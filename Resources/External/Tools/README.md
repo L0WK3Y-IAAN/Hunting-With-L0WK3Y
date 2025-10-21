@@ -13,6 +13,8 @@ This page lists useful tools and repositories I frequently use or recommend. Eac
   - What it is: Binary instrumentation framework based on FRIDA.
 - [Djini.AI](https://djini.ai/)
   - What it is: AI Assisted Vulnerability Researcher.
+- [ssut/payload-dumper-go](https://github.com/ssut/payload-dumper-go)
+  - What it is: An android OTA payload dumper written in Go
 
 
 ## Exploit Development
