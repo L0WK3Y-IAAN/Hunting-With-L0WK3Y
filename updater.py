@@ -279,6 +279,16 @@ def configure_git():
         print(e.stderr)
         exit(1)
 
+def has_git_changes():
+    """Check if there are any staged changes to commit."""
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--quiet"],
+        capture_output=True
+    )
+    # Returns 0 if no changes, 1 if changes exist
+    return result.returncode == 1
+
+
 def main():
     configure_git()
 
@@ -320,15 +330,21 @@ def main():
     if os.path.exists(JSON_OUTPUT_PATH):
         files_changed.append(JSON_OUTPUT_PATH)
 
-    # Commit and push if any files changed
+    # Stage files and check if there are actual changes
     if files_changed:
-        print(f"\n🚀 Files updated: {', '.join(files_changed)}")
-        print("Committing changes...")
+        print(f"\n🚀 Files to check: {', '.join(files_changed)}")
+        print("Staging files...")
         for file_path in files_changed:
             subprocess.run(["git", "add", file_path], check=True)
-        subprocess.run(["git", "commit", "-m", "🟢 New Write-up Added!"], check=True)
-        subprocess.run(["git", "push", "origin", "main"], check=True)
-        print("✅ Changes pushed successfully!")
+        
+        # Check if there are actually staged changes
+        if has_git_changes():
+            print("Committing changes...")
+            subprocess.run(["git", "commit", "-m", "🟢 New Write-up Added!"], check=True)
+            subprocess.run(["git", "push", "origin", "main"], check=True)
+            print("✅ Changes pushed successfully!")
+        else:
+            print("ℹ️  No actual changes detected after staging (files unchanged).")
     else:
         print("\nℹ️  No changes detected in any README files.")
 
