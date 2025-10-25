@@ -125,4 +125,5 @@ Based on what I observed, here are some best practices to mitigate such vulnerab
 3. **Validate every sensitive request.** Even if the client hides certain UI elements, the server must enforce all access restrictions independently.
 4. **Perform regular security assessments.** Code reviews and penetration testing are essential for catching these kinds of flaws early.
 
+
 ---
