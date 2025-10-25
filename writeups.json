@@ -1,0 +1,114 @@
+[
+  {
+    "platform": "HackTheBox",
+    "lab": "APKey",
+    "category": "Mobile",
+    "date": "09-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/APKey/README.md"
+  },
+  {
+    "platform": "HackTheBox",
+    "lab": "Manager",
+    "category": "Mobile",
+    "date": "09-21-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/Manager/README.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 01",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2001/Android%201.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 02",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2002/Android%202.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 03",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2003/Android%203.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 04",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2004/Android%204.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 05",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2005/Android%205.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 06",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2006/Android%206.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 07",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2007/Android%207.md"
+  },
+  {
+    "platform": "PentesterLab",
+    "lab": "Android 08",
+    "category": "Android",
+    "date": "10-24-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2008/Android%208.md"
+  },
+  {
+    "platform": "PortSwigger Academy",
+    "lab": "User role controlled by request parameter",
+    "category": "Access control",
+    "date": "09-21-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Access%20control/User%20role%20controlled%20by%20request%20parameter/README.md"
+  },
+  {
+    "platform": "PortSwigger Academy",
+    "lab": "Authentication bypass via information disclosure",
+    "category": "Information disclosure",
+    "date": "09-21-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Authentication%20bypass%20via%20information%20disclosure/README.md"
+  },
+  {
+    "platform": "PortSwigger Academy",
+    "lab": "Information disclosure in error messages",
+    "category": "Information disclosure",
+    "date": "09-21-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20in%20error%20messages/README.md"
+  },
+  {
+    "platform": "PortSwigger Academy",
+    "lab": "Information disclosure in version control history",
+    "category": "Information disclosure",
+    "date": "09-21-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20in%20version%20control%20history/README.md"
+  },
+  {
+    "platform": "PortSwigger Academy",
+    "lab": "Information disclosure on debug page",
+    "category": "Information disclosure",
+    "date": "09-21-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Information%20disclosure%20on%20debug%20page/README.md"
+  },
+  {
+    "platform": "PortSwigger Academy",
+    "lab": "Source code disclosure via backup files",
+    "category": "Information disclosure",
+    "date": "09-21-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Source%20code%20disclosure%20via%20backup%20files/README.md"
+  }
+]
