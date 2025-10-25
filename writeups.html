@@ -1,9 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Latest Blog Posts - Hunting With L0WK3Y</title>
+    <meta name="description"
+        content="This repository documents my path from cybersecurity enthusiast to a skilled bug bounty hunter. Here, I share the tools, resources, techniques, and real-world insights I've gathered along the way, aimed at uncovering vulnerabilities and improving application security." />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/" />
+    <meta property="og:title" content="Hunting With L0WK3Y" />
+    <meta property="og:description"
+        content="This repository documents my path from cybersecurity enthusiast to a skilled bug bounty hunter. Here, I share the tools, resources, techniques, and real-world insights I've gathered along the way, aimed at uncovering vulnerabilities and improving application security." />
+    <meta property="og:image" content="src/img/HWL.webp" />
+
+    <!-- X (Twitter) -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/writeups.html" />
+    <meta property="twitter:title" content="Hunting With L0WK3Y" />
+    <meta property="twitter:description"
+        content="This repository documents my path from cybersecurity enthusiast to a skilled bug bounty hunter. Here, I share the tools, resources, techniques, and real-world insights I've gathered along the way, aimed at uncovering vulnerabilities and improving application security." />
+    <meta property="twitter:image" content="src/img/HWL.webp" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="src/img/favicon.webp">
     <style>
         * {
             margin: 0;
@@ -58,7 +81,8 @@
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .search-box, .filter-group select {
+        .search-box,
+        .filter-group select {
             padding: 12px 16px;
             background: rgba(26, 32, 44, 0.8);
             border: 1px solid rgba(74, 222, 128, 0.3);
@@ -73,7 +97,8 @@
             min-width: 250px;
         }
 
-        .search-box:focus, .filter-group select:focus {
+        .search-box:focus,
+        .filter-group select:focus {
             outline: none;
             border-color: #4ade80;
             box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
@@ -231,7 +256,8 @@
                 padding: 15px;
             }
 
-            thead th, tbody td {
+            thead th,
+            tbody td {
                 padding: 12px 10px;
                 font-size: 0.85em;
             }
@@ -244,6 +270,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -255,7 +282,7 @@
 
         <div class="controls">
             <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search writeups...">
-            
+
             <div class="filter-group">
                 <label for="platformFilter">Platform:</label>
                 <select id="platformFilter">
@@ -313,7 +340,7 @@
                 updateStats();
             } catch (error) {
                 console.error('Error loading writeups:', error);
-                document.getElementById('tableBody').innerHTML = 
+                document.getElementById('tableBody').innerHTML =
                     '<tr><td colspan="4" style="text-align: center; color: #ef4444;">Error loading writeups. Please ensure writeups.json is in the same directory.</td></tr>';
                 document.getElementById('statsText').textContent = 'Error loading data';
             }
@@ -362,11 +389,11 @@
 
             // Filter writeups
             let filteredWriteups = writeups.filter(writeup => {
-                const matchesSearch = !searchTerm || 
+                const matchesSearch = !searchTerm ||
                     writeup.lab.toLowerCase().includes(searchTerm) ||
                     writeup.platform.toLowerCase().includes(searchTerm) ||
                     writeup.category.toLowerCase().includes(searchTerm);
-                
+
                 const matchesPlatform = !platformFilter || writeup.platform === platformFilter;
                 const matchesCategory = !categoryFilter || writeup.category === categoryFilter;
 
@@ -413,7 +440,7 @@
         function updateStats() {
             const totalWriteups = writeups.length;
             const platforms = new Set(writeups.map(w => w.platform)).size;
-            document.getElementById('statsText').textContent = 
+            document.getElementById('statsText').textContent =
                 `Total: ${totalWriteups} writeups across ${platforms} platforms`;
         }
 
@@ -430,7 +457,7 @@
             document.querySelectorAll('thead th.sortable').forEach(header => {
                 header.addEventListener('click', () => {
                     const column = header.dataset.column;
-                    
+
                     if (currentSort.column === column) {
                         currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
                     } else {
@@ -459,4 +486,5 @@
         loadWriteups();
     </script>
 </body>
+
 </html>
