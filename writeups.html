@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Latest Blog Posts - Interactive Table</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: rgba(22, 27, 34, 0.95);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+            padding: 30px;
+            border-bottom: 3px solid #4ade80;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            color: #4ade80;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .header p {
+            color: #a0aec0;
+            font-size: 0.95em;
+        }
+
+        .controls {
+            padding: 25px 30px;
+            background: rgba(45, 55, 72, 0.5);
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .search-box, .filter-group select {
+            padding: 12px 16px;
+            background: rgba(26, 32, 44, 0.8);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 8px;
+            color: #e0e0e0;
+            font-size: 0.95em;
+            transition: all 0.3s ease;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-box:focus, .filter-group select:focus {
+            outline: none;
+            border-color: #4ade80;
+            box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.2);
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .filter-group label {
+            color: #a0aec0;
+            font-size: 0.9em;
+            font-weight: 500;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            padding: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(26, 32, 44, 0.6);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+        }
+
+        thead th {
+            padding: 18px 20px;
+            text-align: left;
+            color: #4ade80;
+            font-weight: 600;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #4ade80;
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.3s ease;
+        }
+
+        thead th:hover {
+            background: rgba(74, 222, 128, 0.1);
+        }
+
+        thead th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.5;
+            font-size: 0.8em;
+        }
+
+        thead th.sorted-asc::after {
+            content: ' ▲';
+            opacity: 1;
+        }
+
+        thead th.sorted-desc::after {
+            content: ' ▼';
+            opacity: 1;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        tbody tr:hover {
+            background: rgba(74, 222, 128, 0.08);
+            transform: translateX(5px);
+        }
+
+        tbody td {
+            padding: 16px 20px;
+            color: #e0e0e0;
+            font-size: 0.95em;
+        }
+
+        .platform-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .platform-htb {
+            background: rgba(122, 234, 137, 0.2);
+            color: #b5fdb7;
+            border: 1px solid rgba(122, 234, 126, 0.4);
+        }
+
+        .platform-portswigger {
+            background: rgba(251, 146, 60, 0.2);
+            color: #fdba74;
+            border: 1px solid rgba(251, 146, 60, 0.4);
+        }
+
+        .platform-pentesterlab {
+            background: rgba(59, 130, 246, 0.2);
+            color: #93c5fd;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        .lab-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .lab-link:hover {
+            color: #4ade80;
+            text-decoration: underline;
+        }
+
+        .stats {
+            padding: 20px 30px;
+            background: rgba(45, 55, 72, 0.5);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #a0aec0;
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .no-results {
+            padding: 40px;
+            text-align: center;
+            color: #a0aec0;
+            font-size: 1.1em;
+        }
+
+        @media (max-width: 768px) {
+            .controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .table-wrapper {
+                padding: 15px;
+            }
+
+            thead th, tbody td {
+                padding: 12px 10px;
+                font-size: 0.85em;
+            }
+
+            .stats {
+                flex-direction: column;
+                gap: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>
+                <span>📝</span>
+                CTF & Security Writeups
+            </h1>
+            <p>Explore my latest security challenges and walkthroughs</p>
+        </div>
+
+        <div class="controls">
+            <input type="text" id="searchBox" class="search-box" placeholder="🔍 Search writeups...">
+            
+            <div class="filter-group">
+                <label for="platformFilter">Platform:</label>
+                <select id="platformFilter">
+                    <option value="">All Platforms</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="categoryFilter">Category:</label>
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <table id="writeupTable">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-column="platform">Platform</th>
+                        <th class="sortable" data-column="lab">Lab Name</th>
+                        <th class="sortable" data-column="category">Category</th>
+                        <th class="sortable" data-column="date">Date</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Data will be loaded from writeups.json -->
+                </tbody>
+            </table>
+            <div id="noResults" class="no-results" style="display: none;">
+                No writeups found matching your criteria.
+            </div>
+        </div>
+
+        <div class="stats">
+            <span id="statsText">Loading writeups...</span>
+            <span id="filterStats"></span>
+        </div>
+    </div>
+
+    <script>
+        let writeups = [];
+        let currentSort = { column: 'date', direction: 'desc' };
+
+        // Fetch writeups from JSON file
+        async function loadWriteups() {
+            try {
+                const response = await fetch('writeups.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load writeups.json');
+                }
+                writeups = await response.json();
+                initializeFilters();
+                renderTable();
+                updateStats();
+            } catch (error) {
+                console.error('Error loading writeups:', error);
+                document.getElementById('tableBody').innerHTML = 
+                    '<tr><td colspan="4" style="text-align: center; color: #ef4444;">Error loading writeups. Please ensure writeups.json is in the same directory.</td></tr>';
+                document.getElementById('statsText').textContent = 'Error loading data';
+            }
+        }
+
+        function initializeFilters() {
+            // Get unique platforms and categories
+            const platforms = [...new Set(writeups.map(w => w.platform))].sort();
+            const categories = [...new Set(writeups.map(w => w.category))].sort();
+
+            // Populate platform filter
+            const platformFilter = document.getElementById('platformFilter');
+            platforms.forEach(platform => {
+                const option = document.createElement('option');
+                option.value = platform;
+                option.textContent = platform;
+                platformFilter.appendChild(option);
+            });
+
+            // Populate category filter
+            const categoryFilter = document.getElementById('categoryFilter');
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category;
+                option.textContent = category;
+                categoryFilter.appendChild(option);
+            });
+        }
+
+        function getPlatformClass(platform) {
+            const platformLower = platform.toLowerCase().replace(/\s+/g, '');
+            if (platformLower.includes('hackthebox') || platformLower.includes('htb')) {
+                return 'platform-htb';
+            } else if (platformLower.includes('portswigger')) {
+                return 'platform-portswigger';
+            } else if (platformLower.includes('pentesterlab')) {
+                return 'platform-pentesterlab';
+            }
+            return 'platform-htb'; // default
+        }
+
+        function renderTable() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            const platformFilter = document.getElementById('platformFilter').value;
+            const categoryFilter = document.getElementById('categoryFilter').value;
+
+            // Filter writeups
+            let filteredWriteups = writeups.filter(writeup => {
+                const matchesSearch = !searchTerm || 
+                    writeup.lab.toLowerCase().includes(searchTerm) ||
+                    writeup.platform.toLowerCase().includes(searchTerm) ||
+                    writeup.category.toLowerCase().includes(searchTerm);
+                
+                const matchesPlatform = !platformFilter || writeup.platform === platformFilter;
+                const matchesCategory = !categoryFilter || writeup.category === categoryFilter;
+
+                return matchesSearch && matchesPlatform && matchesCategory;
+            });
+
+            // Sort writeups
+            filteredWriteups.sort((a, b) => {
+                let aVal = a[currentSort.column];
+                let bVal = b[currentSort.column];
+
+                // Handle date sorting
+                if (currentSort.column === 'date') {
+                    aVal = new Date(aVal);
+                    bVal = new Date(bVal);
+                }
+
+                if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+                if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            const tbody = document.getElementById('tableBody');
+            const noResults = document.getElementById('noResults');
+
+            if (filteredWriteups.length === 0) {
+                tbody.innerHTML = '';
+                noResults.style.display = 'block';
+            } else {
+                noResults.style.display = 'none';
+                tbody.innerHTML = filteredWriteups.map(writeup => `
+                    <tr>
+                        <td><span class="platform-badge ${getPlatformClass(writeup.platform)}">${writeup.platform}</span></td>
+                        <td><a href="${writeup.url}" class="lab-link" target="_blank" rel="noopener noreferrer">${writeup.lab}</a></td>
+                        <td>${writeup.category}</td>
+                        <td>${writeup.date}</td>
+                    </tr>
+                `).join('');
+            }
+
+            updateFilterStats(filteredWriteups.length);
+        }
+
+        function updateStats() {
+            const totalWriteups = writeups.length;
+            const platforms = new Set(writeups.map(w => w.platform)).size;
+            document.getElementById('statsText').textContent = 
+                `Total: ${totalWriteups} writeups across ${platforms} platforms`;
+        }
+
+        function updateFilterStats(count) {
+            const statsEl = document.getElementById('filterStats');
+            if (count < writeups.length) {
+                statsEl.textContent = `Showing ${count} of ${writeups.length} writeups`;
+            } else {
+                statsEl.textContent = '';
+            }
+        }
+
+        function setupSorting() {
+            document.querySelectorAll('thead th.sortable').forEach(header => {
+                header.addEventListener('click', () => {
+                    const column = header.dataset.column;
+                    
+                    if (currentSort.column === column) {
+                        currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+                    } else {
+                        currentSort.column = column;
+                        currentSort.direction = 'asc';
+                    }
+
+                    // Update header classes
+                    document.querySelectorAll('thead th').forEach(h => {
+                        h.classList.remove('sorted-asc', 'sorted-desc');
+                    });
+                    header.classList.add(`sorted-${currentSort.direction}`);
+
+                    renderTable();
+                });
+            });
+        }
+
+        // Event listeners
+        document.getElementById('searchBox').addEventListener('input', renderTable);
+        document.getElementById('platformFilter').addEventListener('change', renderTable);
+        document.getElementById('categoryFilter').addEventListener('change', renderTable);
+
+        // Initialize
+        setupSorting();
+        loadWriteups();
+    </script>
+</body>
+</html>
