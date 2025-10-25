@@ -82,6 +82,7 @@ This repository is more than just a collection of tools and techniques; it’s a
 
 
 ## 🔍 Latest Blog Posts
+[![View Interactive Blog](https://img.shields.io/badge/View%20Interactive%20Blog%20Table-00800c?style=for-the-badge)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/writeups.html)
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
