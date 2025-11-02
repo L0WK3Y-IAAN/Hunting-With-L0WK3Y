@@ -38,10 +38,9 @@ This resource hub is a living document, and will be constantly updated with reso
 
 ## 🔍 Latest Blog Posts
 
-[![View Interactive Blog](https://img.shields.io/badge/View%20Interactive%20Blog%20Table-00800c?style=for-the-badge)](https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/writeups.html)
-
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| infophreak | [Infophreak Halloween CTF 2025 - Spirit Halloween!](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/infophreak/Reverse%20Engineering/Infophreak%20Halloween%20CTF%202025%20-%20Spirit%20Halloween%21/README.md) | Reverse Engineering | 11-01-2025 |
 | PentesterLab | [Android 01](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2001/Android%201.md) | Android | 10-24-2025 |
 | PentesterLab | [Android 02](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2002/Android%202.md) | Android | 10-24-2025 |
 | PentesterLab | [Android 03](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2003/Android%203.md) | Android | 10-24-2025 |
