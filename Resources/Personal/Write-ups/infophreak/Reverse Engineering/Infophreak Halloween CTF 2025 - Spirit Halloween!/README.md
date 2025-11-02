@@ -1,0 +1,78 @@
+# IP Halloween 2025 - Spirit Halloween! Walkthrough
+
+<aside>
+
+**Difficulty:** Hard 🔴
+
+**Category:** Web Pentesting/Reverse Engineering
+
+**Description**: We just launched the website for our new Halloween store. This used to be a CVS but now its the premiere place to buy costumes online, we invite you to test out Spirit Halloween!
+
+**Author**: L0WK3Y
+
+**Notes**: Use the command **!ctfchallenge** and you will be sent instructions for starting the challenge.
+
+</aside>
+
+### Initial Setup
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image.png)
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%201.png)
+
+---
+
+### Phase 1: Web Pentest
+
+After navigating to the IP and landing on the front page, you will come across your first clue. The release of the new “`*Spirit of Shopping*`” **app.**
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%202.png)
+
+> *At this point, the player will have done enough recon to know that directory discovery is the next move to make*
+> 
+
+During directory discovery, you will come across the directory `dev`.
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%203.png)
+
+In this directory resides the application `Spirit of Shopping` you will just have to figure out the extension.
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%204.png)
+
+---
+
+### Phase 2. Reverse Engineering
+
+Once you have downloaded the APK, proceed with opening it in the decompiler of your choice, for this walkthrough I will be using [JADX](https://github.com/skylot/jadx). Head over to the `AndroidManifest.xml`. 
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%205.png)
+
+Inside of the manifest you will find the `MainActivity` but the main activity will not contain any information on the flag itself, you will need to head to the location where the MainActivity class is located `com.halloween.party`.
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%206.png)
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%207.png)
+
+After reaching the location of the MainActivity class, you will see another class called `Paranormal`, immediately after the Paranormal class is initialized, you will spot a native library being loaded called `spookytime`. You will need to export this library, you can do so by navigating to `Resources/lib/<ARCH_OF_YOUR_CHOOSING>/libspookytime.so` > Export.
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%208.png)
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%209.png)
+
+Once you’ve downloaded the library, you can open it in the decompiler of your choosing (Ghidra, Cutter, IDA Pro, etc…). 
+
+After loading the library in the decompiler, head to the functions and scroll until you reach the function `sym.Java_com_halloween_party_paranormal_Paranormal_validateAndRevealNative` 
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%2010.png)
+
+Once, there scroll down until you see a massive encoded string:
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%2011.png)
+
+```
+3ZqjnJxy4PSKcZD8jnCgTymBK8SQHYuhuwmnshPBkDT3ZbK2j9XLESrKELxaU4gb2dULbkEmZ7CDEj9JJB3RxGT7QDDTENFXjRUw6wg9udAuPjoxju6o42XBUQc7bwQaugZoKhToaedKQkkZA6RP897F5S9zrhpGzynxLWJgrUqby9umb3vWKKxDtpHp4PnEaesTw81dvhSbPrajj2AQYLhFdZw
+```
+
+From here you can use Cyberchef to decode the string and get the flag.
+
+![image.png](IP%20Halloween%202025%20-%20Spirit%20Halloween!%20Walkthrough/image%2012.png)
