@@ -110,5 +110,12 @@
     "category": "Information disclosure",
     "date": "09-21-2025",
     "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Information%20disclosure/Source%20code%20disclosure%20via%20backup%20files/README.md"
+  },
+  {
+    "platform": "infophreak",
+    "lab": "Infophreak Halloween CTF 2025 - Spirit Halloween!",
+    "category": "Reverse Engineering",
+    "date": "11-01-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/infophreak/Reverse%20Engineering/Infophreak%20Halloween%20CTF%202025%20-%20Spirit%20Halloween%21/README.md"
   }
 ]
