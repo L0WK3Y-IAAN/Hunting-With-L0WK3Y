@@ -37,6 +37,11 @@ This resource hub is a living document, and will be constantly updated with reso
 
 
 ## 🔍 Latest Blog Posts
+<div align="left">
+  <a href="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/writeups.html">
+    <img src="https://img.shields.io/badge/Interactive%20Blog%20Table-00800c?style=for-the-badge&logo=github&logoColor=white" alt="Home">
+  </a>
+</div>
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
