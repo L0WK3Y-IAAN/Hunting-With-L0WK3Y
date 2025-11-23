@@ -45,6 +45,7 @@ This resource hub is a living document, and will be constantly updated with reso
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| 8ksec | [FactsDroid](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8ksec/Android/FactsDroid/README.md) | Android | 11-23-2025 |
 | infophreak | [Infophreak Halloween CTF 2025 - Spirit Halloween!](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/infophreak/Reverse%20Engineering/Infophreak%20Halloween%20CTF%202025%20-%20Spirit%20Halloween%21/README.md) | Reverse Engineering | 11-01-2025 |
 | PentesterLab | [Android 01](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2001/Android%201.md) | Android | 10-24-2025 |
 | PentesterLab | [Android 02](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2002/Android%202.md) | Android | 10-24-2025 |

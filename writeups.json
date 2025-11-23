@@ -1,5 +1,12 @@
 [
   {
+    "platform": "8ksec",
+    "lab": "FactsDroid",
+    "category": "Android",
+    "date": "11-23-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8ksec/Android/FactsDroid/README.md"
+  },
+  {
     "platform": "HackTheBox",
     "lab": "APKey",
     "category": "Mobile",
