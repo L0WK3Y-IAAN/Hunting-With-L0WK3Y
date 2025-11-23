@@ -1,4 +1,4 @@
-# L0WK3Y - 8ksec FactsDroid Walkthrough
+# 8ksec FactsDroid Writeup - L0WK3Y
 
 Owner: Jonathan S
 Created time: November 11, 2025 8:07 PM

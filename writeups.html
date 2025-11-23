@@ -211,6 +211,12 @@
             border: 1px solid rgba(59, 130, 246, 0.4);
         }
 
+        .platform-8ksec {
+            background: rgba(107, 114, 128, 0.2);
+            color: #6f00ff;
+            border: 1px solid rgba(107, 114, 128, 0.4);
+        }
+
         .lab-link {
             color: #60a5fa;
             text-decoration: none;
@@ -378,8 +384,16 @@
                 return 'platform-portswigger';
             } else if (platformLower.includes('pentesterlab')) {
                 return 'platform-pentesterlab';
+            } else if (platformLower.includes('8ksec')) {
+                return 'platform-8ksec';
+            } else if (platformLower.includes('infophreak')) {
+                return 'platform-infophreak';
+            } else if (platformLower.includes('tryhackme')) {
+                return 'platform-tryhackme';
+            } else if (platformLower.includes('vulnhub')) {
+                return 'platform-vulnhub';
             }
-            return 'platform-htb'; // default
+        return 'platform-htb'; // default
         }
 
         function renderTable() {
