@@ -42,14 +42,14 @@ Each write-up is crafted to be educational and reproducible, providing not just 
 | --- | --- | --- | --- |
 | 8ksec | [FactsDroid](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8ksec/Android/FactsDroid/README.md) | Android | 11-23-2025 |
 | infophreak | [Infophreak Halloween CTF 2025 - Spirit Halloween!](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/infophreak/Reverse%20Engineering/Infophreak%20Halloween%20CTF%202025%20-%20Spirit%20Halloween%21/README.md) | Reverse Engineering | 11-01-2025 |
-| PentesterLab | [Android 01](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2001/Android%201.md) | Android | 10-24-2025 |
-| PentesterLab | [Android 02](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2002/Android%202.md) | Android | 10-24-2025 |
-| PentesterLab | [Android 03](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2003/Android%203.md) | Android | 10-24-2025 |
-| PentesterLab | [Android 04](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2004/Android%204.md) | Android | 10-24-2025 |
-| PentesterLab | [Android 05](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2005/Android%205.md) | Android | 10-24-2025 |
-| PentesterLab | [Android 06](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2006/Android%206.md) | Android | 10-24-2025 |
-| PentesterLab | [Android 07](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2007/Android%207.md) | Android | 10-24-2025 |
-| PentesterLab | [Android 08](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2008/Android%208.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 01](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2001/Android%2001.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 02](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2002/Android%2002.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 03](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2003/Android%2003.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 04](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2004/Android%2004.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 05](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2005/Android%2005.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 06](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2006/Android%2006.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 07](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2007/Android%2007.md) | Android | 10-24-2025 |
+| PentesterLab | [Android 08](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2008/Android%2008.md) | Android | 10-24-2025 |
 | HackTheBox | [APKey](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/APKey/README.md) | Mobile | 09-22-2025 |
 | HackTheBox | [Manager](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/Manager/README.md) | Mobile | 09-21-2025 |
 | PortSwigger Academy | [User role controlled by request parameter](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Access%20control/User%20role%20controlled%20by%20request%20parameter/README.md) | Access control | 09-21-2025 |
