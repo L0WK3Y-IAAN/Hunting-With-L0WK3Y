@@ -1,0 +1,2755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Application Penetration Testing Guide</title>
+    <style>
+        :root {
+            --color-primary: #2185d0;
+            --color-primary-dark: #1678c2;
+            --color-secondary: #6c757d;
+            --color-success: #28a745;
+            --color-danger: #dc3545;
+            --color-warning: #ffc107;
+            --color-info: #17a2b8;
+            --color-bg-light: #f8f9fa;
+            --color-bg-white: #ffffff;
+            --color-text-dark: #212529;
+            --color-text-light: #6c757d;
+            --color-border: #dee2e6;
+            --color-shadow: rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--color-text-dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--color-bg-white);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px var(--color-shadow);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        nav {
+            background: var(--color-bg-light);
+            padding: 0;
+            border-bottom: 2px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        nav li {
+            flex: 1;
+            min-width: 150px;
+        }
+
+        nav button {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            font-size: 0.95em;
+            color: var(--color-text-dark);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        nav button:hover {
+            background: rgba(33, 133, 208, 0.1);
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        nav button.active {
+            background: rgba(33, 133, 208, 0.1);
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .content {
+            padding: 40px 30px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        section {
+            display: none;
+        }
+
+        section.active {
+            display: block;
+            animation: slideIn 0.3s ease-in;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: var(--color-primary);
+            font-size: 2em;
+            margin-bottom: 20px;
+            border-bottom: 3px solid var(--color-primary);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--color-primary);
+            font-size: 1.5em;
+            margin-top: 30px;
+            margin-bottom: 15px;
+        }
+
+        h4 {
+            color: var(--color-secondary);
+            font-size: 1.2em;
+            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            line-height: 1.8;
+            margin-bottom: 15px;
+            color: var(--color-text-dark);
+        }
+
+        ul, ol {
+            margin-left: 25px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 10px;
+            line-height: 1.6;
+        }
+
+        .card {
+            background: var(--color-bg-light);
+            border-left: 5px solid var(--color-primary);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 10px var(--color-shadow);
+        }
+
+        .card.warning {
+            border-left-color: var(--color-warning);
+            background: rgba(255, 193, 7, 0.1);
+        }
+
+        .card.danger {
+            border-left-color: var(--color-danger);
+            background: rgba(220, 53, 69, 0.1);
+        }
+
+        .card.success {
+            border-left-color: var(--color-success);
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .card.info {
+            border-left-color: var(--color-info);
+            background: rgba(23, 162, 184, 0.1);
+        }
+
+        .card h4 {
+            margin-top: 0;
+        }
+
+        .checklist {
+            background: var(--color-bg-light);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: var(--color-bg-white);
+            border-radius: 3px;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            cursor: pointer;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        .checklist-item label {
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .tool-card {
+            background: var(--color-bg-light);
+            border: 1px solid var(--color-border);
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 0 2px 8px var(--color-shadow);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px var(--color-shadow);
+        }
+
+        .tool-card h4 {
+            color: var(--color-primary);
+            margin-top: 0;
+        }
+
+        .tool-card .badge {
+            display: inline-block;
+            padding: 5px 10px;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.85em;
+            margin-right: 5px;
+            margin-bottom: 10px;
+        }
+
+        .tool-card .badge.open-source {
+            background: var(--color-success);
+        }
+
+        .tool-card .badge.commercial {
+            background: var(--color-danger);
+        }
+
+        .tool-card .badge.free {
+            background: var(--color-info);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 8px var(--color-shadow);
+        }
+
+        table th {
+            background: var(--color-primary);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        table tr:hover {
+            background: var(--color-bg-light);
+        }
+
+        .methodology-flow {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .methodology-step {
+            background: var(--color-primary);
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 180px;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 2px 8px var(--color-shadow);
+        }
+
+        .methodology-step.alt {
+            background: var(--color-secondary);
+        }
+
+        .arrow {
+            font-size: 2em;
+            color: var(--color-primary);
+            text-align: center;
+            flex: 0.5;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 2px solid var(--color-border);
+            margin: 20px 0;
+            gap: 5px;
+        }
+
+        .tab-button {
+            padding: 12px 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--color-text-light);
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tab-button:hover {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .tab-button.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+        }
+
+        .comparison-table {
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        .comparison-table tr:first-child {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        code {
+            background: var(--color-bg-light);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+            color: var(--color-danger);
+        }
+
+        pre {
+            background: var(--color-text-dark);
+            color: #00ff00;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            line-height: 1.5;
+        }
+
+        .vulnerability-category {
+            background: var(--color-bg-light);
+            border-left: 5px solid var(--color-danger);
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 3px;
+        }
+
+        .vulnerability-category h4 {
+            color: var(--color-danger);
+            margin-top: 0;
+        }
+
+        .workflow-box {
+            background: var(--color-bg-light);
+            border: 2px solid var(--color-border);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .workflow-box h4 {
+            color: var(--color-primary);
+        }
+
+        footer {
+            background: var(--color-bg-light);
+            padding: 30px;
+            text-align: center;
+            border-top: 2px solid var(--color-border);
+            color: var(--color-text-light);
+        }
+
+        .badge-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .badge.android {
+            background: #3ddc84;
+            color: white;
+        }
+
+        .badge.ios {
+            background: #000;
+            color: white;
+        }
+
+        .badge.hybrid {
+            background: #f7931e;
+            color: white;
+        }
+
+        .highlight {
+            background: rgba(255, 193, 7, 0.3);
+            padding: 2px 4px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8em;
+            }
+
+            nav ul {
+                flex-direction: column;
+            }
+
+            nav button {
+                padding: 10px;
+                font-size: 0.9em;
+            }
+
+            .methodology-flow {
+                flex-direction: column;
+            }
+
+            .arrow {
+                transform: rotate(90deg);
+            }
+
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .content {
+                padding: 20px 15px;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+        }
+
+        .infographic {
+            background: var(--color-bg-light);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .stage-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .stage-list li {
+            padding: 15px;
+            margin: 10px 0;
+            background: var(--color-bg-light);
+            border-left: 5px solid var(--color-primary);
+            border-radius: 3px;
+        }
+
+        .stage-list li strong {
+            color: var(--color-primary);
+        }
+
+        .print-button {
+            background: var(--color-primary);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 20px 0;
+            transition: background 0.3s;
+        }
+
+        .print-button:hover {
+            background: var(--color-primary-dark);
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            nav {
+                display: none;
+            }
+            .print-button {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔐 Mobile Application Penetration Testing</h1>
+            <p>Comprehensive End-to-End Guide for Android & iOS Security Assessment</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><button class="nav-button active" onclick="showSection('intro')">Overview</button></li>
+                <li><button class="nav-button" onclick="showSection('methodology')">Methodology</button></li>
+                <li><button class="nav-button" onclick="showSection('static')">Static Analysis</button></li>
+                <li><button class="nav-button" onclick="showSection('dynamic')">Dynamic Analysis</button></li>
+                <li><button class="nav-button" onclick="showSection('api')">API Testing</button></li>
+                <li><button class="nav-button" onclick="showSection('tools')">Tools</button></li>
+                <li><button class="nav-button" onclick="showSection('vulnerabilities')">Vulnerabilities</button></li>
+                <li><button class="nav-button" onclick="showSection('devsecops')">DevSecOps</button></li>
+                <li><button class="nav-button" onclick="showSection('reporting')">Reporting</button></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <!-- SECTION: INTRODUCTION -->
+            <section id="intro" class="active">
+                <h2>Overview: Mobile Application Penetration Testing</h2>
+
+                <h3>What is Mobile Application Penetration Testing?</h3>
+                <p>Mobile application penetration testing is a <strong>comprehensive security assessment</strong> of iOS and Android applications designed to identify vulnerabilities, misconfigurations, and security weaknesses before attackers exploit them. It simulates real-world attacks to evaluate:</p>
+                <ul>
+                    <li>Data storage and encryption mechanisms</li>
+                    <li>Authentication and session management</li>
+                    <li>Communication security (TLS/encryption)</li>
+                    <li>Authorization and access controls</li>
+                    <li>Platform-specific security controls (Keychain, Keystore, etc.)</li>
+                    <li>Code integrity and reverse engineering resistance</li>
+                    <li>Backend API security and data validation</li>
+                    <li>Third-party library vulnerabilities and supply chain risks</li>
+                </ul>
+
+                <h3>Position Within Application Security & DevSecOps</h3>
+                <p>Mobile penetration testing fits into the broader security lifecycle as:</p>
+
+                <div class="methodology-flow">
+                    <div class="methodology-step">Threat Modeling & Risk Assessment</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step">Security Requirements (MASVS)</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step">Development & SAST</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step alt">Penetration Testing</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step">Remediation & Retesting</div>
+                </div>
+
+                <h3>Industry Standards & Frameworks</h3>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>OWASP MASVS v2.1</h4>
+                        <p><strong>Mobile Application Security Verification Standard</strong></p>
+                        <p>Defines baseline security requirements across 8 categories:</p>
+                        <ul style="margin-left: 15px; font-size: 0.95em;">
+                            <li>Storage & Privacy</li>
+                            <li>Cryptography</li>
+                            <li>Authentication & Session Management</li>
+                            <li>Network</li>
+                            <li>Platform</li>
+                            <li>Code</li>
+                            <li>Resilience</li>
+                            <li>Privacy</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>OWASP MASTG v1.5+</h4>
+                        <p><strong>Mobile Application Security Testing Guide</strong></p>
+                        <p>Hands-on testing guide with:</p>
+                        <ul style="margin-left: 15px; font-size: 0.95em;">
+                            <li>Step-by-step test procedures</li>
+                            <li>Practical techniques & tools</li>
+                            <li>OWASP MASWE mappings</li>
+                            <li>Reverse engineering workflows</li>
+                            <li>Real-world demos & samples</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>OWASP Mobile Top 10 2024</h4>
+                        <p><strong>Updated Risk Rankings (First update since 2016)</strong></p>
+                        <ul style="margin-left: 15px; font-size: 0.95em;">
+                            <li>Improper Credential Usage</li>
+                            <li>Inadequate Supply Chain Security</li>
+                            <li>Inadequate Authentication/Authorization</li>
+                            <li>Insecure Communication</li>
+                            <li>Inadequate Cryptography</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>NIST SP 800-163</h4>
+                        <p><strong>Vetting Mobile Applications</strong></p>
+                        <p>App vetting process guidance including:</p>
+                        <ul style="margin-left: 15px; font-size: 0.95em;">
+                            <li>Planning & scoping</li>
+                            <li>Security requirements</li>
+                            <li>Testing methodologies</li>
+                            <li>Tool evaluation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card info">
+                    <h4>📌 Key Insight: MASVS + MASTG Synergy</h4>
+                    <p><strong>MASVS</strong> is your security blueprint (WHAT to test), while <strong>MASTG</strong> is your testing toolbox (HOW to test). Together they provide consistent, comprehensive coverage mapped to real-world weaknesses via OWASP MASWE.</p>
+                </div>
+
+                <h3>Testing Scope Considerations</h3>
+                <ul>
+                    <li><strong>App Type:</strong> Native Android (Java/Kotlin), Native iOS (Swift/Obj-C), or Hybrid/Cross-Platform (React Native, Flutter)</li>
+                    <li><strong>OS Versions:</strong> Supported OS versions and version-specific vulnerabilities</li>
+                    <li><strong>Device Types:</strong> Phones, tablets, wearables, or other form factors</li>
+                    <li><strong>Backend Services:</strong> APIs, authentication services, data storage</li>
+                    <li><strong>Third-Party Integrations:</strong> SDKs, libraries, and external services</li>
+                    <li><strong>Data Sensitivity:</strong> Type and classification of data processed</li>
+                    <li><strong>Regulatory Requirements:</strong> HIPAA, PCI-DSS, GDPR, SOC 2, etc.</li>
+                </ul>
+
+            </section>
+
+            <!-- SECTION: METHODOLOGY -->
+            <section id="methodology">
+                <h2>Testing Methodology & Framework</h2>
+
+                <h3>OWASP MASTG Methodology Overview</h3>
+                <p>The standard MASTG approach includes these phases:</p>
+
+                <div class="stage-list">
+                    <li><strong>1. Intelligence Gathering & Environmental Analysis</strong><br>
+                        Understanding the app architecture, environmental context, OS versions, backend services, and data sensitivity.
+                    </li>
+                    <li><strong>2. Mapping & Architecture Review</strong><br>
+                        Automated scanning combined with manual exploration to identify entry points, data flows, key components, and potential vulnerabilities.
+                    </li>
+                    <li><strong>3. Threat Modeling & Risk Prioritization</strong><br>
+                        Creating threat models (using STRIDE or similar), identifying high-risk areas, and prioritizing tests based on impact/likelihood.
+                    </li>
+                    <li><strong>4. Test Case Development</strong><br>
+                        Creating specific, reproducible test cases aligned with MASVS controls and potential attack vectors.
+                    </li>
+                    <li><strong>5. Static Analysis</strong><br>
+                        Decompiling, reverse engineering, and reviewing source code and bytecode for vulnerabilities.
+                    </li>
+                    <li><strong>6. Dynamic Analysis</strong><br>
+                        Runtime inspection, traffic interception, API testing, and behavioral analysis of the app in action.
+                    </li>
+                    <li><strong>7. Exploitation & PoC Development</strong><br>
+                        Attempting to exploit identified vulnerabilities and creating proofs-of-concept to validate findings.
+                    </li>
+                    <li><strong>8. Reporting & Remediation Guidance</strong><br>
+                        Documenting findings with severity, impact, remediation steps, and retesting to verify fixes.
+                    </li>
+                </div>
+
+                <h3>NIST SP 800-115 Four-Phase Model (Applied to Mobile)</h3>
+
+                <div class="tool-grid">
+                    <div class="workflow-box">
+                        <h4>Phase 1: Planning</h4>
+                        <ul>
+                            <li>Define scope & objectives</li>
+                            <li>Identify target platforms & versions</li>
+                            <li>Establish rules of engagement</li>
+                            <li>Risk assessment framework</li>
+                            <li>Create testing schedule</li>
+                        </ul>
+                    </div>
+
+                    <div class="workflow-box">
+                        <h4>Phase 2: Discovery</h4>
+                        <ul>
+                            <li>Reconnaissance & passive info gathering</li>
+                            <li>App structure & component analysis</li>
+                            <li>Dependency & vulnerability scanning</li>
+                            <li>Backend service enumeration</li>
+                            <li>Identify attack surface</li>
+                        </ul>
+                    </div>
+
+                    <div class="workflow-box">
+                        <h4>Phase 3: Attack</h4>
+                        <ul>
+                            <li>Execute test cases</li>
+                            <li>Exploit identified vulnerabilities</li>
+                            <li>Verify true positives</li>
+                            <li>Assess impact & risk</li>
+                            <li>Develop PoCs</li>
+                        </ul>
+                    </div>
+
+                    <div class="workflow-box">
+                        <h4>Phase 4: Reporting</h4>
+                        <ul>
+                            <li>Document findings</li>
+                            <li>Calculate CVSS scores</li>
+                            <li>Provide remediation guidance</li>
+                            <li>Executive summary</li>
+                            <li>Retesting plan</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Scoping & Requirements Gathering</h3>
+
+                <div class="checklist">
+                    <h4>Pre-Engagement Checklist</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope1">
+                        <label for="scope1">Obtain signed testing authorization & rules of engagement</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope2">
+                        <label for="scope2">Define app scope (Android version range, iOS versions, device types)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope3">
+                        <label for="scope3">Identify backend systems & APIs within scope</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope4">
+                        <label for="scope4">Confirm testing environment (staging/production/sandboxed)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope5">
+                        <label for="scope5">Review MASVS profile requirements (L1, L2, or R)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope6">
+                        <label for="scope6">Identify regulatory/compliance requirements (HIPAA, PCI, GDPR)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope7">
+                        <label for="scope7">Establish timeline & resource allocation</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope8">
+                        <label for="scope8">Obtain test credentials & access to staging environments</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="scope9">
+                        <label for="scope9">Define success criteria & reporting metrics</label>
+                    </div>
+                </div>
+
+                <h3>Test Planning for Android, iOS, and Hybrid Apps</h3>
+
+                <table>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Android</th>
+                        <th>iOS</th>
+                        <th>Hybrid (React Native/Flutter)</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Primary Language</strong></td>
+                        <td>Java, Kotlin, C/C++ (NDK)</td>
+                        <td>Swift, Objective-C</td>
+                        <td>JavaScript, Dart + Native Code</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Package Format</strong></td>
+                        <td>APK (or AAB)</td>
+                        <td>IPA</td>
+                        <td>APK/AAB or IPA</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Security Model</strong></td>
+                        <td>Sandboxing, SELinux, encrypted storage</td>
+                        <td>Code signing, sealed ecosystem, Keychain</td>
+                        <td>Mix of platform models + bridge vulnerabilities</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Reverse Engineering Difficulty</strong></td>
+                        <td>Moderate (Java/Kotlin easily decompiled; NDK harder)</td>
+                        <td>Higher (compiled ARM binaries, App Store encryption)</td>
+                        <td>Moderate to high (JavaScript exposed, native harder)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Key Testing Focus</strong></td>
+                        <td>Drozer, manifest analysis, Frida hooking, NDK reverse engineering</td>
+                        <td>IPA decryption, Binary analysis, lldb, Cycript, Frida</td>
+                        <td>JavaScript debugging, bridge method hooking, platform-specific checks</td>
+                    </tr>
+                </table>
+
+            </section>
+
+            <!-- SECTION: STATIC ANALYSIS -->
+            <section id="static">
+                <h2>Static Analysis: Code Review & Reverse Engineering</h2>
+
+                <h3>Lab Setup & Environment Preparation</h3>
+
+                <h4>Device/Emulator Choices</h4>
+
+                <div class="tool-grid">
+                    <div class="workflow-box">
+                        <h4>Android Emulator</h4>
+                        <p><strong>Pros:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Easy to reset & snapshot</li>
+                            <li>Root access by default</li>
+                            <li>Fast iteration for testing</li>
+                            <li>No device cost</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Slower performance</li>
+                            <li>Some real device behavior may differ</li>
+                            <li>Biometric spoofing easier</li>
+                        </ul>
+                    </div>
+
+                    <div class="workflow-box">
+                        <h4>Real Android Device</h4>
+                        <p><strong>Pros:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Real-world performance & behavior</li>
+                            <li>Actual OS vulnerabilities</li>
+                            <li>Hardware-specific tests (Trusted Execution Environment)</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Rooting may void warranty</li>
+                            <li>Device setup/reset time</li>
+                            <li>Lost test data recovery harder</li>
+                        </ul>
+                    </div>
+
+                    <div class="workflow-box">
+                        <h4>iOS Simulator</h4>
+                        <p><strong>Pros:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Native Xcode integration</li>
+                            <li>Easy logging & debugging</li>
+                            <li>Rapid testing iteration</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Cannot test some security features</li>
+                            <li>Does not reflect real hardware</li>
+                            <li>Limited biometric testing</li>
+                        </ul>
+                    </div>
+
+                    <div class="workflow-box">
+                        <h4>Real iOS Device</h4>
+                        <p><strong>Pros:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Authentic hardware behavior</li>
+                            <li>Jailbreak detection testing</li>
+                            <li>Hardware security tests</li>
+                        </ul>
+                        <p style="margin-top: 10px;"><strong>Cons:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Jailbreaking required for deep testing</li>
+                            <li>High cost per device</li>
+                            <li>Difficult test data reset</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Rooting & Jailbreaking Considerations</h3>
+
+                <div class="card warning">
+                    <h4>⚠️ Legal & Ethical Boundaries</h4>
+                    <p><strong>Always obtain explicit written authorization before rooting/jailbreaking devices.</strong> This is especially important when:</p>
+                    <ul>
+                        <li>Testing third-party or production apps</li>
+                        <li>Devices are owned by organizations</li>
+                        <li>Warranty implications exist</li>
+                    </ul>
+                </div>
+
+                <h4>Android Rooting</h4>
+                <ul>
+                    <li><strong>Magisk:</strong> Systemless root with MagiskHide to bypass root detection</li>
+                    <li><strong>SuperSU:</strong> Traditional rooting method (older approach)</li>
+                    <li><strong>ADB Root:</strong> On development builds (adb root)</li>
+                    <li><strong>Emulator Root:</strong> Android Studio emulator with -writable-system flag</li>
+                </ul>
+
+                <h4>iOS Jailbreaking</h4>
+                <ul>
+                    <li><strong>Checkra1n:</strong> Most reliable for lower iOS versions (A7-A11 devices)</li>
+                    <li><strong>Palera1n:</strong> Newer alternative for recent iOS versions</li>
+                    <li><strong>Sileo/Cydia:</strong> Package managers for jailbroken devices</li>
+                    <li><strong>Runtime Modification:</strong> Frida + Objection without full jailbreak</li>
+                </ul>
+
+                <h3>Proxying & Interception Setup</h3>
+
+                <div class="workflow-box">
+                    <h4>HTTP(S) Interception Architecture</h4>
+                    <ul>
+                        <li>Install proxy CA certificate in device trust store</li>
+                        <li>Configure device WiFi proxy settings (or use VPN-based proxies)</li>
+                        <li>Enable Burp Suite/ZAP listener on attack machine</li>
+                        <li>Route traffic through proxy: device ← proxy ← backend</li>
+                        <li>Inspect, log, modify, and manipulate requests/responses</li>
+                    </ul>
+                </div>
+
+                <div class="card info">
+                    <h4>📌 Certificate Pinning Challenge</h4>
+                    <p>Apps may implement <strong>certificate pinning</strong> to prevent MITM attacks. Bypass techniques include:</p>
+                    <ul>
+                        <li>Frida hooking to disable pinning logic</li>
+                        <li>Modifying APK/IPA to disable checks (static bypass)</li>
+                        <li>Using tools like Burp Suite's pinning bypass plugins</li>
+                        <li>Network-level manipulation if pinning is weak</li>
+                    </ul>
+                </div>
+
+                <h3>Static Analysis Tools & Workflows</h3>
+
+                <h4>Android Static Analysis</h4>
+
+                <table>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Purpose</th>
+                        <th>Type</th>
+                        <th>Cost</th>
+                    </tr>
+                    <tr>
+                        <td><strong>JADX</strong></td>
+                        <td>Decompile APK to readable Java code</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Apktool</strong></td>
+                        <td>Extract resources & smali code</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MobSF</strong></td>
+                        <td>Automated static & dynamic analysis framework</td>
+                        <td>Open Source</td>
+                        <td>Free (Cloud option paid)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Androguard</strong></td>
+                        <td>Python-based static analysis & decompilation</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Ghidra</strong></td>
+                        <td>NSA's reverse engineering framework (handles DEX)</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Radare2</strong></td>
+                        <td>Advanced binary analysis & disassembly</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Checkmarx/SonarQube</strong></td>
+                        <td>Enterprise SAST for Android/iOS source code</td>
+                        <td>Commercial</td>
+                        <td>$$$$</td>
+                    </tr>
+                </table>
+
+                <h4>iOS Static Analysis</h4>
+
+                <table>
+                    <tr>
+                        <th>Tool</th>
+                        <th>Purpose</th>
+                        <th>Type</th>
+                        <th>Cost</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Ghidra</strong></td>
+                        <td>Binary disassembly & decompilation</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Radare2</strong></td>
+                        <td>Interactive binary analysis</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>IDA Pro / Ghidra</strong></td>
+                        <td>Professional ARM binary disassembly</td>
+                        <td>Commercial (IDA)</td>
+                        <td>$$$</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Hopper Disassembler</strong></td>
+                        <td>ARM disassembly with decompilation</td>
+                        <td>Commercial</td>
+                        <td>$$</td>
+                    </tr>
+                    <tr>
+                        <td><strong>MobSF</strong></td>
+                        <td>Static analysis for IPA files</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Clutch</strong></td>
+                        <td>Decrypt App Store IPAs</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Needle</strong></td>
+                        <td>Modular iOS security testing framework</td>
+                        <td>Open Source</td>
+                        <td>Free</td>
+                    </tr>
+                </table>
+
+                <h3>Decompiling & Reverse Engineering Workflow</h3>
+
+                <h4>Android APK Analysis Workflow</h4>
+                <pre>
+# 1. Obtain APK
+adb pull /data/app/com.example.app/base.apk ./target.apk
+
+# 2. Extract resources & smali (bytecode)
+apktool d target.apk
+
+# 3. Decompile to readable Java
+jadx target.apk
+jadx -gui target.apk
+
+# 4. Search for sensitive strings (keys, URLs, etc.)
+grep -r "secret\|password\|token\|key" ./target/
+
+# 5. Analyze AndroidManifest.xml
+- Check declared activities, services, broadcast receivers, content providers
+- Review permissions requested
+- Identify exported components
+
+# 6. Review classes of interest:
+- Authentication/login activities
+- Data storage handlers
+- Network communication
+- Cryptography implementations
+
+# 7. Use Frida for runtime verification
+frida -U -f com.example.app --no-pause -l hook.js
+                </pre>
+
+                <h4>iOS IPA Analysis Workflow</h4>
+                <pre>
+# 1. Decrypt App Store IPA (if needed)
+clutch -i (find app GUID)
+clutch -d GUID
+
+# 2. Extract IPA contents
+unzip target.ipa
+
+# 3. Locate main executable
+cd Payload/App.app/
+
+# 4. Disassemble with Ghidra/Radare2
+ghidra ./App_executable
+
+# 5. Analyze with Radare2
+r2 ./App_executable
+aaa  (analyze all)
+afl  (list functions)
+pdf @ main (print disassembly at main)
+
+# 6. String analysis
+strings ./App_executable | grep -i "secret\|api\|token"
+
+# 7. Examine Info.plist
+plutil -p Info.plist  (view configuration)
+                </pre>
+
+                <h3>Common Static Analysis Findings</h3>
+
+                <div class="vulnerability-category">
+                    <h4>Hardcoded Secrets</h4>
+                    <ul>
+                        <li>API keys, tokens, or credentials in source code</li>
+                        <li>Database connection strings</li>
+                        <li>Encryption keys or passwords</li>
+                        <li><strong>Impact:</strong> Complete credential compromise; unauthorized API access</li>
+                    </ul>
+                </div>
+
+                <div class="vulnerability-category">
+                    <h4>Insecure Data Storage</h4>
+                    <ul>
+                        <li>Sensitive data in SharedPreferences (Android) without encryption</li>
+                        <li>Plaintext data in app cache or temp files</li>
+                        <li>Unencrypted UserDefaults (iOS)</li>
+                        <li>Database files without encryption</li>
+                        <li><strong>Impact:</strong> Data theft from stolen device or forensic analysis</li>
+                    </ul>
+                </div>
+
+                <div class="vulnerability-category">
+                    <h4>Weak Cryptography</h4>
+                    <ul>
+                        <li>Use of deprecated algorithms (DES, MD5, SHA1)</li>
+                        <li>Custom encryption implementations instead of standard libraries</li>
+                        <li>Hardcoded IV or encryption keys</li>
+                        <li>Insufficient key derivation (weak PBKDF2 iteration counts)</li>
+                        <li><strong>Impact:</strong> Data decryption; authentication bypass</li>
+                    </ul>
+                </div>
+
+                <div class="vulnerability-category">
+                    <h4>Insecure Deserialization</h4>
+                    <ul>
+                        <li>Deserializing untrusted data without validation</li>
+                        <li>Using unsafe Java serialization</li>
+                        <li><strong>Impact:</strong> Remote code execution; arbitrary object instantiation</li>
+                    </ul>
+                </div>
+
+                <div class="vulnerability-category">
+                    <h4>Exported Components (Android)</h4>
+                    <ul>
+                        <li>Activities, services, or broadcast receivers exposed without intent filters</li>
+                        <li>Content providers without proper permissions</li>
+                        <li><strong>Impact:</strong> Unauthorized component invocation; data leakage</li>
+                    </ul>
+                </div>
+
+                <div class="vulnerability-category">
+                    <h4>Vulnerable Dependencies</h4>
+                    <ul>
+                        <li>Outdated libraries with known CVEs</li>
+                        <li>Transitive dependencies not updated</li>
+                        <li><strong>Impact:</strong> Known vulnerability exploitation from third-party code</li>
+                    </ul>
+                </div>
+
+            </section>
+
+            <!-- SECTION: DYNAMIC ANALYSIS -->
+            <section id="dynamic">
+                <h2>Dynamic Analysis: Runtime Inspection & Behavior Testing</h2>
+
+                <h3>Runtime Inspection & Instrumentation</h3>
+
+                <h4>Android Dynamic Analysis Tools</h4>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Frida</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Dynamic instrumentation and hooking framework</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Inject JavaScript/Python into running processes</li>
+                            <li>Hook Java methods and native functions</li>
+                            <li>Inspect & modify function arguments & return values</li>
+                            <li>Real-time process inspection without modification</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>MobSF (Dynamic Mode)</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Automated dynamic analysis via Frida integration</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Managed Frida script execution</li>
+                            <li>Real device/emulator testing</li>
+                            <li>Integrated reporting</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Drozer</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Android component interaction & exploitation</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Interact with app components</li>
+                            <li>Test permissions & privilege escalation</li>
+                            <li>Content provider exploitation</li>
+                            <li>Intent fuzzing</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Objection</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Frida-powered mobile exploration toolkit</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Interactive REPL for runtime exploration</li>
+                            <li>Bypass root/jailbreak detection</li>
+                            <li>Memory inspection</li>
+                            <li>iOS & Android support</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h4>iOS Dynamic Analysis Tools</h4>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Frida + Cycript</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Runtime hooking & Objective-C manipulation</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Hook Objective-C methods</li>
+                            <li>Inspect memory at runtime</li>
+                            <li>Call methods directly</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>lldb (Xcode Debugger)</h4>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Native iOS app debugging</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Breakpoint setting & inspection</li>
+                            <li>Stack trace analysis</li>
+                            <li>Memory examination</li>
+                            <li>Direct with Xcode or remote</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Objection (iOS)</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Frida-powered iOS exploration</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Bypass jailbreak detection</li>
+                            <li>Keychain inspection</li>
+                            <li>Method hooking</li>
+                            <li>Memory dumps</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Needle</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Modular iOS security testing framework</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Structured module-based testing</li>
+                            <li>Cycript & Frida integration</li>
+                            <li>Keychain dumping</li>
+                            <li>Plist analysis</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Traffic Interception & Manipulation</h3>
+
+                <h4>Tools for Network Traffic Inspection</h4>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Burp Suite</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Purpose:</strong> Web & mobile application security testing</p>
+                        <p><strong>Key Capabilities:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>HTTP/HTTPS interception & modification</li>
+                            <li>Request/response manipulation</li>
+                            <li>API endpoint discovery</li>
+                            <li>Automated scanning</li>
+                            <li>Mobile-specific extensions</li>
+                        </ul>
+                        <p><strong>Cost:</strong> Free Community | $449/year Pro</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>OWASP ZAP</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Web app security scanning & proxying</p>
+                        <p><strong>Key Capabilities:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>HTTP(S) interception</li>
+                            <li>Fuzzing & scanning</li>
+                            <li>Spider & crawling</li>
+                            <li>Passive & active scanning</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>mitmproxy</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <span class="badge free">Free</span>
+                        <p><strong>Purpose:</strong> Interactive HTTPS proxy</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Powerful CLI interface</li>
+                            <li>Request/response scripting</li>
+                            <li>Advanced filtering</li>
+                            <li>High performance</li>
+                        </ul>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Charles Proxy</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Purpose:</strong> Web debugging & profiling proxy</p>
+                        <p><strong>Key Features:</strong></p>
+                        <ul style="font-size: 0.95em;">
+                            <li>Request/response inspection</li>
+                            <li>Throttling & mapping</li>
+                            <li>SSL proxying</li>
+                            <li>Breakpoints & modification</li>
+                        </ul>
+                        <p><strong>Cost:</strong> $50 one-time license</p>
+                    </div>
+                </div>
+
+                <h3>Common Dynamic Testing Workflows</h3>
+
+                <div class="workflow-box">
+                    <h4>Workflow: API Endpoint Testing</h4>
+                    <ol>
+                        <li>Install Burp Certificate Authority in device trust store</li>
+                        <li>Configure WiFi proxy to point to Burp listener</li>
+                        <li>Start app and navigate through user flows</li>
+                        <li>Capture all API requests/responses in Burp</li>
+                        <li>Analyze request patterns:
+                            <ul>
+                                <li>Authentication tokens & session management</li>
+                                <li>User ID enumeration (sequential IDs, GUIDs)</li>
+                                <li>Request signing & integrity checks</li>
+                                <li>Rate limiting & brute-force protections</li>
+                            </ul>
+                        </li>
+                        <li>Test for vulnerabilities:
+                            <ul>
+                                <li>Modify request parameters (user_id, page numbers)</li>
+                                <li>Test missing authorization checks</li>
+                                <li>Attempt privilege escalation</li>
+                                <li>Bypass input validation</li>
+                            </ul>
+                        </li>
+                        <li>Document findings with reproducible steps & PoC</li>
+                    </ol>
+                </div>
+
+                <div class="workflow-box">
+                    <h4>Workflow: Runtime Hook (Frida Example)</h4>
+                    <ol>
+                        <li>Identify target method (e.g., password validation)</li>
+                        <li>Write Frida hook script (JavaScript)</li>
+                        <li>Load hook into running process: <code>frida -U -f com.app.package --no-pause -l hook.js</code></li>
+                        <li>Hook modifies method behavior (bypass check, log credentials, etc.)</li>
+                        <li>Observe modified behavior & document bypass</li>
+                    </ol>
+                </div>
+
+                <h3>Monitoring & Logging</h3>
+
+                <h4>Android Logging</h4>
+                <pre>
+# Live logcat filtering for app package
+adb logcat | grep "$(adb shell pidof com.example.app)"
+
+# Detailed filtering
+adb logcat package:com.example.app *:W
+
+# Save to file
+adb logcat > logcat.txt
+
+# Search logs for sensitive data
+adb logcat | grep -i "password\|token\|secret\|api"
+                </pre>
+
+                <h4>iOS Logging</h4>
+                <ul>
+                    <li><strong>Console.app:</strong> System-wide iOS logging</li>
+                    <li><strong>Xcode Console:</strong> Attached app logging</li>
+                    <li><strong>NSLog, os_log:</strong> App-generated logs</li>
+                    <li><strong>Sysdiagnose:</strong> System diagnostics for deep analysis</li>
+                </ul>
+
+            </section>
+
+            <!-- SECTION: API TESTING -->
+            <section id="api">
+                <h2>Backend API & Service Testing</h2>
+
+                <h3>Mobile API Architecture & Testing Focus</h3>
+
+                <p>Mobile apps communicate with backend APIs for data retrieval, authentication, business logic, and data persistence. Testing focuses on:</p>
+
+                <h3>Authentication & Session Management</h3>
+
+                <div class="vulnerability-category">
+                    <h4>Common Vulnerabilities</h4>
+                    <ul>
+                        <li><strong>Weak Token Generation:</strong> Predictable or short-lived tokens</li>
+                        <li><strong>Missing Token Refresh:</strong> No mechanism to refresh expired tokens</li>
+                        <li><strong>Token Leakage:</strong> Tokens in logs, error messages, or cache</li>
+                        <li><strong>No Token Binding:</strong> Token valid for any device/IP</li>
+                        <li><strong>Insecure Token Storage:</strong> No encryption in transit or at rest</li>
+                        <li><strong>Session Fixation:</strong> Token reuse without invalidation</li>
+                        <li><strong>Missing Logout:</strong> Tokens not invalidated on logout</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-box">
+                    <h4>Testing Procedure</h4>
+                    <ol>
+                        <li>Capture authentication request (login) via proxy</li>
+                        <li>Analyze response for token, session ID, or secret</li>
+                        <li>Test token validity period & refresh mechanism</li>
+                        <li>Attempt token reuse after logout</li>
+                        <li>Modify token claims (if JWT):
+                            <ul>
+                                <li>Change user_id in payload</li>
+                                <li>Extend expiration time</li>
+                                <li>Remove signature verification (test server-side validation)</li>
+                            </ul>
+                        </li>
+                        <li>Test token leakage in error responses, logs, or caches</li>
+                        <li>Verify token binding to device/user/IP</li>
+                    </ol>
+                </div>
+
+                <h3>Authorization & Access Control</h3>
+
+                <div class="vulnerability-category">
+                    <h4>Common Vulnerabilities</h4>
+                    <ul>
+                        <li><strong>Insecure Direct Object Reference (IDOR):</strong> Modify user_id to access other user data</li>
+                        <li><strong>Broken Function-Level Authorization:</strong> Admin functions callable by regular users</li>
+                        <li><strong>Privilege Escalation:</strong> Upgrade user role via API manipulation</li>
+                        <li><strong>Missing Authorization Checks:</strong> No verification of user rights before data access</li>
+                        <li><strong>Parameter Pollution:</strong> Multiple parameters for same functionality with inconsistent checks</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-box">
+                    <h4>Testing Procedure</h4>
+                    <ol>
+                        <li>Identify all API endpoints and their functionality</li>
+                        <li>Map endpoints to user roles & permissions</li>
+                        <li>For each endpoint, test as different users/roles</li>
+                        <li>Attempt to access data/functions outside your scope:
+                            <ul>
+                                <li>Change user_id parameters to other users</li>
+                                <li>Modify role/permission fields in requests</li>
+                                <li>Try accessing admin endpoints</li>
+                            </ul>
+                        </li>
+                        <li>Document all unauthorized access succeeds</li>
+                    </ol>
+                </div>
+
+                <h3>Input Validation & Injection Attacks</h3>
+
+                <div class="vulnerability-category">
+                    <h4>Common Vulnerabilities</h4>
+                    <ul>
+                        <li><strong>SQL Injection:</strong> Manipulate query logic via app-supplied data</li>
+                        <li><strong>NoSQL Injection:</strong> JSON-based injection for database queries</li>
+                        <li><strong>XML External Entity (XXE):</strong> XML parsing exploits for data exfiltration</li>
+                        <li><strong>Command Injection:</strong> OS command execution via unsanitized inputs</li>
+                        <li><strong>Path Traversal:</strong> Access files outside intended directory</li>
+                        <li><strong>API Logic Bypasses:</strong> Logic flaws in business logic validation</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-box">
+                    <h4>Testing Procedure</h4>
+                    <ol>
+                        <li>Identify input points (user ID, search terms, filters, file uploads)</li>
+                        <li>Test basic injection payloads:
+                            <ul>
+                                <li>SQL: <code>' OR '1'='1</code></li>
+                                <li>NoSQL: <code>{"$ne": null}</code></li>
+                                <li>XXE: Entity declarations for file reads</li>
+                            </ul>
+                        </li>
+                        <li>Use payload lists (SecLists, Burp intruder)</li>
+                        <li>Observe response time, error messages, and behavior changes</li>
+                        <li>Escalate findings to command execution, data exfiltration</li>
+                    </ol>
+                </div>
+
+                <h3>Data Validation & Business Logic</h3>
+
+                <table>
+                    <tr>
+                        <th>Vulnerability</th>
+                        <th>Example</th>
+                        <th>Testing Approach</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Missing Server-Side Validation</strong></td>
+                        <td>Client checks email format; server doesn't</td>
+                        <td>Bypass client-side checks; send malformed data directly</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Type Confusion</strong></td>
+                        <td>API expects int; accepts string and casts unsafely</td>
+                        <td>Send wrong data types; observe processing</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Business Logic Flaws</strong></td>
+                        <td>Discount applied twice; price negative</td>
+                        <td>Exploit order of operations; test edge cases</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Race Conditions</strong></td>
+                        <td>Fund transfer checked then executed asynchronously</td>
+                        <td>Rapid parallel requests; timing attacks</td>
+                    </tr>
+                </table>
+
+                <h3>API Endpoint Enumeration & Documentation</h3>
+
+                <p><strong>Tools & Techniques:</strong></p>
+                <ul>
+                    <li>Intercept all traffic via proxy, identify API patterns</li>
+                    <li>Reverse engineer binary for hardcoded endpoints</li>
+                    <li>Check app resources (strings, configs) for API URLs</li>
+                    <li>Analyze API versioning & backward compatibility</li>
+                    <li>Document request/response formats, authentication, parameters</li>
+                </ul>
+
+            </section>
+
+            <!-- SECTION: TOOLS -->
+            <section id="tools">
+                <h2>Comprehensive Tool Reference</h2>
+
+                <h3>Static Analysis Tools</h3>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>JADX</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android</p>
+                        <p>Decompiles APK/DEX files to readable Java source code. GUI and CLI versions.</p>
+                        <p><strong>Key Use:</strong> Code review, vulnerability identification, string analysis</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Apktool</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android</p>
+                        <p>Extracts and decompiles APK resources, manifest, and smali bytecode.</p>
+                        <p><strong>Key Use:</strong> Resource analysis, manifest review, repackaging</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>MobSF</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android, iOS, Windows</p>
+                        <p>All-in-one static analysis, dynamic analysis, and malware analysis framework.</p>
+                        <p><strong>Key Use:</strong> Automated scanning, quick assessment, learning</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Androguard</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android</p>
+                        <p>Python library for reverse engineering with analysis and visualization capabilities.</p>
+                        <p><strong>Key Use:</strong> Custom scripting, automation, research</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Ghidra</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android (DEX), iOS (ARM), all architectures</p>
+                        <p>NSA's reverse engineering framework with powerful disassembly and decompilation.</p>
+                        <p><strong>Key Use:</strong> Binary analysis, decompilation, native code review</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Radare2</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android, iOS, all architectures</p>
+                        <p>Advanced command-line binary analysis framework.</p>
+                        <p><strong>Key Use:</strong> Interactive binary debugging, advanced analysis</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Checkmarx / SonarQube</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Platform:</strong> Android, iOS (source code)</p>
+                        <p>Enterprise SAST for detecting vulnerabilities in source code at scale.</p>
+                        <p><strong>Key Use:</strong> CI/CD integration, enterprise scanning</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Snyk</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Platform:</strong> All (dependency scanning)</p>
+                        <p>SCA tool for identifying vulnerable dependencies and license issues.</p>
+                        <p><strong>Key Use:</strong> Supply chain security, dependency management</p>
+                    </div>
+                </div>
+
+                <h3>Dynamic Analysis & Instrumentation Tools</h3>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Frida</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android, iOS, Windows, macOS, Linux</p>
+                        <p>Dynamic instrumentation toolkit for injecting scripts into running processes.</p>
+                        <p><strong>Key Use:</strong> Runtime hooking, behavior modification, dynamic analysis</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Objection</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android, iOS</p>
+                        <p>Runtime exploration toolkit powered by Frida with interactive REPL.</p>
+                        <p><strong>Key Use:</strong> Security assessment without rooting/jailbreaking</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Drozer</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android</p>
+                        <p>Security testing framework for Android component interaction and exploitation.</p>
+                        <p><strong>Key Use:</strong> Content provider testing, intent fuzzing, privilege escalation</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Needle</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> iOS</p>
+                        <p>Modular framework for iOS security assessment.</p>
+                        <p><strong>Key Use:</strong> iOS runtime testing, Keychain analysis, plist inspection</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>lldb / Xcode Debugger</h4>
+                        <span class="badge free">Free</span>
+                        <p><strong>Platform:</strong> iOS, macOS</p>
+                        <p>Native debugger integrated with Xcode for low-level iOS app debugging.</p>
+                        <p><strong>Key Use:</strong> Breakpoint debugging, memory inspection, stack analysis</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Android Studio Debugger</h4>
+                        <span class="badge free">Free</span>
+                        <p><strong>Platform:</strong> Android</p>
+                        <p>Built-in debugger for step-by-step Android app analysis.</p>
+                        <p><strong>Key Use:</strong> Breakpoints, variable inspection, execution flow analysis</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Cycript</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> iOS</p>
+                        <p>JavaScript/Objective-C hybrid console for iOS runtime manipulation.</p>
+                        <p><strong>Key Use:</strong> Objective-C method manipulation, memory exploration</p>
+                    </div>
+                </div>
+
+                <h3>Network Interception & API Testing</h3>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Burp Suite</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Versions:</strong> Community (free), Professional ($449/year)</p>
+                        <p>Industry-standard web & mobile app security testing platform.</p>
+                        <p><strong>Key Features:</strong> Proxy, scanner, repeater, intruder, collaborator</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>OWASP ZAP</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Cost:</strong> Free</p>
+                        <p>Web app security scanner with HTTPS interception and active scanning.</p>
+                        <p><strong>Key Features:</strong> Proxy, spider, scanner, fuzzer, add-ons</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>mitmproxy</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Cost:</strong> Free</p>
+                        <p>Interactive HTTPS proxy with powerful scripting and filtering.</p>
+                        <p><strong>Key Use:</strong> Request/response manipulation, automation, advanced analysis</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Charles Proxy</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Cost:</strong> $50 one-time license</p>
+                        <p>Web debugging proxy with intuitive GUI and powerful features.</p>
+                        <p><strong>Key Use:</strong> Traffic inspection, throttling, mapping, modification</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Fiddler</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Cost:</strong> Free, Premium available</p>
+                        <p>Web debugging proxy from Telerik with extensive capabilities.</p>
+                        <p><strong>Key Use:</strong> HTTP/HTTPS interception, request/response editing</p>
+                    </div>
+                </div>
+
+                <h3>Reverse Engineering & Binary Analysis</h3>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>IDA Pro</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Cost:</strong> $$ (industry standard, expensive)</p>
+                        <p>Most powerful disassembler and debugger for binary analysis.</p>
+                        <p><strong>Key Use:</strong> Professional-grade ARM disassembly, decompilation</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Hopper Disassembler</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Cost:</strong> $$ (more affordable than IDA)</p>
+                        <p>Interactive disassembler with native decompilation for ARM binaries.</p>
+                        <p><strong>Key Use:</strong> iOS binary analysis, decompilation, control flow</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Binary Ninja</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Cost:</strong> $$ (flexible licensing)</p>
+                        <p>Modern interactive disassembler with powerful analysis and scripting.</p>
+                        <p><strong>Key Use:</strong> Binary analysis, automation, reverse engineering</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Ghidra & Radare2</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Cost:</strong> Free</p>
+                        <p>Powerful open-source alternatives to commercial tools.</p>
+                        <p><strong>Key Use:</strong> Binary disassembly, decompilation, scripting</p>
+                    </div>
+                </div>
+
+                <h3>Specialized & Platform-Specific Tools</h3>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>Clutch</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> iOS</p>
+                        <p>Decrypt App Store IPAs for analysis on jailbroken devices.</p>
+                        <p><strong>Key Use:</strong> App Store app analysis, binary extraction</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>androgrind</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android</p>
+                        <p>Python library for analyzing Android apps and DEX files.</p>
+                        <p><strong>Key Use:</strong> Scripted analysis, API understanding, automation</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>SSL Kill Switch 2</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> iOS</p>
+                        <p>Disable SSL pinning on jailbroken iOS devices for MITM testing.</p>
+                        <p><strong>Key Use:</strong> Certificate pinning bypass, proxy testing</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Magisk</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android</p>
+                        <p>Systemless root manager that allows hiding root detection.</p>
+                        <p><strong>Key Use:</strong> Root management, detection bypass, modular features</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Checkra1n / Palera1n</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> iOS</p>
+                        <p>Jailbreaking tools for iOS devices to enable deep testing.</p>
+                        <p><strong>Key Use:</strong> iOS jailbreaking, root access, testing enablement</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Appium</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> Android, iOS</p>
+                        <p>Mobile app automation framework for functional and security testing.</p>
+                        <p><strong>Key Use:</strong> Automated testing, regression testing, workflows</p>
+                    </div>
+                </div>
+
+                <h3>CI/CD & Automation Integration</h3>
+
+                <div class="tool-grid">
+                    <div class="tool-card">
+                        <h4>GitLab CI / GitHub Actions</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> All</p>
+                        <p>Native CI/CD platforms with extensive plugin ecosystems.</p>
+                        <p><strong>Key Use:</strong> Pipeline automation, security gates, automated testing</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Jenkins</h4>
+                        <span class="badge open-source">Open Source</span>
+                        <p><strong>Platform:</strong> All</p>
+                        <p>Extensible automation server for CI/CD pipelines.</p>
+                        <p><strong>Key Use:</strong> Custom pipeline automation, integration hub</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>SonarQube</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Cost:</strong> Free community, paid enterprise</p>
+                        <p>Code quality and security analysis platform with CI/CD integration.</p>
+                        <p><strong>Key Use:</strong> Continuous code scanning, quality gates</p>
+                    </div>
+
+                    <div class="tool-card">
+                        <h4>Appknox</h4>
+                        <span class="badge commercial">Commercial</span>
+                        <p><strong>Platform:</strong> Android, iOS</p>
+                        <p>Enterprise mobile app security testing with CI/CD integration.</p>
+                        <p><strong>Key Use:</strong> Automated security testing, compliance reporting</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SECTION: VULNERABILITIES -->
+            <section id="vulnerabilities">
+                <h2>Mobile Security Vulnerabilities & Weakness Patterns</h2>
+
+                <h3>OWASP Mobile Top 10 2024 & Detailed Mappings</h3>
+
+                <h4>1. Improper Credential Usage</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Hardcoded Credentials:</strong> API keys, tokens, or secrets embedded in code</li>
+                        <li><strong>Weak Credential Storage:</strong> Plaintext passwords in SharedPreferences or UserDefaults</li>
+                        <li><strong>Credential Leakage:</strong> Credentials in logs, error messages, or backups</li>
+                        <li><strong>Testing:</strong> Static analysis for hardcoded values; check logs/backups for leakage</li>
+                        <li><strong>MASVS Control:</strong> MASVS-STORAGE-2 (Cryptographic Practices)</li>
+                    </ul>
+                </div>
+
+                <h4>2. Inadequate Supply Chain Security</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Vulnerable Dependencies:</strong> Outdated libraries with known CVEs</li>
+                        <li><strong>Malicious Libraries:</strong> Compromised third-party SDKs or packages</li>
+                        <li><strong>Transitive Dependencies:</strong> Vulnerabilities in indirect dependencies</li>
+                        <li><strong>Testing:</strong> SCA tools (Snyk, Dependabot); manual dependency audit</li>
+                        <li><strong>MASVS Control:</strong> MASVS-CODE-1 (Weakly Controlled Third-Party Libraries)</li>
+                    </ul>
+                </div>
+
+                <h4>3. Inadequate Authentication/Authorization</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Weak Authentication:</strong> Insufficient protection for login credentials</li>
+                        <li><strong>Broken Authorization:</strong> Users access data/functions outside their scope</li>
+                        <li><strong>Session Management Flaws:</strong> Token reuse, no expiration, session fixation</li>
+                        <li><strong>Privilege Escalation:</strong> Regular users gain admin access</li>
+                        <li><strong>Testing:</strong> API testing for IDOR, authorization checks, session tampering</li>
+                        <li><strong>MASVS Control:</strong> MASVS-AUTH (Authentication & Session Management)</li>
+                    </ul>
+                </div>
+
+                <h4>4. Insecure Communication</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Unencrypted Data Transmission:</strong> HTTP instead of HTTPS</li>
+                        <li><strong>Weak TLS Configuration:</strong> Outdated cipher suites, no certificate validation</li>
+                        <li><strong>Certificate Pinning Bypass:</strong> App allows MITM by not pinning certificates</li>
+                        <li><strong>Man-in-the-Middle (MITM) Risk:</strong> Interception of sensitive data in transit</li>
+                        <li><strong>Testing:</strong> Proxy interception, TLS analysis, certificate validation bypass</li>
+                        <li><strong>MASVS Control:</strong> MASVS-NETWORK (Network Communication Security)</li>
+                    </ul>
+                </div>
+
+                <h4>5. Inadequate Cryptography</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Weak Algorithms:</strong> DES, RC4, MD5, SHA1, or custom encryption</li>
+                        <li><strong>Insufficient Key Length:</strong> Keys too short for algorithm requirements</li>
+                        <li><strong>Hardcoded Keys:</strong> Encryption keys embedded in code</li>
+                        <li><strong>Weak Key Derivation:</strong> Insufficient PBKDF2 iterations, no salt</li>
+                        <li><strong>Insecure Random:</strong> java.util.Random instead of SecureRandom</li>
+                        <li><strong>Testing:</strong> Static analysis for algorithm review; cryptographic testing</li>
+                        <li><strong>MASVS Control:</strong> MASVS-CRYPTO (Cryptographic Practices)</li>
+                    </ul>
+                </div>
+
+                <h4>6. Insecure Data Storage</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Plaintext Storage:</strong> Sensitive data stored unencrypted</li>
+                        <li><strong>SharedPreferences/UserDefaults:</strong> No encryption for sensitive keys</li>
+                        <li><strong>Database Files:</strong> SQLite databases without encryption</li>
+                        <li><strong>Cache & Temp Files:</strong> Sensitive data left in app cache or temp storage</li>
+                        <li><strong>Backups:</strong> Sensitive data backed up to cloud or accessible backups</li>
+                        <li><strong>Testing:</strong> File system analysis; encrypted storage verification</li>
+                        <li><strong>MASVS Control:</strong> MASVS-STORAGE (Secure Data Storage)</li>
+                    </ul>
+                </div>
+
+                <h4>7. Insufficient Logging & Monitoring</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Lack of Audit Logs:</strong> No logging of security-relevant events</li>
+                        <li><strong>Sensitive Data in Logs:</strong> Credentials or PII exposed in application logs</li>
+                        <li><strong>No Alerting:</strong> Suspicious activities not monitored or alerted</li>
+                        <li><strong>Testing:</strong> Logcat review for sensitive data; security event verification</li>
+                        <li><strong>MASVS Control:</strong> MASVS-PRIVACY & MASVS-CODE</li>
+                    </ul>
+                </div>
+
+                <h4>8. Insecure Code Quality</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Memory Issues:</strong> Buffer overflows, use-after-free (native code)</li>
+                        <li><strong>Deserialization Flaws:</strong> Insecure deserialization leading to RCE</li>
+                        <li><strong>SQL Injection:</strong> Unsanitized SQL queries</li>
+                        <li><strong>Command Injection:</strong> OS command execution via unsanitized input</li>
+                        <li><strong>Path Traversal:</strong> Access files outside intended directory</li>
+                        <li><strong>Testing:</strong> SAST tools, input fuzzing, code review</li>
+                        <li><strong>MASVS Control:</strong> MASVS-CODE (Code Quality)</li>
+                    </ul>
+                </div>
+
+                <h4>9. Weak Reverse Engineering Protections</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>No Obfuscation:</strong> Code easily readable after decompilation</li>
+                        <li><strong>Missing Root/Jailbreak Detection:</strong> App doesn't detect compromised devices</li>
+                        <li><strong>Debuggable Apps:</strong> Debugflag set in manifest (Android)</li>
+                        <li><strong>No Integrity Checks:</strong> App code not verified at runtime</li>
+                        <li><strong>Testing:</strong> APK/IPA analysis; dynamic tampering attempts; root/jailbreak detection</li>
+                        <li><strong>MASVS Control:</strong> MASVS-RESILIENCE (Resilience to Reverse Engineering)</li>
+                    </ul>
+                </div>
+
+                <h4>10. Misuse of Platform Features</h4>
+                <div class="vulnerability-category">
+                    <ul>
+                        <li><strong>Insecure Custom URL Schemes:</strong> No validation of deep link parameters (iOS)</li>
+                        <li><strong>Exported Content Providers:</strong> Accessible to other apps without permission (Android)</li>
+                        <li><strong>WebView Vulnerabilities:</strong> Insecure JavaScript bridge, no input validation</li>
+                        <li><strong>Biometric Bypass:</strong> Weak fallback authentication after biometric failure</li>
+                        <li><strong>Keychain/Keystore Misuse:</strong> Sensitive data not properly secured</li>
+                        <li><strong>Testing:</strong> Component interaction testing, WebView analysis, platform-specific checks</li>
+                        <li><strong>MASVS Control:</strong> MASVS-PLATFORM (Platform-Specific Security Controls)</li>
+                    </ul>
+                </div>
+
+                <h3>Common Vulnerability Testing Checklist</h3>
+
+                <div class="checklist">
+                    <h4>Data Security</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln1">
+                        <label for="vuln1">Sensitive data stored unencrypted</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln2">
+                        <label for="vuln2">SharedPreferences/UserDefaults used for secrets</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln3">
+                        <label for="vuln3">Database files not encrypted</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln4">
+                        <label for="vuln4">Credentials in app cache or temp files</label>
+                    </div>
+
+                    <h4>Authentication & Authorization</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln5">
+                        <label for="vuln5">Hardcoded API keys or tokens</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln6">
+                        <label for="vuln6">Weak session token generation</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln7">
+                        <label for="vuln7">Token not invalidated on logout</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln8">
+                        <label for="vuln8">IDOR (Insecure Direct Object Reference) vulnerabilities</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln9">
+                        <label for="vuln9">Privilege escalation possible</label>
+                    </div>
+
+                    <h4>Network Communication</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln10">
+                        <label for="vuln10">HTTP used instead of HTTPS</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln11">
+                        <label for="vuln11">Weak TLS configuration</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln12">
+                        <label for="vuln12">Certificate pinning not implemented</label>
+                    </div>
+
+                    <h4>Code Quality & Logic</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln13">
+                        <label for="vuln13">SQL injection vulnerabilities</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln14">
+                        <label for="vuln14">Command injection possible</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln15">
+                        <label for="vuln15">Path traversal vulnerabilities</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln16">
+                        <label for="vuln16">Insecure deserialization</label>
+                    </div>
+
+                    <h4>Platform Misuse</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln17">
+                        <label for="vuln17">Exported components without permission protection</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln18">
+                        <label for="vuln18">WebView with JavaScript bridge vulnerabilities</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln19">
+                        <label for="vuln19">Biometric security bypassed</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln20">
+                        <label for="vuln20">Keychain/Keystore misused</label>
+                    </div>
+
+                    <h4>Reverse Engineering</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln21">
+                        <label for="vuln21">App code easily decompiled/disassembled</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln22">
+                        <label for="vuln22">No root/jailbreak detection</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln23">
+                        <label for="vuln23">Debuggable flag set</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln24">
+                        <label for="vuln24">App integrity not verified</label>
+                    </div>
+
+                    <h4>Supply Chain & Dependencies</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln25">
+                        <label for="vuln25">Vulnerable third-party libraries</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="vuln26">
+                        <label for="vuln26">Outdated dependencies not patched</label>
+                    </div>
+                </div>
+
+            </section>
+
+            <!-- SECTION: DEVSECOPS -->
+            <section id="devsecops">
+                <h2>Mobile DevSecOps & CI/CD Integration</h2>
+
+                <h3>Mobile-First DevSecOps Workflow</h3>
+
+                <p>Integrating security into the mobile app development lifecycle requires automation at multiple stages:</p>
+
+                <div class="methodology-flow" style="margin: 30px 0;">
+                    <div class="methodology-step">Code Commit</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step">SAST/SCA</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step">Build</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step">DAST</div>
+                    <div class="arrow">→</div>
+                    <div class="methodology-step">Deploy</div>
+                </div>
+
+                <h3>SAST (Static Application Security Testing) for Mobile</h3>
+
+                <div class="workflow-box">
+                    <h4>SAST in Mobile CI/CD Pipeline</h4>
+                    <ul>
+                        <li><strong>When:</strong> On every commit/pull request</li>
+                        <li><strong>What to Scan:</strong>
+                            <ul>
+                                <li>Java/Kotlin source (Android)</li>
+                                <li>Swift/Objective-C source (iOS)</li>
+                                <li>JavaScript/Dart (Hybrid apps)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tools:</strong>
+                            <ul>
+                                <li><code>SonarQube</code> (comprehensive code quality + security)</li>
+                                <li><code>Checkmarx</code> (enterprise SAST)</li>
+                                <li><code>Snyk</code> (developer-friendly)</li>
+                                <li><code>Semgrep</code> (fast, customizable rules)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Gate Criteria:</strong>
+                            <ul>
+                                <li>Block on Critical/High vulnerabilities</li>
+                                <li>Warn on Medium severity</li>
+                                <li>Allow Low findings with documentation</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <h4>Example: GitHub Actions SAST Pipeline</h4>
+                <pre>
+name: SAST Security Scan
+
+on: [push, pull_request]
+
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Run SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@master
+        env:
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: p/security-audit
+
+      - name: Check Quality Gate
+        if: failure()
+        run: exit 1
+                </pre>
+
+                <h3>SCA (Software Composition Analysis)</h3>
+
+                <div class="workflow-box">
+                    <h4>Dependency Scanning in Mobile Apps</h4>
+                    <ul>
+                        <li><strong>Continuously Monitor:</strong> All direct and transitive dependencies</li>
+                        <li><strong>Tools:</strong>
+                            <ul>
+                                <li><code>Snyk</code> (most comprehensive for mobile)</li>
+                                <li><code>Dependabot</code> (GitHub native, free)</li>
+                                <li><code>WhiteSource/Mend</code> (enterprise SCA)</li>
+                                <li><code>OWASP Dependency-Check</code> (open-source)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Scanning Scope:</strong>
+                            <ul>
+                                <li>Gradle/Maven dependencies (Android)</li>
+                                <li>CocoaPods/SPM (iOS)</li>
+                                <li>npm/yarn packages (Hybrid)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Action on Finding:</strong>
+                            <ul>
+                                <li>Update vulnerable packages automatically (or PR)</li>
+                                <li>Block deployment if critical CVE found</li>
+                                <li>License compliance checks</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <h3>DAST (Dynamic Application Security Testing)</h3>
+
+                <div class="workflow-box">
+                    <h4>Dynamic Testing in CI/CD</h4>
+                    <ul>
+                        <li><strong>When:</strong> After build, on staging environment</li>
+                        <li><strong>What to Test:</strong>
+                            <ul>
+                                <li>App deployed on emulator/real device</li>
+                                <li>API endpoints interception & testing</li>
+                                <li>Authentication/authorization validation</li>
+                                <li>Runtime behavior analysis</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tools:</strong>
+                            <ul>
+                                <li><code>Appknox</code> (mobile-first automated DAST)</li>
+                                <li><code>MobSF</code> (open-source dynamic analysis)</li>
+                                <li><code>Burp Suite</code> with automation (Repeater, Intruder)</li>
+                                <li><code>Frida</code> with custom scripts</li>
+                            </ul>
+                        </li>
+                        <li><strong>Typical Duration:</strong> 30-90 minutes per full scan</li>
+                    </ul>
+                </div>
+
+                <h4>Example: Automated DAST with MobSF</h4>
+                <pre>
+# Pipeline stage: Dynamic Analysis
+name: Dynamic Security Testing
+
+jobs:
+  dast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Start MobSF Server
+        run: docker run -d -p 8000:8000 mobsf/mobsf:latest
+      
+      - name: Build APK
+        run: ./gradlew assembleRelease
+      
+      - name: Upload to MobSF
+        run: |
+          curl -F "file=@app/build/outputs/apk/release/app.apk" \
+            http://localhost:8000/api/v1/upload \
+            -H "Authorization: Token $MOBSF_API_KEY"
+      
+      - name: Generate Report
+        run: |
+          curl http://localhost:8000/api/v1/report \
+            -H "Authorization: Token $MOBSF_API_KEY" > report.json
+      
+      - name: Parse & Gate
+        run: |
+          # Parse report, fail if critical findings
+          python3 check_security_gates.py report.json
+                </pre>
+
+                <h3>Mobile-Specific Security Checks</h3>
+
+                <div class="tool-grid">
+                    <div class="workflow-box">
+                        <h4>Android-Specific Gates</h4>
+                        <ul>
+                            <li>AndroidManifest.xml analysis:
+                                <ul>
+                                    <li>No exported components</li>
+                                    <li>Correct permissions requested</li>
+                                </ul>
+                            </li>
+                            <li>Proguard/R8 obfuscation enabled</li>
+                            <li>debuggable=false in manifest</li>
+                            <li>Certificate signature verification</li>
+                            <li>No hardcoded secrets in resources</li>
+                        </ul>
+                    </div>
+
+                    <div class="workflow-box">
+                        <h4>iOS-Specific Gates</h4>
+                        <ul>
+                            <li>Code signing certificate validity</li>
+                            <li>No debuggable entitlements</li>
+                            <li>ATS (App Transport Security) enforced</li>
+                            <li>Bitcode enabled (if required)</li>
+                            <li>No hardcoded secrets in code/plist</li>
+                            <li>Proper provisioning profile</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Continuous Security Testing & Monitoring</h3>
+
+                <h4>Post-Deployment Monitoring</h4>
+                <ul>
+                    <li><strong>Runtime Integrity Checks:</strong> App Store monitoring for tampered versions</li>
+                    <li><strong>Crash Analytics:</strong> Monitor for unusual exceptions indicating exploits</li>
+                    <li><strong>User Feedback:</strong> Security-related bug reports & user reports</li>
+                    <li><strong>Threat Intelligence:</strong> Monitor for CVEs affecting app dependencies</li>
+                    <li><strong>Regular Retesting:</strong> Schedule periodic penetration tests (quarterly/semi-annually)</li>
+                </ul>
+
+                <h3>Complete CI/CD Pipeline Example (GitHub Actions)</h3>
+
+                <pre>
+name: Mobile AppSecOps Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * 0'  # Weekly scan
+
+jobs:
+  sast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: SAST Scan
+        run: |
+          # SonarQube scan
+          sonar-scanner \
+            -Dsonar.projectKey=mobile-app \
+            -Dsonar.sources=. \
+            -Dsonar.host.url=$SONAR_HOST_URL \
+            -Dsonar.login=$SONAR_TOKEN
+      - name: Fail on High Severity
+        run: |
+          # Check quality gate result
+          curl -u $SONAR_LOGIN: \
+            $SONAR_HOST_URL/api/qualitygates/project_status?projectKey=mobile-app \
+            | jq -e '.projectStatus.status == "OK"'
+
+  sca:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Snyk Scan
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        run: |
+          npm install -g snyk
+          snyk test --json > snyk-report.json || true
+          snyk-severity-check snyk-report.json || exit 1
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [sast, sca]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Build Android
+        run: ./gradlew assembleRelease
+      - name: Verify Signing
+        run: |
+          jarsigner -verify -verbose build/outputs/apk/release/*.apk
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: build/outputs/apk/release/*.apk
+
+  dast:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/download-artifact@v3
+        with:
+          name: release-apk
+      - name: Start Emulator
+        run: |
+          # Start Android emulator
+          emulator -avd test-device -no-window &
+      - name: Run MobSF DAST
+        run: |
+          docker run -p 8000:8000 mobsf/mobsf &
+          sleep 30
+          python3 run_dast_tests.py
+      - name: Upload DAST Report
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: dast-report
+          path: dast-results/
+
+  security-gate:
+    runs-on: ubuntu-latest
+    needs: [sast, sca, dast]
+    if: always()
+    steps:
+      - name: Aggregate Results
+        run: |
+          # Combine SAST, SCA, DAST findings
+          python3 aggregate_findings.py
+      - name: Generate Report
+        run: |
+          python3 generate_security_report.py
+      - name: Notify Slack
+        if: failure()
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "Security findings detected in #${{ github.run_number }}"
+            }
+                </pre>
+
+                <h3>Security Metrics & KPIs</h3>
+
+                <table>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Description</th>
+                        <th>Target</th>
+                    </tr>
+                    <tr>
+                        <td><strong>SAST Coverage</strong></td>
+                        <td>% of code analyzed by SAST</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>SCA Coverage</strong></td>
+                        <td>% of dependencies monitored</td>
+                        <td>100%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mean Time to Detect (MTTD)</strong></td>
+                        <td>Time from vulnerability introduction to discovery</td>
+                        <td>&lt; 1 day</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mean Time to Remediate (MTTR)</strong></td>
+                        <td>Time from discovery to fix deployed</td>
+                        <td>&lt; 7 days (Critical)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vulnerability Escape Rate</strong></td>
+                        <td>% of vulnerabilities found in production (vs. pre-release)</td>
+                        <td>&lt; 5%</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Test Execution Time</strong></td>
+                        <td>Total pipeline duration</td>
+                        <td>&lt; 30 minutes</td>
+                    </tr>
+                </table>
+
+            </section>
+
+            <!-- SECTION: REPORTING -->
+            <section id="reporting">
+                <h2>Reporting, Remediation & Retesting</h2>
+
+                <h3>Report Structure & Contents</h3>
+
+                <div class="workflow-box">
+                    <h4>Executive Summary (Non-Technical)</h4>
+                    <ul>
+                        <li>Overall risk rating (Critical, High, Medium, Low)</li>
+                        <li>Key findings summary (top 5-10)</li>
+                        <li>Business impact & remediation timeline</li>
+                        <li>Compliance status (vs. MASVS, HIPAA, PCI-DSS, etc.)</li>
+                    </ul>
+                </div>
+
+                <div class="workflow-box">
+                    <h4>Technical Findings Section</h4>
+                    <p><strong>For each vulnerability, document:</strong></p>
+                    <ul>
+                        <li>Title & CWE/CVSS reference</li>
+                        <li>Severity (CVSS v3.1 score)</li>
+                        <li>Description of vulnerability</li>
+                        <li>Affected component/file/method</li>
+                        <li>Step-by-step reproduction steps</li>
+                        <li>Proof-of-concept code or screenshot</li>
+                        <li>Impact assessment (confidentiality, integrity, availability)</li>
+                        <li>Risk rating (likelihood × impact)</li>
+                        <li>Remediation recommendation with code examples</li>
+                        <li>References to MASVS/MASTG controls</li>
+                    </ul>
+                </div>
+
+                <h3>Vulnerability Classification & Severity Scoring</h3>
+
+                <table>
+                    <tr>
+                        <th>Severity</th>
+                        <th>CVSS Score</th>
+                        <th>Characteristics</th>
+                        <th>Remediation Timeline</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Critical</strong></td>
+                        <td>9.0-10.0</td>
+                        <td>Immediate exploitation without authentication; direct data breach/RCE</td>
+                        <td>Immediate (1-2 days)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>High</strong></td>
+                        <td>7.0-8.9</td>
+                        <td>Requires authentication or additional steps; significant impact</td>
+                        <td>Urgent (1-2 weeks)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Medium</strong></td>
+                        <td>4.0-6.9</td>
+                        <td>Limited scope; requires specific conditions; moderate impact</td>
+                        <td>Standard (1-2 months)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Low</strong></td>
+                        <td>0.1-3.9</td>
+                        <td>Minor impact; difficult to exploit; limited practical risk</td>
+                        <td>Planned (next release)</td>
+                    </tr>
+                </table>
+
+                <h3>Remediation Guidance Examples</h3>
+
+                <div class="card">
+                    <h4>Example 1: Hardcoded API Key</h4>
+                    <p><strong>Vulnerability:</strong> API key hardcoded in BuildConfig.java</p>
+                    <p><strong>Remediation:</strong></p>
+                    <ul>
+                        <li>Move API key to secure backend configuration</li>
+                        <li>Implement key rotation mechanism</li>
+                        <li>Use environment-specific secrets (staging vs. production)</li>
+                        <li>Implement API rate limiting on backend</li>
+                        <li>Revoke compromised key immediately</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Example 2: Unencrypted Sensitive Data Storage</h4>
+                    <p><strong>Vulnerability:</strong> User tokens stored in SharedPreferences without encryption</p>
+                    <p><strong>Remediation:</strong></p>
+                    <ul>
+                        <li>Use EncryptedSharedPreferences (AndroidX Security library)</li>
+                        <li>Implement Android Keystore for key management</li>
+                        <li>Use AES-256-GCM encryption</li>
+                        <li>Test encryption on all supported API levels</li>
+                    </ul>
+                </div>
+
+                <div class="card">
+                    <h4>Example 3: Missing Authorization Check</h4>
+                    <p><strong>Vulnerability:</strong> API endpoint allows accessing other user's data (IDOR)</p>
+                    <p><strong>Remediation:</strong></p>
+                    <ul>
+                        <li>Server-side authorization check before returning data</li>
+                        <li>Verify request user_id matches requested user_id</li>
+                        <li>Implement role-based access control (RBAC)</li>
+                        <li>Log all data access attempts</li>
+                        <li>Implement rate limiting per user</li>
+                    </ul>
+                </div>
+
+                <h3>Retesting Procedure</h3>
+
+                <div class="checklist">
+                    <h4>Post-Remediation Verification</h4>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest1">
+                        <label for="retest1">Developer confirms fix implementation</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest2">
+                        <label for="retest2">Code review of remediation changes</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest3">
+                        <label for="retest3">Re-execute specific test case for fixed vulnerability</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest4">
+                        <label for="retest4">Verify fix doesn't introduce new vulnerabilities</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest5">
+                        <label for="retest5">Test fix on all supported API levels (Android)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest6">
+                        <label for="retest6">Test fix on all supported iOS versions</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest7">
+                        <label for="retest7">Performance impact testing (if applicable)</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest8">
+                        <label for="retest8">Document fix completion with evidence</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest9">
+                        <label for="retest9">Update threat model if necessary</label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="retest10">
+                        <label for="retest10">Schedule follow-up assessment (if major issues)</label>
+                    </div>
+                </div>
+
+                <h3>Final Report Deliverables</h3>
+
+                <ul>
+                    <li><strong>Executive Summary Report:</strong> PDF suitable for management</li>
+                    <li><strong>Detailed Technical Report:</strong> HTML/PDF with all findings</li>
+                    <li><strong>Proof-of-Concepts:</strong> Reproducible exploits & scripts</li>
+                    <li><strong>Remediation Guidance:</strong> Code examples and best practices</li>
+                    <li><strong>MASVS Mapping:</strong> How findings map to MASVS controls</li>
+                    <li><strong>Risk Dashboard:</strong> Vulnerability trends & metrics</li>
+                    <li><strong>Retesting Verification:</strong> Evidence of fix validation</li>
+                </ul>
+
+                <button class="print-button" onclick="window.print()">🖨️ Print / Export as PDF</button>
+
+            </section>
+
+        </div>
+
+        <footer>
+            <p><strong>Mobile Application Penetration Testing Guide</strong></p>
+            <p>Comprehensive guide based on OWASP MASVS v2.1, MASTG, and industry best practices</p>
+            <p>Updated: December 2025 | Scope: Android, iOS, Hybrid Applications</p>
+            <p style="margin-top: 20px; font-size: 0.9em;">
+                <strong>Disclaimer:</strong> This guide is for educational and authorized security testing purposes only. 
+                Always obtain written authorization before conducting any penetration testing activities.
+            </p>
+        </footer>
+
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('section');
+            sections.forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all nav buttons
+            const navButtons = document.querySelectorAll('.nav-button');
+            navButtons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected section
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.classList.add('active');
+            }
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Initialize first section as active
+        document.addEventListener('DOMContentLoaded', function() {
+            const firstButton = document.querySelector('.nav-button');
+            if (firstButton) {
+                firstButton.classList.add('active');
+            }
+        });
+    </script>
+</body>
+</html>
