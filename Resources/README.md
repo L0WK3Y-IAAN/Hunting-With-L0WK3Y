@@ -37,14 +37,16 @@ This resource hub is a living document, and will be constantly updated with reso
 
 
 ## 🔍 Latest Blog Posts
-<div align="left">
-  <a href="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/writeups.html">
-    <img src="https://img.shields.io/badge/Interactive%20Blog%20Table-00800c?style=for-the-badge&logo=github&logoColor=white" alt="Home">
-  </a>
-</div>
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| Injured Android | [FLAG FIVE – (EXPORTED BROADCAST)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20FIVE%20%E2%80%93%20%28EXPORTED%20BROADCAST%29/FLAG%20FIVE%20%E2%80%93%20%28EXPORTED%20BROADCAST%29.md) | Android | 12-22-2025 |
+| Injured Android | [FLAG FOUR – (LOGIN 2)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20FOUR%20%E2%80%93%20%28LOGIN%202%29/FLAG%20FOUR%20%E2%80%93%20%28LOGIN%202%29.md) | Android | 12-22-2025 |
+| Injured Android | [FLAG SEVEN – (SQLITE)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20SEVEN%20%E2%80%93%20%28SQLITE%29/FLAG%20SEVEN%20%E2%80%93%20%28SQLITE%29.md) | Android | 12-22-2025 |
+| Injured Android | [FLAG SIX – (LOGIN 3)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20SIX%20%E2%80%93%20%28LOGIN%203%29/FLAG%20SIX%20%E2%80%93%20%28LOGIN%203%29.md) | Android | 12-22-2025 |
+| Injured Android | [FLAG THREE – (RESOURCES)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29.md) | Android | 12-22-2025 |
+| Injured Android | [FLAG TWO – (EXPORTED ACTIVITY)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWO%20%E2%80%93%20%28EXPORTED%20ACTIVITY%29/FLAG%20TWO%20%E2%80%93%20%28EXPORTED%20ACTIVITY%29.md) | Android | 12-22-2025 |
+| Injured Android | [Getting Started + FLAG ONE (LOGIN)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/Getting%20Started%20%2B%20FLAG%20ONE%20%28LOGIN%29/Getting%20Started%20%2B%20FLAG%20ONE%20%28LOGIN%29.md) | Android | 12-22-2025 |
 | 8ksec | [FactsDroid](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8ksec/Android/FactsDroid/README.md) | Android | 11-23-2025 |
 | infophreak | [Infophreak Halloween CTF 2025 - Spirit Halloween!](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/infophreak/Reverse%20Engineering/Infophreak%20Halloween%20CTF%202025%20-%20Spirit%20Halloween%21/README.md) | Reverse Engineering | 11-01-2025 |
 | PentesterLab | [Android 01](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2001/Android%2001.md) | Android | 10-24-2025 |

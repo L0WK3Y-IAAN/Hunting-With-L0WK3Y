@@ -21,6 +21,55 @@
     "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/HackTheBox/Mobile/Manager/README.md"
   },
   {
+    "platform": "Injured Android",
+    "lab": "FLAG FIVE – (EXPORTED BROADCAST)",
+    "category": "Android",
+    "date": "12-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20FIVE%20%E2%80%93%20%28EXPORTED%20BROADCAST%29/FLAG%20FIVE%20%E2%80%93%20%28EXPORTED%20BROADCAST%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG FOUR – (LOGIN 2)",
+    "category": "Android",
+    "date": "12-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20FOUR%20%E2%80%93%20%28LOGIN%202%29/FLAG%20FOUR%20%E2%80%93%20%28LOGIN%202%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG SEVEN – (SQLITE)",
+    "category": "Android",
+    "date": "12-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20SEVEN%20%E2%80%93%20%28SQLITE%29/FLAG%20SEVEN%20%E2%80%93%20%28SQLITE%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG SIX – (LOGIN 3)",
+    "category": "Android",
+    "date": "12-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20SIX%20%E2%80%93%20%28LOGIN%203%29/FLAG%20SIX%20%E2%80%93%20%28LOGIN%203%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG THREE – (RESOURCES)",
+    "category": "Android",
+    "date": "12-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG TWO – (EXPORTED ACTIVITY)",
+    "category": "Android",
+    "date": "12-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWO%20%E2%80%93%20%28EXPORTED%20ACTIVITY%29/FLAG%20TWO%20%E2%80%93%20%28EXPORTED%20ACTIVITY%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "Getting Started + FLAG ONE (LOGIN)",
+    "category": "Android",
+    "date": "12-22-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/Getting%20Started%20%2B%20FLAG%20ONE%20%28LOGIN%29/Getting%20Started%20%2B%20FLAG%20ONE%20%28LOGIN%29.md"
+  },
+  {
     "platform": "PentesterLab",
     "lab": "Android 01",
     "category": "Android",
