@@ -93,4 +93,4 @@ python3 -m http.server 8000
 https://iaan.io/files/InjuredAndroid/RCEActivity/exploit.html
 ```
 
-![](https://i.imgur.com/Kdcl7XO.gif)
+![image.png](FLAG%20THIRTEEN%20%E2%80%93%20(RCE)/rce.gif)
