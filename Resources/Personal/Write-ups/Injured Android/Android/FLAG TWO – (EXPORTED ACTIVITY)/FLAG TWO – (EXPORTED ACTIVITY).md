@@ -1,8 +1,10 @@
 # FLAG TWO – (EXPORTED ACTIVITY)
 
-![image.png](FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/image.png)
+![image.png](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/raw/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/image.png)
 
-Looking at the code for `FlagTwoActivity` I come across two strings being referenced `"Key words Activity and exported."` and `"Exported Activities can be accessed with adb or Drozer."`. This is a clear indicator of what needs to be done next, I need to find the exported activity that is in reference to the FlagTwo activity.
+Looking at the code for `FlagTwoActivity` I come across two strings being referenced `"Key words Activity and exported."` and `"Exported Activities can be accessed with adb or Drozer."`.
+ This is a clear indicator of what needs to be done next, I need to find
+ the exported activity that is in reference to the FlagTwo activity.
 
 ```java
     public /* synthetic */ void F(View view) {
@@ -26,7 +28,7 @@ Looking at the code for `FlagTwoActivity` I come across two strings being refere
 
 My next course of action is to look for any references to “FlagTwo” anywhere in the code. Doing so reveals an activity called `“b25lActivity”`
 
-![ZAP 2025-10-03 16.48.29.png](FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/ZAP_2025-10-03_16.48.29.png)
+![ZAP 2025-10-03 16.48.29.png](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/raw/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/ZAP_2025-10-03_16.48.29.png)
 
 ```java
 package b3nac.injuredandroid;
@@ -46,7 +48,7 @@ public final class b25lActivity extends androidx.appcompat.app.c {
 }
 ```
 
-```java
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -68,8 +70,10 @@ public final class b25lActivity extends androidx.appcompat.app.c {
 </androidx.constraintlayout.widget.ConstraintLayout>
 ```
 
-```json
+You can use this command to start the `b25lActivity`
+
+```bash
 adb shell am start -n b3nac.injuredandroid/.b25lActivity
 ```
 
-![image.png](FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/image%201.png)
+![image.png](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/raw/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/image%201.png)
