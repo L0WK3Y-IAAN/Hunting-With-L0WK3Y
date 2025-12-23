@@ -341,7 +341,7 @@ def main():
         if has_git_changes():
             print("Committing changes...")
             subprocess.run(["git", "commit", "-m", "🟢 New Write-up Added!"], check=True)
-            subprocess.run(["git", "push", "origin", "main"], check=True)
+            subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
             print("✅ Changes pushed successfully!")
         else:
             print("ℹ️  No actual changes detected after staging (files unchanged).")
