@@ -22,6 +22,20 @@
   },
   {
     "platform": "Injured Android",
+    "lab": "FLAG EIGHT & NINE – (AWS + Firebase)",
+    "category": "Android",
+    "date": "12-23-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20EIGHT%20%26%20NINE%20%E2%80%93%20%28AWS%20%2B%20Firebase%29/FLAG%20EIGHT%20%26%20NINE%20%E2%80%93%20%28AWS%20%2B%20Firebase%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG ELEVEN – (DEEP LINKS)",
+    "category": "Android",
+    "date": "12-23-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20ELEVEN%20%E2%80%93%20%28DEEP%20LINKS%29/FLAG%20ELEVEN%20%E2%80%93%20%28DEEP%20LINKS%29.md"
+  },
+  {
+    "platform": "Injured Android",
     "lab": "FLAG FIVE – (EXPORTED BROADCAST)",
     "category": "Android",
     "date": "12-22-2025",
@@ -50,10 +64,31 @@
   },
   {
     "platform": "Injured Android",
+    "lab": "FLAG TEN – (UNICODE)",
+    "category": "Android",
+    "date": "12-23-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TEN%20%E2%80%93%20%28UNICODE%29/FLAG%20TEN%20%E2%80%93%20%28UNICODE%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG THIRTEEN – (RCE)",
+    "category": "Android",
+    "date": "12-23-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20THIRTEEN%20%E2%80%93%20%28RCE%29/FLAG%20THIRTEEN%20%E2%80%93%20%28RCE%29.md"
+  },
+  {
+    "platform": "Injured Android",
     "lab": "FLAG THREE – (RESOURCES)",
     "category": "Android",
     "date": "12-22-2025",
     "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29.md"
+  },
+  {
+    "platform": "Injured Android",
+    "lab": "FLAG TWELVE – (PROTECTED COMPONENTS)",
+    "category": "Android",
+    "date": "12-23-2025",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWELVE%20%E2%80%93%20%28PROTECTED%20COMPONENTS%29/FLAG%20TWELVE%20%E2%80%93%20%28PROTECTED%20COMPONENTS%29.md"
   },
   {
     "platform": "Injured Android",
