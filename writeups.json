@@ -1,19 +1,5 @@
 [
   {
-    "platform": "8kSec",
-    "lab": "Ultimate Essay Grader",
-    "category": "LLM Red Teaming",
-    "date": "01-06-2026",
-    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8kSec/AI/LLM%20Red%20Teaming/Ultimate%20Essay%20Grader/README.md"
-  },
-  {
-    "platform": "8kSec",
-    "lab": "FactsDroid",
-    "category": "Android",
-    "date": "11-23-2025",
-    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8kSec/Android/FactsDroid/README.md"
-  },
-  {
     "platform": "HackTheBox",
     "lab": "APKey",
     "category": "Mobile",
