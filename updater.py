@@ -14,6 +14,7 @@ README_PATHS = [
     "Resources/Personal/Write-ups/README.md"  # Write-ups README
 ]
 JSON_OUTPUT_PATH = "writeups.json"  # JSON file for the interactive table
+HTML_OUTPUT_PATH = "writeups.html"  # HTML file for the interactive table
 LATEST_SECTION_HEADER = "## 🔍 Latest Blog Posts"
 GITHUB_BASE_URL = "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main"
 
@@ -326,9 +327,12 @@ def main():
         if process_readme(readme_path, candidate_rows):
             files_changed.append(readme_path)
 
-    # Add JSON file to changed files if it was created/updated
-    if os.path.exists(JSON_OUTPUT_PATH):
-        files_changed.append(JSON_OUTPUT_PATH)
+    # Always add JSON file since we just generated it
+    files_changed.append(JSON_OUTPUT_PATH)
+    
+    # Also add HTML file to ensure it's tracked (even though it loads JSON dynamically)
+    if os.path.exists(HTML_OUTPUT_PATH):
+        files_changed.append(HTML_OUTPUT_PATH)
 
     # Stage files and check if there are actual changes
     if files_changed:
