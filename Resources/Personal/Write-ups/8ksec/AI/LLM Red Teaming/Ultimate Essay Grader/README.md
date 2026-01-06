@@ -116,3 +116,13 @@ As we continue to integrate AI into critical systems, understanding frameworks l
 3. [Pangea AI App PI Taxonomy](https://pangea.cloud/securebydesign/aiapp-pi-taxonomy/)
 4. [Introducing Pangea Prompt Guard and AI Guard](https://pangea.cloud/blog/introducing-pangea-prompt-guard-and-ai-guard-to-secure-ai-applications/)
 5. [Pangea Study on GenAI Vulnerabilities](https://pangea.cloud/blog/pangea-unveils-study-on-genai-vulnerabilities-insights/)
+
+## Learn with 8kSec!
+
+Want to practice exploiting AI systems yourself? **Practical AI Security: Attacks, Defenses, and Applications** takes you from the foundations of machine learning to advanced security practices involving Generative AI and Large Language Models. Through hands-on labs, you'll train models, build LLM-powered applications, and execute real-world red team attack scenarios, including the same prompt injection techniques demonstrated in this write-up.
+
+You'll master both the offensive and defensive sides of AI security, from exploiting Prompt Injection vulnerabilities and creating Automated Pentesting Agents to implementing MCP Server attacks, conducting AI threat modeling, deploying AI Gateways for protection, and designing robust guardrails. Work with industry-standard tools including Hugging Face, LangChain, OpenAI APIs, Anthropic's Claude and MCP, and learn enterprise frameworks such as Google's SAIF (Secure AI Framework). By the end, you'll walk away with practical exploit code, reusable defensive tools, comprehensive security checklists, and the expertise to both attack and defend AI systems in production environments.
+
+[AI Exploitation Challenges on 8ksec Academy](https://academy.8ksec.io/course/ai-exploitation-challenges)
+
+![img5](https://i.imgur.com/YAf0mDu.png)
