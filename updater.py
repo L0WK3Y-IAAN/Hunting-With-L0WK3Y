@@ -58,7 +58,8 @@ def parse_platform_category_lab(rel_path: str):
       - Resources/.../Write-ups/Platform/Category/Lab/README.md
       - Resources/.../Write-ups/Platform/Category/Lab/anything.md
       - Resources/.../Write-ups/Platform/<group>/Category/Lab/README.md
-    Uses the directory before the .md file as Lab, supporting deeper trees.
+      - Resources/.../Write-ups/Platform/Category/file.md (lab from filename)
+    Uses the directory before the .md file as Lab, or filename if directly in category folder.
     """
     parts = rel_path.split("/")
     try:
@@ -66,9 +67,23 @@ def parse_platform_category_lab(rel_path: str):
     except ValueError:
         return None
     rest = parts[base_idx + 1 :]  # after "Write-ups"
-    # Need at least Platform, ..., Category, Lab, file.md
-    if len(rest) < 4 or not rest[-1].lower().endswith(".md"):
+    
+    if not rest[-1].lower().endswith(".md"):
         return None
+    
+    # Handle case: Platform/Category/file.md (3 parts - lab from filename)
+    if len(rest) == 3:
+        platform = rest[0]
+        category = rest[1]
+        # Lab name from filename (remove .md extension)
+        filename = rest[-1]
+        lab = filename[:-3] if filename.lower().endswith(".md") else filename
+        return platform, category, lab
+    
+    # Handle case: Platform/.../Category/Lab/file.md (4+ parts)
+    if len(rest) < 4:
+        return None
+    
     platform = rest[0]
     lab = rest[-2]                 # folder that contains the .md file
     category = rest[-3]            # folder before Lab, supports deeper trees

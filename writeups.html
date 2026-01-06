@@ -342,7 +342,9 @@
         // Fetch writeups from JSON file
         async function loadWriteups() {
             try {
-                const response = await fetch('writeups.json');
+                // Add cache-busting parameter to ensure fresh data
+                const cacheBuster = new Date().getTime();
+                const response = await fetch(`writeups.json?t=${cacheBuster}`);
                 if (!response.ok) {
                     throw new Error('Failed to load writeups.json');
                 }
