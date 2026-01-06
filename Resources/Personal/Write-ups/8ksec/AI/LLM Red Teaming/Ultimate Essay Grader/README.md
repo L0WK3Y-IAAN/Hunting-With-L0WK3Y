@@ -123,4 +123,4 @@ Want to practice exploiting AI systems yourself? **Practical AI Security: Attack
 
 [AI Exploitation Challenges on 8ksec Academy](https://academy.8ksec.io/course/ai-exploitation-challenges)
 
-![img5](https://i.imgur.com/YAf0mDu.png)
+![img5](https://i.imgur.com/PLGDcon.png)
