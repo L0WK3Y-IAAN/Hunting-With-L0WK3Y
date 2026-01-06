@@ -40,6 +40,7 @@ This resource hub is a living document, and will be constantly updated with reso
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| 8ksec | [Ultimate Essay Grader](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8ksec/AI/LLM%20Red%20Teaming/Ultimate%20Essay%20Grader/README.md) | LLM Red Teaming | 01-06-2026 |
 | tlamb96 | [KGB Messenger](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/tlamb96/Android/KGB%20Messenger.md) | Android | 01-06-2026 |
 | Injured Android | [FLAG EIGHT & NINE – (AWS + Firebase)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20EIGHT%20%26%20NINE%20%E2%80%93%20%28AWS%20%2B%20Firebase%29/FLAG%20EIGHT%20%26%20NINE%20%E2%80%93%20%28AWS%20%2B%20Firebase%29.md) | Android | 12-23-2025 |
 | Injured Android | [FLAG ELEVEN – (DEEP LINKS)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20ELEVEN%20%E2%80%93%20%28DEEP%20LINKS%29/FLAG%20ELEVEN%20%E2%80%93%20%28DEEP%20LINKS%29.md) | Android | 12-23-2025 |
