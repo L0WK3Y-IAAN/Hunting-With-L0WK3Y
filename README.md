@@ -85,7 +85,7 @@ This repository is more than just a collection of tools and techniques; it’s a
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
-| 8ksec | [Ultimate Essay Grader](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8ksec/AI/LLM%20Red%20Teaming/Ultimate%20Essay%20Grader/README.md) | LLM Red Teaming | 01-06-2026 |
+| 8kSec | [Ultimate Essay Grader](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8kSec/AI/LLM%20Red%20Teaming/Ultimate%20Essay%20Grader/README.md) | LLM Red Teaming | 01-06-2026 |
 | tlamb96 | [KGB Messenger](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/tlamb96/Android/KGB%20Messenger.md) | Android | 01-06-2026 |
 | Injured Android | [FLAG EIGHT & NINE – (AWS + Firebase)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20EIGHT%20%26%20NINE%20%E2%80%93%20%28AWS%20%2B%20Firebase%29/FLAG%20EIGHT%20%26%20NINE%20%E2%80%93%20%28AWS%20%2B%20Firebase%29.md) | Android | 12-23-2025 |
 | Injured Android | [FLAG ELEVEN – (DEEP LINKS)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20ELEVEN%20%E2%80%93%20%28DEEP%20LINKS%29/FLAG%20ELEVEN%20%E2%80%93%20%28DEEP%20LINKS%29.md) | Android | 12-23-2025 |
@@ -99,7 +99,7 @@ This repository is more than just a collection of tools and techniques; it’s a
 | Injured Android | [FLAG THREE – (RESOURCES)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29/FLAG%20THREE%20%E2%80%93%20%28RESOURCES%29.md) | Android | 12-22-2025 |
 | Injured Android | [FLAG TWO – (EXPORTED ACTIVITY)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWO%20%E2%80%93%20%28EXPORTED%20ACTIVITY%29/FLAG%20TWO%20%E2%80%93%20%28EXPORTED%20ACTIVITY%29.md) | Android | 12-22-2025 |
 | Injured Android | [Getting Started + FLAG ONE (LOGIN)](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Injured%20Android/Android/Getting%20Started%20%2B%20FLAG%20ONE%20%28LOGIN%29/Getting%20Started%20%2B%20FLAG%20ONE%20%28LOGIN%29.md) | Android | 12-22-2025 |
-| 8ksec | [FactsDroid](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8ksec/Android/FactsDroid/README.md) | Android | 11-23-2025 |
+| 8kSec | [FactsDroid](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8kSec/Android/FactsDroid/README.md) | Android | 11-23-2025 |
 | infophreak | [Infophreak Halloween CTF 2025 - Spirit Halloween!](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/infophreak/Reverse%20Engineering/Infophreak%20Halloween%20CTF%202025%20-%20Spirit%20Halloween%21/README.md) | Reverse Engineering | 11-01-2025 |
 | PentesterLab | [Android 01](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2001/Android%2001.md) | Android | 10-24-2025 |
 | PentesterLab | [Android 02](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/PentesterLab/Android/Android%2002/Android%2002.md) | Android | 10-24-2025 |
