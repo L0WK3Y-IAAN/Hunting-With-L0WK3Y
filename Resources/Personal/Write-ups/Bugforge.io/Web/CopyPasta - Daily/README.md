@@ -1,10 +1,5 @@
 # CopyPasta
 
-## Overview
-
-Target: CopyPasta - a code snippet sharing app.
-
-Goal: Obtain the flag from the application.
 
 ## Recon
 

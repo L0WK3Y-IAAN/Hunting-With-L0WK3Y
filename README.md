@@ -85,6 +85,8 @@ This repository is more than just a collection of tools and techniques; it’s a
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| Bugforge.io | [CopyPasta - Daily](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Bugforge.io/Web/CopyPasta%20-%20Daily/README.md) | Web | 03-25-2026 |
+| Bugforge.io | [Gift Lab - Daily](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Bugforge.io/Web/Gift%20Lab%20-%20Daily/README.md) | Web | 03-25-2026 |
 | Bugforge.io | [CopyPasta](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Bugforge.io/Web/CopyPasta/README.md) | Web | 03-25-2026 |
 | 8kSec | [Ultimate Essay Grader](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8kSec/AI/LLM%20Red%20Teaming/Ultimate%20Essay%20Grader/README.md) | LLM Red Teaming | 01-06-2026 |
 | tlamb96 | [KGB Messenger](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/tlamb96/Android/KGB%20Messenger.md) | Android | 01-06-2026 |
