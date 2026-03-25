@@ -29,7 +29,7 @@ Request observed:
 
 - `GET /api/profile/admin`
 
-Response included the admin user object and their snippets (including one marked `private`).
+Response included the admin user object and their snippets.
 
 Notable response fields:
 
