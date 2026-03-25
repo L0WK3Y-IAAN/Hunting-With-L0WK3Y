@@ -23,7 +23,7 @@ From UI behavior and intercepts, the app uses a JSON API (Express) and JWT-based
 
 ### 1. Enumerate / access an admin profile via IDOR
 
-Intercepting requests showed a profile endpoint that returned user data and associated snippets.
+Intercepting *Dashboard* requests showed a profile endpoint that returned user data and associated snippets.
 
 Request observed:
 
