@@ -43,11 +43,10 @@ This indicated that user profiles were addressable directly by username and were
 
 ### 2. Bruteforcing Admin login
 
-The login endpoint was identified:
+At this point, bruteforcing the `admin` account felt like the next logical step.
 
 - `POST /api/login`
 
-A password bruteforce (e.g., via Intruder/Hydra against the login request) was used to discover valid credentials for the `admin` account.
 
 Result:
 
