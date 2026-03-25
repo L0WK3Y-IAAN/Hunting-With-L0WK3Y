@@ -14,6 +14,13 @@
     "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/8kSec/Android/FactsDroid/README.md"
   },
   {
+    "platform": "Bugforge.io",
+    "lab": "CopyPasta",
+    "category": "Web",
+    "date": "03-25-2026",
+    "url": "https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Bugforge.io/Web/CopyPasta/README.md"
+  },
+  {
     "platform": "HackTheBox",
     "lab": "APKey",
     "category": "Mobile",
