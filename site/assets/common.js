@@ -18,6 +18,8 @@
     });
   }
 
+  if (document.documentElement.classList.contains('embed')) return;     // iframe on the desktop: no palette/back-to-top
+
   /* ---------- back to top ---------- */
   const top = el('button', { type: 'button', className: 'totop', textContent: '↑' });
   top.setAttribute('aria-label', 'Back to top');

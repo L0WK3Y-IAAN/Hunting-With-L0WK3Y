@@ -396,7 +396,7 @@ def head(*, title: str, desc: str, root: str, path: str, og_type: str = "website
 <link rel="apple-touch-icon" href="{root}assets/icon-180.png">
 <link rel="alternate" type="application/atom+xml" title="{esc(SITE_NAME)}" href="{root}feed.xml">
 <link rel="stylesheet" href="{root}assets/style.css">
-{extra}<script>try{{var t=localStorage.getItem('hwl-theme');if(t)document.documentElement.dataset.theme=t}}catch(e){{}}</script>
+{extra}<script>try{{var t=localStorage.getItem('hwl-theme');if(t)document.documentElement.dataset.theme=t}}catch(e){{}}if(/[?&]embed\\b/.test(location.search)){{document.documentElement.classList.add('embed');document.documentElement.dataset.theme='light'}}</script>
 </head>
 <body>
 """
@@ -406,14 +406,15 @@ def header(root: str) -> str:
     return f"""<a class="skip" href="#content">Skip to content</a>
 <header class="top">
   <div class="wrap top-row">
-    <a class="brand" href="{root}" aria-label="Hunting With L0WK3Y, home">
+    <a class="brand" href="{root}hub/" aria-label="Hunting With L0WK3Y, home">
       <img src="{root}assets/icon-64.png" alt="" width="28" height="28">
       <span>hunting<b>.with</b>(<i>l0wk3y</i>)</span>
     </a>
     <nav class="nav" id="nav" aria-label="Sections">
-      <a href="{root}#series">Categories</a><a href="{root}#writeups">Write-ups</a><a href="{root}#toolbox">Toolbox</a>
+      <a href="{root}hub/#series">Categories</a><a href="{root}hub/#writeups">Write-ups</a><a href="{root}hub/#toolbox">Toolbox</a>
     </nav>
     <div class="actions">
+      <a class="desk-link" href="{root}?desktop" rel="noopener">Desktop view</a>
       <button type="button" id="open-palette" class="icon-btn pal" aria-label="Search the site" aria-keyshortcuts="Control+K Meta+K">{ICON_SEARCH}<span class="lbl">Search</span><kbd>Ctrl K</kbd></button>
       <a class="icon-btn" href="{GITHUB}" aria-label="GitHub repository" rel="noopener">{ICON_GITHUB}</a>
       <button type="button" id="theme" class="icon-btn" aria-label="Toggle light and dark theme">{ICON_THEME}</button>
@@ -433,7 +434,7 @@ def footer(root: str) -> str:
 
 
 def crumbs(root: str, trail: list[tuple[str, str | None]]) -> str:
-    lis = [f'<li><a href="{root}">Home</a></li>']
+    lis = [f'<li><a href="{root}hub/">Home</a></li>']
     for label, href in trail:
         lis.append(f'<li><a href="{esc(href)}">{esc(label)}</a></li>' if href else f'<li aria-current="page">{esc(label)}</li>')
     return f'<nav class="crumbs" aria-label="Breadcrumb"><ol>{"".join(lis)}</ol></nav>'
@@ -442,7 +443,7 @@ def crumbs(root: str, trail: list[tuple[str, str | None]]) -> str:
 def tag_chips(root: str, tags: list[str], limit: int = 12) -> str:
     if not tags:
         return ""
-    lis = "".join(f'<li><a class="chip" href="{root}?tags={urllib.parse.quote(t.lower())}">{esc(t)}</a></li>' for t in tags[:limit])
+    lis = "".join(f'<li><a class="chip" href="{root}hub/?tags={urllib.parse.quote(t.lower())}">{esc(t)}</a></li>' for t in tags[:limit])
     return f'<ul class="chips" aria-label="Tags">{lis}</ul>'
 
 
@@ -561,7 +562,7 @@ def write_series(sr: dict, by_id: dict) -> None:
     page = head(title=f'{sr["name"]} write-ups', desc=desc, root=root, path=href)
     page += header(root)
     page += f"""<main id="content" class="wrap series-wrap">
-  {crumbs(root, [("Categories", root + "#series"), (sr["name"], None)])}
+  {crumbs(root, [("Categories", root + "hub/#series"), (sr["name"], None)])}
   <header class="a-head">
     <p class="eyebrow"><span class="plat">Category</span></p>
     <h1>{esc(sr["name"])}</h1>
@@ -611,7 +612,8 @@ def write_feed(items: list[dict]) -> None:
 
 
 def write_sitemap(items: list[dict], series: list[dict]) -> None:
-    urls = [(SITE_URL, max((i["updated"] for i in items), default=""))]
+    newest = max((i["updated"] for i in items), default="")
+    urls = [(SITE_URL, newest), (SITE_URL + "hub/", newest)]
     urls += [(SITE_URL + s["href"], s["latest"]) for s in series]
     urls += [(SITE_URL + i["href"], i["updated"]) for i in items if i["type"] == "writeups"]
     body = "\n".join("  <url><loc>%s</loc>%s</url>" % (esc(u), "<lastmod>%s</lastmod>" % d if d else "") for u, d in urls)
@@ -635,7 +637,7 @@ def write_search(items: list[dict], series: list[dict]) -> None:
             rows.append({"t": i["title"], "k": kinds[i["type"]], "u": i.get("live") or i["url"], "x": 1,
                          "s": i.get("display") or " ".join(i["tags"][:3]), "g": " ".join(i["tags"])})
     for t, n in sorted(tag_counts.items(), key=lambda kv: -kv[1]):
-        rows.append({"t": t, "k": "Tag", "u": "?tags=" + urllib.parse.quote(t), "s": f"{n} items"})
+        rows.append({"t": t, "k": "Tag", "u": "hub/?tags=" + urllib.parse.quote(t), "s": f"{n} items"})
     out = SITE / "data" / "search.json"
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(json.dumps(rows, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")

@@ -4,6 +4,8 @@
   const PAGE = 9;              // cards per section before "Show all"
   const TOP_TAGS = 8;
   const NEW_DAYS = 30;
+  const ROOT = document.documentElement.dataset.root || '';
+  const abs = (h) => (/^https?:/.test(h) ? h : ROOT + h);
   const $ = (s, r = document) => r.querySelector(s);
   const el = (tag, props = {}, ...kids) => { const n = Object.assign(document.createElement(tag), props); kids.forEach((k) => n.append(k)); return n; };
 
@@ -102,7 +104,7 @@
     const label = el('div', { className: 'label' }, it.platform || 'Write-up');
     if (isNew(it.date)) label.append(el('span', { className: 'new', textContent: 'New' }));
     c.append(label);
-    link(c, it.href, it.title);
+    link(c, abs(it.href), it.title);
     if (it.description) c.append(el('p', { className: 'desc' }, ...highlight(it.description)));
     const chips = chipList(it.tags); if (chips) c.append(chips);
     c.append(footRow(time(it.date), it.minutes && el('span', { className: 'min', textContent: `${it.minutes} min read` }),
@@ -114,7 +116,7 @@
     const label = el('div', { className: 'label' }, 'Category');
     if (isNew(s.latest)) label.append(el('span', { className: 'new', textContent: 'New' }));
     c.append(label);
-    link(c, s.href, s.name);
+    link(c, abs(s.href), s.name);
     c.append(el('div', { className: 'big' }, String(s.count), el('small', { textContent: plural(s.count, s.unit) })));
     if (s.platforms.length) {                              // where the entries come from (plain labels, not filters)
       const ul = el('ul', { className: 'chips', ariaLabel: 'Platforms' });
@@ -129,7 +131,7 @@
     const c = el('article', { className: 'card' });
     c.append(el('div', { className: 'label' }, KIND[it.type] || 'Item'));
     const external = true;
-    link(c, it.live || it.url, it.title, external);
+    link(c, abs(it.live || it.url), it.title, external);
     if (it.description) c.append(el('p', { className: 'desc' }, ...highlight(it.description)));
     const chips = chipList(it.tags); if (chips) c.append(chips);
     const src = it.live ? el('a', { className: 'sp', href: it.url, target: '_blank', rel: 'noopener', textContent: 'source ↗' }) : null;
@@ -174,7 +176,7 @@
     $('#latest').replaceChildren(...items.filter((i) => latestIds.has(i.id)).sort(sorters.new).map((i) => {
       const t = el('span', { className: 't' }, i.title);
       if (isNew(i.date)) t.append(el('span', { className: 'new', textContent: 'New' }));
-      const a = el('a', { href: i.type === 'writeups' ? i.href : (i.live || i.url) }, t,
+      const a = el('a', { href: abs(i.type === 'writeups' ? i.href : (i.live || i.url)) }, t,
         el('span', { className: 'p', textContent: i.platform || KIND[i.type] || '' }), time(i.date));
       if (i.type !== 'writeups') { a.target = '_blank'; a.rel = 'noopener'; }
       return el('li', {}, a);
@@ -411,7 +413,7 @@
 
   async function init() {
     try {
-      const r = await fetch('data/index.json', { cache: 'no-cache' });
+      const r = await fetch(ROOT + 'data/index.json', { cache: 'no-cache' });
       if (!r.ok) throw new Error(r.status);
       D = await r.json();
     } catch (e) {

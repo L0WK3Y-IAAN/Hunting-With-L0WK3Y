@@ -39,6 +39,11 @@
   }
   $$('.toc-m a').forEach((a) => a.addEventListener('click', () => { a.closest('details').open = false; }));
 
+  /* inside the desktop's iframe: external links open in a new tab, the progress/TOC chrome is hidden by CSS */
+  if (document.documentElement.classList.contains('embed')) {
+    document.querySelectorAll('a[href^="http"]').forEach((l) => { l.target = '_blank'; l.rel = 'noopener'; });
+  }
+
   /* copy buttons (event delegation) */
   document.addEventListener('click', async (e) => {
     const btn = e.target.closest('.copy');

@@ -402,3 +402,21 @@ a.plat:hover { text-decoration: underline; }
   .top, .bar, .toc, .toc-m, .totop, .progress, .code .copy { display: none !important; }
   body { background: #fff; color: #000; }
 }
+
+/* ============================================================ desktop link + embedded (iframe) mode */
+.desk-link { color: var(--muted); font-size: 14px; text-decoration: none; padding: 6px 10px; border-radius: 8px; white-space: nowrap; }
+.desk-link:hover { color: var(--text); background: var(--card); }
+@media (max-width: 899px) { .desk-link { display: none; } }
+
+html.embed .top, html.embed .foot, html.embed .crumbs, html.embed .progress, html.embed .totop, html.embed .skip, html.embed .src { display: none !important; }
+html.embed body { background: var(--bg); background-image: none; font-size: 16px; }
+html.embed body::before { display: none; }
+html.embed .wrap { width: calc(100% - 32px); max-width: 860px; }
+html.embed .a-grid { display: block !important; max-width: none !important; }
+html.embed .toc { display: none !important; }
+html.embed .toc-m { display: block !important; }
+html.embed .a-head { margin-top: var(--s5); }
+html.embed .a-head h1 { font-size: 1.9rem; }
+html.embed .eyebrow a { pointer-events: none; }
+html.embed .prose { font-size: 16px; }
+html.embed .pn { max-width: none; }

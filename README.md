@@ -38,7 +38,7 @@ This repository is more than just a collection of tools and techniques; it’s a
 
 ## 🌐 The Hub (auto-updating site)
 
-Everything in this repo is browsable, searchable and filterable at **https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/**. The site is rebuilt from the repo on every push, so there is nothing to edit by hand.
+Everything in this repo is browsable at **https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/**, a retro desktop where categories are folders and write-ups open in windows. A plain, searchable version lives at **/hub/** (phones, touch screens and "Simple View" go there automatically). The site is rebuilt from the repo on every push, so there is nothing to edit by hand.
 
 ### Adding content
 Add files in the usual place and push. That is all.
@@ -78,6 +78,9 @@ The hub groups write-ups by **category**: one card (and one page) per category, 
 - To file a whole platform under another category without moving files, add it to `scripts/categories.json` (PortSwigger Academy is mapped to **Web**; its original topic folders such as "Information disclosure" remain searchable tags).
 - To override a single write-up, set `category:` in its frontmatter. To group write-ups some other way, set `series: Some Name` and that replaces the category as the group.
 - Order inside a platform: `order`, then number words and trailing numbers in the title (`FLAG TWO`, `Android 07`), then date.
+
+### Desktop view
+`site/index.html` + `site/assets/desktop.{css,js}` render the same `data/index.json` as a Windows 95-style desktop: each category is a folder (platforms are sub-folders), the Toolbox, Favorites (curated links) and Projects are folders, and a write-up opens in its own draggable window (an iframe of its static page in `?embed` mode). Start > Find (or Ctrl K) searches everything, Run opens things by name, and `#open=<page path>` links straight to a window. Add content as usual and the desktop updates itself; there is nothing desktop-specific to maintain. `?desktop` forces the desktop on small screens, and Start > Simple View (or the "Desktop view" link on the hub) switches between the two. The desktop look is inspired by the "Windows 95" CodePen by Gabrielle Wee (MIT, see `site/assets/LICENSE-windows-95.txt`); the icons are drawn in `site/assets/icons95.js`.
 
 ### Profile links
 Edit `site/profile.json` for the bio and the links in the hero. Links with an empty `"url"` (HackerOne is a placeholder) are hidden until you fill them in.

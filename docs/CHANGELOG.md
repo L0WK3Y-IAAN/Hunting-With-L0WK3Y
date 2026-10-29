@@ -28,3 +28,10 @@
 ## Pipeline
 - Same flow as before: build script, generated index, GitHub Action deploy. The workflow now also runs `pip install -r scripts/requirements.txt` and passes `GITHUB_TOKEN` to the build.
 - New dependencies: `markdown-it-py`, `pygments` (build time only; the site ships no frameworks).
+
+## Desktop (new front door)
+- `/` is now a Windows 95-style desktop; the previous site moved to `/hub/` (old `/#type=writeups` style links still work). Categories are folders (platform sub-folders inside), Toolbox/Favorites/Projects are folders, write-ups and the Mobile Security cheat sheet open in draggable, resizable, minimizable windows with taskbar buttons.
+- Start menu (Programs, Documents, Find, Run, Help, Simple View, Shut Down), Find window, Run dialog, About Me notepad, Recycle Bin, clock, keyboard support (arrows, Enter, Backspace, Esc, Ctrl K).
+- Write-up windows are iframes of the existing static pages in a light `?embed` mode, so the build pipeline is unchanged. `#open=<page path>` deep links work, including on phones (they go straight to the page).
+- Phones, touch screens, narrow windows and no-JS visitors are sent to `/hub/`; `?desktop` overrides.
+- Icons are drawn in code (no hotlinked CodePen assets). Credit and MIT license for the inspiration are in `site/assets/LICENSE-windows-95.txt`.
