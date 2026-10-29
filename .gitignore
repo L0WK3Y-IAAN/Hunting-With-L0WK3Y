@@ -11,3 +11,4 @@ site/writeups/
 site/series/
 site/feed.xml
 site/sitemap.xml
+.venv/

@@ -85,12 +85,13 @@ Edit `site/profile.json` for the bio and the links in the hero. Links with an em
 2. `.github/workflows/pages.yml` runs it on every push to `main` and deploys `site/` to GitHub Pages. A second job refreshes the "Latest Blog Posts" table below with a normal (non-forced) commit.
 3. `site/index.html` and `site/assets/` are plain HTML/CSS/JS that read the JSON: live search, type and tag filters, sorting, a Ctrl/Cmd+K command palette, and shareable URLs.
 
-Preview locally:
+Preview locally (a virtualenv avoids the "externally managed environment" error on Homebrew Python):
 
 ```bash
-python3 -m pip install -r scripts/requirements.txt   # once (use the same python3 that runs the build)
-python3 scripts/build_index.py            # add --readme to refresh the table below, --offline to skip GitHub API calls
-python3 -m http.server -d site 8000       # then open http://localhost:8000
+python3 -m venv .venv                         # once
+.venv/bin/pip install -r scripts/requirements.txt   # once
+.venv/bin/python scripts/build_index.py       # add --readme to refresh the table below, --offline to skip GitHub API calls
+python3 -m http.server -d site 8000           # then open http://localhost:8000
 ```
 
 ## My PortSwigger Academy Progress

@@ -24,7 +24,7 @@ try:
 except ImportError as e:  # pragma: no cover
     import sys
     raise SystemExit(f"Missing dependency ({e.name}) for {sys.executable}.\n"
-                     f"Install it into this exact interpreter:\n  {sys.executable} -m pip install -r scripts/requirements.txt")
+                     f"Install it into this exact interpreter (on Homebrew Python use a venv: python3 -m venv .venv && .venv/bin/pip install -r scripts/requirements.txt):\n  {sys.executable} -m pip install -r scripts/requirements.txt")
 
 # set by render_all()
 ROOT: Path
