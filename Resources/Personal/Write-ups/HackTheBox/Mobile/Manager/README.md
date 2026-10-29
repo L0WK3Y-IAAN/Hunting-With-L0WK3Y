@@ -1,3 +1,6 @@
+---
+title: HackTheBox — Manager (Mobile) Walkthrough
+---
 ![banner](https://i.imgur.com/gp1Vr47.png)
 ![desc](https://i.imgur.com/q4MRikO.png)
 
