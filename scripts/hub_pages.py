@@ -22,7 +22,9 @@ try:
     from pygments.lexers import TextLexer, get_lexer_by_name
     from pygments.util import ClassNotFound
 except ImportError as e:  # pragma: no cover
-    raise SystemExit(f"Missing dependency ({e.name}). Run: pip install -r scripts/requirements.txt")
+    import sys
+    raise SystemExit(f"Missing dependency ({e.name}) for {sys.executable}.\n"
+                     f"Install it into this exact interpreter:\n  {sys.executable} -m pip install -r scripts/requirements.txt")
 
 # set by render_all()
 ROOT: Path

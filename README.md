@@ -88,7 +88,7 @@ Edit `site/profile.json` for the bio and the links in the hero. Links with an em
 Preview locally:
 
 ```bash
-pip install -r scripts/requirements.txt   # once
+python3 -m pip install -r scripts/requirements.txt   # once (use the same python3 that runs the build)
 python3 scripts/build_index.py            # add --readme to refresh the table below, --offline to skip GitHub API calls
 python3 -m http.server -d site 8000       # then open http://localhost:8000
 ```
