@@ -36,6 +36,46 @@ This repository is more than just a collection of tools and techniques; it’s a
   </a>
 </div>
 
+## 🌐 The Hub (auto-updating site)
+
+Everything in this repo is browsable, searchable and filterable at **https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/**. The site is generated from the repo on every push, so there is nothing to edit by hand.
+
+### Adding content
+Just add files in the usual place and push:
+
+| Content | Where | What becomes one card |
+| --- | --- | --- |
+| Write-up | `Resources/Personal/Write-ups/<Platform>/<Category>/<Lab>/README.md` (or `<Lab>.md`) | each Markdown file |
+| Tool | `Resources/Personal/Tools/<Lang>/<Tool>/` with a `README.md`, or a loose script | each folder or script |
+| Cheat sheet | `Resources/Personal/Cheat Sheets/<Name>/` with a `README.md` and/or `index.html` | each folder (an `index.html` is also hosted on the site) |
+| Curated link | a bullet `- [name](url) - description - Topics: a, b` in `Resources/External/*/README.md` | each bullet |
+| Project | `Projects/<Name>/README.md` | each folder |
+
+**Optional frontmatter** at the top of a Markdown file controls the card. Everything is optional:
+
+```yaml
+---
+title: Union-based SQLi on a login form
+description: One sentence shown on the card.
+date: 2026-10-30        # defaults to the date the file was first committed
+tags: [sqli, web, burp] # platform and category folders are added as tags automatically
+---
+```
+
+Without frontmatter the title is the first `# Heading` (else the file or folder name), the description is the first paragraph, the date is the first git commit of the file, and tags come from the folder names. Add `draft: true` to hide a file.
+
+### How the auto-update works
+1. `scripts/build_index.py` (Python standard library only) scans the content folders and writes `site/data/index.json`.
+2. `.github/workflows/pages.yml` runs it on every push to `main`, then deploys `site/` to GitHub Pages. A second job refreshes the "Latest Blog Posts" table below with a normal (non-forced) commit.
+3. The page (`site/index.html`, `assets/`) is plain HTML/CSS/JS that reads the JSON: live search, type and tag filters, sorting and a recently-added strip.
+
+Preview locally:
+
+```bash
+python3 scripts/build_index.py      # add --readme to also refresh the table below
+python3 -m http.server -d site 8000 # then open http://localhost:8000
+```
+
 ## My PortSwigger Academy Progress
 
 - **🟢 Apprentice**: 37/59 (62.7%)

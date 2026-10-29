@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Hunting With L0WK3Y</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bug bounty and CTF write-ups, tools, cheat sheets and curated resources from L0WK3Y. Searchable and always up to date.">
+  <meta name="theme-color" content="#0a0d12">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hunting With L0WK3Y">
+  <meta property="og:description" content="Bug bounty and CTF write-ups, tools, cheat sheets and curated resources.">
+  <meta property="og:image" content="img/HWL.webp">
+  <meta property="og:url" content="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="img/favicon.webp">
+  <link rel="stylesheet" href="assets/style.css">
+  <script>
+    /* apply the saved theme before first paint to avoid a flash */
+    try { var t = localStorage.getItem('hwl-theme'); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#results">Skip to results</a>
+
+  <header class="top">
+    <div class="wrap top-row">
+      <a class="brand" href="./" aria-label="Hunting With L0WK3Y, home">
+        <img src="img/favicon.webp" alt="" width="28" height="28">
+        <span>hunting<b>.with</b>(<i>l0wk3y</i>)</span>
+      </a>
+      <nav class="links" aria-label="External links">
+        <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y" rel="noopener">GitHub</a>
+        <button id="theme" type="button" aria-label="Toggle light and dark theme">◐</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="wrap">
+        <p class="eyebrow"><span class="dot" aria-hidden="true"></span> <span id="stats">loading index…</span></p>
+        <h1>Hunting <span class="glitch" data-text="With L0WK3Y">With L0WK3Y</span></h1>
+        <p class="lede">Write-ups, tools, cheat sheets and curated links from my bug bounty and CTF journey. Everything below is generated from the repo, so it is always current.</p>
+
+        <form class="search" role="search" onsubmit="return false">
+          <label for="q" class="sr">Search all content</label>
+          <span class="prompt" aria-hidden="true">$</span>
+          <input id="q" type="search" placeholder="search write-ups, tools, tags…" autocomplete="off" spellcheck="false">
+          <kbd aria-hidden="true">/</kbd>
+        </form>
+      </div>
+    </section>
+
+    <section class="wrap recent" id="recent-wrap" aria-labelledby="recent-h" hidden>
+      <h2 id="recent-h"><span class="mono">&gt;</span> Recently added</h2>
+      <ul id="recent" class="strip"></ul>
+    </section>
+
+    <section class="wrap controls" aria-label="Filters">
+      <div class="row">
+        <div id="types" class="chips" role="group" aria-label="Content type"></div>
+        <div class="sort">
+          <label for="sort">Sort</label>
+          <select id="sort">
+            <option value="new">Newest</option>
+            <option value="old">Oldest</option>
+            <option value="az">A–Z</option>
+          </select>
+        </div>
+      </div>
+      <div id="tags" class="chips small" role="group" aria-label="Filter by tag"></div>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <div id="results" class="wrap results" tabindex="-1"></div>
+  </main>
+
+  <footer class="wrap foot">
+    <p>Built from the repo on every push · <span id="gen">…</span> · <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y">source</a></p>
+    <p class="muted">For educational use. Only test systems you are authorised to test.</p>
+  </footer>
+
+  <noscript><p class="wrap">This page needs JavaScript to load the index. Browse the content on <a href="https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y">GitHub</a> instead.</p></noscript>
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
