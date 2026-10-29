@@ -26,7 +26,7 @@ body.dragging { user-select: none; }
 /* wallpaper: drop an animated wallpaper.gif next to wallpaper.webp (the still fallback) and it plays on top.
    A square, centred, feathered into the black so the image's own edge never shows */
 #desktop::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; aspect-ratio: 1; transform: translateX(-50%); pointer-events: none;
-  background: url(wallpaper.gif) center / cover no-repeat, url(wallpaper.webp) center / cover no-repeat; -webkit-mask-image: radial-gradient(closest-side, #000 80%, transparent 100%); mask-image: radial-gradient(closest-side, #000 80%, transparent 100%); }
+  background: url(wallpaper.webp) center / cover no-repeat; -webkit-mask-image: radial-gradient(closest-side, #000 80%, transparent 100%); mask-image: radial-gradient(closest-side, #000 80%, transparent 100%); }
 #icons { position: absolute; inset: 0; padding: 12px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 98px); grid-auto-columns: 96px; align-content: start; justify-content: start; gap: 6px 4px; }
 .dicon { width: 92px; min-height: 90px; padding: 6px 2px 4px; background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: default; text-align: center; }
 .dicon img { width: 32px; height: 32px; flex: none; }
@@ -36,6 +36,7 @@ body.dragging { user-select: none; }
 .dicon.sel img { filter: sepia(1) hue-rotate(170deg) saturate(2.5) brightness(.75); }
 .brand-mark { position: absolute; right: 20px; bottom: 16px; text-align: right; color: #ff8fab; text-shadow: 0 0 12px #ff2d6f; font: bold 28px/1 var(--font); letter-spacing: -.02em; pointer-events: none; }
 .brand-mark small { display: block; font: 13px var(--font); letter-spacing: 0; margin-top: 4px; }
+
 
 /* ---------------------------------------------------------------- windows */
 .win { position: absolute; display: flex; flex-direction: column; min-width: 260px; min-height: 140px; background: var(--g2); padding: 3px; box-shadow: var(--bevel-win); }
