@@ -32,8 +32,11 @@ window.ICONS95 = (() => {
     rss: [['k', 1, 1, 14, 14], ['Y', 2, 2, 12, 12], ['k', 4, 11, 2, 2], ['k', 4, 7, 2, 1], ['k', 7, 7, 1, 7], ['k', 4, 4, 2, 1], ['k', 10, 4, 1, 10]],
     mail: [['k', 1, 3, 14, 10], ['w', 2, 4, 12, 8], ['k', 2, 4, 1, 1], ['k', 3, 5, 1, 1], ['k', 4, 6, 1, 1], ['k', 5, 7, 2, 1], ['k', 9, 7, 2, 1], ['k', 11, 6, 1, 1], ['k', 12, 5, 1, 1], ['k', 13, 4, 1, 1]],
   };
+  // Windows 98 icons (32px and 16px frames) shipped in assets/icons98/; anything not listed is drawn below
+  const WIN98 = new Set(['folder', 'folderOpen', 'doc', 'code', 'notepad', 'computer', 'globe', 'favorites', 'bin', 'exe', 'book', 'tools', 'search', 'run', 'shutdown', 'rss', 'help']);
   const cache = {};
-  function icon(name) {
+  function icon(name, size = 32) {
+    if (WIN98.has(name)) return `assets/icons98/${name}-${size <= 16 ? 16 : 32}.png`;
     if (cache[name]) return cache[name];
     const grid = Array.from({ length: 16 }, () => Array(16).fill(null));
     (ART[name] || ART.doc).forEach(([c, x, y, w, h]) => {
@@ -55,6 +58,6 @@ window.ICONS95 = (() => {
       Object.entries(paths).map(([c, d]) => `<path fill="${c}" d="${d.join('')}"/>`).join('') + '</svg>';
     return (cache[name] = 'data:image/svg+xml;utf8,' + encodeURIComponent(svg));
   }
-  icon.names = Object.keys(ART);
+  icon.names = [...WIN98, ...Object.keys(ART).filter((n) => !WIN98.has(n))];
   return icon;
 })();

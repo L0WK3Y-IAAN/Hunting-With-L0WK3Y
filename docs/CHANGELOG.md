@@ -34,4 +34,4 @@
 - Start menu (Programs, Documents, Find, Run, Help, Simple View, Shut Down), Find window, Run dialog, About Me notepad, Recycle Bin, clock, keyboard support (arrows, Enter, Backspace, Esc, Ctrl K).
 - Write-up windows are iframes of the existing static pages in a light `?embed` mode, so the build pipeline is unchanged. `#open=<page path>` deep links work, including on phones (they go straight to the page).
 - Phones, touch screens, narrow windows and no-JS visitors are sent to `/hub/`; `?desktop` overrides.
-- Icons are drawn in code (no hotlinked CodePen assets). Credit and MIT license for the inspiration are in `site/assets/LICENSE-windows-95.txt`.
+- Icons are the Windows 98 set from the Windows98Scaled icon pack (32px and 16px true-colour frames extracted to `site/assets/icons98/`); the Start flag, tray speaker and message-box icons (not in the pack) are drawn in code. Credit and MIT license for the window-chrome inspiration are in `site/assets/LICENSE-windows-95.txt`.

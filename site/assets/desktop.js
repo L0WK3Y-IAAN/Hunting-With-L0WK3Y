@@ -5,7 +5,7 @@
   const icon = window.ICONS95;
   const $ = (s, r = document) => r.querySelector(s);
   const el = (tag, props = {}, ...kids) => { const n = Object.assign(document.createElement(tag), props); kids.forEach((k) => k != null && n.append(k)); return n; };
-  const pix = (name) => el('img', { src: icon(name), alt: '', draggable: false });
+  const pix = (name, size = 16) => el('img', { src: icon(name, size), alt: '', draggable: false, width: size, height: size });
   const fmt = (iso) => (iso ? new Date(iso + 'T00:00:00Z').toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC' }) : '');
   const desktop = $('#desktop'), iconsBox = $('#icons'), tasksBox = $('#tasks');
   const coarse = matchMedia('(pointer: coarse)').matches;
@@ -165,7 +165,7 @@
       btn.addEventListener('click', () => { if (!b.action || b.action(win) !== false) win.close(); });
       row.append(btn);
     });
-    win.body.append(el('div', { className: 'dlg' }, pix(ico), msg), row);
+    win.body.append(el('div', { className: 'dlg' }, pix(ico, 32), msg), row);
     win.body.addEventListener('keydown', (e) => { if (e.key === 'Enter' && e.target.tagName !== 'BUTTON') { e.preventDefault(); row.querySelector('.def')?.click(); } });
     (win.body.querySelector('input') || row.querySelector('.def') || row.querySelector('button'))?.focus();
     return win;
@@ -194,7 +194,7 @@
     const pick = (types) => items.filter((i) => types.includes(i.type)).sort((a, b) => b.date.localeCompare(a.date)).map(fileNode);
     const toolbox = folder('Toolbox', 'toolbox', pick(['tools', 'cheatsheets']), { icon: 'tools' });
     const projects = folder('Projects', 'projects', pick(['projects']), { icon: 'folder' });
-    const favs = folder('Favorites', 'favorites', pick(['curated']), { icon: 'globe', cols: ['Name', 'Address', 'Kind', ''] });
+    const favs = folder('Favorites', 'favorites', pick(['curated']), { icon: 'favorites', cols: ['Name', 'Address', 'Kind', ''] });
     return { cats, toolbox, projects, favs };
   }
 
@@ -248,7 +248,7 @@
       t.append(tb); pane.append(t);
     } else {
       const box = el('div', { className: 'items' + (st.view === 'list' ? ' list' : '') });
-      sorted.forEach((node, i) => { const b = el('button', { type: 'button', className: 'fi', title: node.name }, pix(node.icon), el('span', { textContent: node.name })); wire(b, node, i); box.append(b); });
+      sorted.forEach((node, i) => { const b = el('button', { type: 'button', className: 'fi', title: node.name }, pix(node.icon, st.view === 'list' ? 16 : 32), el('span', { textContent: node.name })); wire(b, node, i); box.append(b); });
       pane.append(box);
     }
   }
@@ -270,7 +270,7 @@
       addr.textContent = path(); win.setTitle(n.name); back.disabled = up.disabled = st.stack.length < 2;
       status.firstChild.textContent = `${n.children.length} object(s)`; status.lastChild.textContent = '';
       st.onSel = (node) => { status.lastChild.textContent = node ? (node.kind === 'folder' ? node.c4 : node.c2) : ''; };
-      if (win.task) win.task.querySelector('img').src = icon(n.icon || 'folder');
+      if (win.task) win.task.querySelector('img').src = icon(n.icon || 'folder', 16);
       if (st.moved) pane.querySelector('[data-i]')?.focus({ preventScroll: true });
     };
     const cd = (node) => { st.stack.push(node); st.moved = true; refresh(); };
@@ -345,8 +345,8 @@
   }
   function aboutDesktop() {
     dialog({ id: 'about-desktop', title: 'About Hunting Desktop', ico: 'computer', w: 420, body: [
-      'Hunting Desktop 95', `${D.stats.writeups} write-ups in ${D.stats.series} categories, rebuilt from the repo on every push.`,
-      'Windows 95 look inspired by the CodePen experiment by Gabrielle Wee (MIT License).'], buttons: [{ label: 'OK', def: true }] });
+      'Hunting Desktop 98', `${D.stats.writeups} write-ups in ${D.stats.series} categories, rebuilt from the repo on every push.`,
+      'Window chrome inspired by the "Windows 95" CodePen by Gabrielle Wee (MIT License). Icons: Windows 98 icon pack.'], buttons: [{ label: 'OK', def: true }] });
   }
 
   /* ---------- find + run ---------- */
@@ -410,7 +410,7 @@
   /* ============================================================ desktop icons, start menu, clock */
   let model;
   function deskIcon(name, ico, open) {
-    const b = el('button', { type: 'button', className: 'dicon' }, pix(ico), el('span', { textContent: name }));
+    const b = el('button', { type: 'button', className: 'dicon' }, pix(ico, 32), el('span', { textContent: name }));
     b.addEventListener('click', (e) => { e.stopPropagation(); iconsBox.querySelectorAll('.sel').forEach((x) => x.classList.remove('sel')); b.classList.add('sel'); closeStart(); });
     b.addEventListener('dblclick', open);
     b.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); open(); } });
@@ -426,7 +426,7 @@
     deskIcon('Simple View', 'globe', goHub);
     deskIcon('Feed.rss', 'rss', () => window.open('feed.xml', '_blank', 'noopener'));
     deskIcon('Recycle Bin', 'bin', () => alertBox('Recycle Bin', 'The Recycle Bin is empty. 0 bugs deleted (report them instead).', 'info'));
-    desktop.append(el('div', { className: 'brand-mark', innerHTML: 'Hunting<br>With L0WK3Y<small>Desktop 95</small>' }));
+    desktop.append(el('div', { className: 'brand-mark', innerHTML: 'Hunting<br>With L0WK3Y<small>Desktop 98</small>' }));
   }
 
   const startBtn = $('#start');
@@ -442,7 +442,7 @@
     };
     const entry = (label, ico, fn, submenu) => {
       const li = el('li', { className: submenu ? 'has' : '' });
-      const b = el('button', { type: 'button' }, pix(ico), label);
+      const b = el('button', { type: 'button' }, pix(ico, 32), label);
       if (submenu) {
         const open = () => { startEl.querySelectorAll('li.open').forEach((x) => x.classList.remove('open')); li.classList.add('open'); };
         b.addEventListener('mouseenter', open); b.addEventListener('click', open); b.addEventListener('focus', open);
@@ -454,8 +454,8 @@
     };
     const programs = sub('Programs', [...model.cats.map((c) => [c.name, 'folder', () => openExplorer(c)]), ...[model.toolbox, model.favs, model.projects].filter((f) => f.children.length).map((f) => [f.name, f.icon, () => openExplorer(f)])]);
     const docs = sub('Documents', items.filter((i) => i.type === 'writeups').slice(0, 8).map((i) => [i.title, 'doc', () => openDoc(i)]), 'Newest write-ups');
-    const ul = el('ul', {}, entry('Programs', 'folderOpen', null, programs), entry('Documents', 'doc', null, docs), entry('Find…', 'search', openFind), entry('Run…', 'run', openRun), entry('Help', 'question', aboutDesktop), el('hr'), entry('Simple View', 'globe', goHub), entry('Shut Down…', 'shutdown', shutDown));
-    startEl = el('div', { id: 'start-menu' }, el('div', { className: 'side' }, el('b', { innerHTML: 'Hunting <i>95</i>' })), ul);
+    const ul = el('ul', {}, entry('Programs', 'folderOpen', null, programs), entry('Documents', 'doc', null, docs), entry('Find…', 'search', openFind), entry('Run…', 'run', openRun), entry('Help', 'help', aboutDesktop), el('hr'), entry('Simple View', 'globe', goHub), entry('Shut Down…', 'shutdown', shutDown));
+    startEl = el('div', { id: 'start-menu' }, el('div', { className: 'side' }, el('b', { innerHTML: 'Hunting <i>98</i>' })), ul);
     document.body.append(startEl);
     startBtn.setAttribute('aria-expanded', 'true');
     startEl.querySelector('button')?.focus();
