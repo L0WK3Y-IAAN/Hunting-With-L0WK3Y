@@ -1,0 +1,11 @@
+{
+  // Stop VS Code preview extensions from auto-reloading the desktop while files change in the background
+  // (git, the build script, .venv). Live Preview defaults to port 3000.
+  "livePreview.autoRefreshPreview": "Off",
+  "livePreview.serverRoot": "site",
+  "liveServer.settings.root": "/site",
+  "liveServer.settings.ignoreFiles": [
+    ".vscode/**", "**/*.scss", "**/*.sass", "**/*.ts",
+    "**/.git/**", "**/.venv/**", "**/__pycache__/**", "**/.DS_Store", "scripts/**", "Resources/**"
+  ]
+}

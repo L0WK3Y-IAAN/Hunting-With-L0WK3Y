@@ -1,0 +1,12 @@
+{
+  "name": "L0WK3Y",
+  "handle": "l0wk3y",
+  "tagline": "Bug bounty hunter · mobile & web security",
+  "bio": "Documenting my bug bounty and CTF journey: write-ups, tools and cheat sheets from the field.",
+  "links": [
+    { "label": "GitHub", "url": "https://github.com/L0WK3Y-IAAN" },
+    { "label": "HackerOne", "url": "" },
+    { "label": "X", "url": "https://twitter.com/L0WK3Y_OFFICIAL" },
+    { "label": "LinkedIn", "url": "https://linkedin.com/in/iaansec" }
+  ]
+}

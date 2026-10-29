@@ -1,0 +1,6 @@
+{
+  "_comment": "File a platform under a category on the hub while keeping the repo folder layout. A write-up can also set `category:` in its frontmatter.",
+  "by_platform": {
+    "PortSwigger Academy": "Web"
+  }
+}

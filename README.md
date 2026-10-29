@@ -36,6 +36,72 @@ This repository is more than just a collection of tools and techniques; it’s a
   </a>
 </div>
 
+## 🌐 The Hub (auto-updating site)
+
+Everything in this repo is browsable at **https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/**, a retro desktop where categories are folders and write-ups open in windows. A plain, searchable version lives at **/hub/** (phones, touch screens and "Simple View" go there automatically). The site is rebuilt from the repo on every push, so there is nothing to edit by hand.
+
+### Adding content
+Add files in the usual place and push. That is all.
+
+| Content | Where | What becomes one card |
+| --- | --- | --- |
+| Write-up | `Resources/Personal/Write-ups/<Platform>/<Category>/<Lab>/README.md` (or `<Lab>.md`) | each Markdown file, rendered as its own page and filed under its category |
+| Tool | `Resources/Personal/Tools/<Lang>/<Tool>/` with a `README.md`, or a loose script | each folder or script |
+| Cheat sheet | `Resources/Personal/Cheat Sheets/<Name>/` with a `README.md` and/or `index.html` | each folder (an `index.html` is hosted on the site) |
+| Curated link | a bullet `- [name](url) - description - Topics: a, b` in `Resources/External/*/README.md` | each bullet (language and topics are also pulled from the GitHub API) |
+| Project | `Projects/<Name>/README.md` | each folder |
+
+### Frontmatter for write-ups (all optional)
+Copy this to the top of a new write-up and delete what you don't need:
+
+```yaml
+---
+title: Union-based SQLi on a login form   # default: first "# Heading", then the folder name
+description: One sentence for the card.   # default: first paragraph (markdown/emoji stripped, cut at a sentence or word)
+date: 2026-10-30                          # default: date the file was first committed (moves keep it)
+tags: [sqli, web, burp]                   # category and sub-folders are added automatically
+platform: PortSwigger Academy             # default: the first folder under Write-ups/
+category: Web                             # default: the folder above the lab (PortSwigger is filed under Web via scripts/categories.json)
+series: Web Basics                        # optional: replaces the category as the grouping, see "Categories" below
+order: 3                                  # position inside its group (default: FLAG ONE/TWO.., trailing numbers, then date)
+unit: labs                                # counter label on the category card (default: "write-ups")
+difficulty: medium                        # easy | medium | hard | insane, shown as a badge
+draft: true                               # hide the file from the site
+---
+```
+
+`date` always wins over git, so editing a write-up never reshuffles the timeline. Other optional fields: `updated`, `slug` (override the URL).
+
+### Categories
+The hub groups write-ups by **category**: one card (and one page) per category, e.g. Android, Web, Mobile, Reverse Engineering, LLM Red Teaming. A category page lists its write-ups grouped by platform (Injured Android, PentesterLab, ...), each in order.
+- The category is the folder above the lab (`<Platform>/<Category>/<Lab>`), so the repo layout stays as it is.
+- To file a whole platform under another category without moving files, add it to `scripts/categories.json` (PortSwigger Academy is mapped to **Web**; its original topic folders such as "Information disclosure" remain searchable tags).
+- To override a single write-up, set `category:` in its frontmatter. To group write-ups some other way, set `series: Some Name` and that replaces the category as the group.
+- Order inside a platform: `order`, then number words and trailing numbers in the title (`FLAG TWO`, `Android 07`), then date.
+
+### Desktop view
+`site/index.html` + `site/assets/desktop.{css,js}` render the same `data/index.json` as a Windows 98-style desktop: each category is a folder (platforms are sub-folders), the Toolbox, Favorites (curated links) and Projects are folders, and a write-up opens in its own draggable window (an iframe of its static page in `?embed` mode). Start > Find (or Ctrl K) searches everything, Run opens things by name, and `#open=<page path>` links straight to a window. Add content as usual and the desktop updates itself; there is nothing desktop-specific to maintain. `?desktop` forces the desktop on small screens, and Start > Simple View (or the "Desktop view" link on the hub) switches between the two. The desktop look is inspired by the "Windows 95" CodePen by Gabrielle Wee (MIT, see `site/assets/LICENSE-windows-95.txt`); the icons are Windows 98 icons (`site/assets/icons98/`, © Microsoft, from the Windows98Scaled icon pack), with a few drawn fallbacks in `site/assets/icons95.js`.
+
+### PortSwigger progress
+The "My PortSwigger Academy Progress" list and the "Topic Progress" table in this README are the source of truth. The build parses them, so editing the numbers here and pushing updates the progress section on the hub, the PortSwigger window on the desktop, and the search palette. Keep the existing row format (`| Topic | Labs | solved/total | status emoji | MM/DD/YYYY |`, status 🟢 done, 🔵 in progress, 🔴 not started).
+
+### Profile links
+Edit `site/profile.json` for the bio and the links in the hero. Links with an empty `"url"` (HackerOne is a placeholder) are hidden until you fill them in.
+
+### How the auto-update works
+1. `scripts/build_index.py` scans the content folders and writes `site/data/index.json`. `scripts/hub_pages.py` renders each write-up (Markdown to HTML with syntax highlighting, table of contents, series navigation), each series page, `feed.xml`, `sitemap.xml` and the search index.
+2. `.github/workflows/pages.yml` runs it on every push to `main` and deploys `site/` to GitHub Pages. A second job refreshes the "Latest Blog Posts" table below with a normal (non-forced) commit.
+3. `site/index.html` and `site/assets/` are plain HTML/CSS/JS that read the JSON: live search, type and tag filters, sorting, a Ctrl/Cmd+K command palette, and shareable URLs.
+
+Preview locally (a virtualenv avoids the "externally managed environment" error on Homebrew Python):
+
+```bash
+python3 -m venv .venv                         # once
+.venv/bin/pip install -r scripts/requirements.txt   # once
+.venv/bin/python scripts/build_index.py       # add --readme to refresh the table below, --offline to skip GitHub API calls
+python3 -m http.server -d site 8000           # then open http://localhost:8000
+```
+
 ## My PortSwigger Academy Progress
 
 - **🟢 Apprentice**: 37/59 (62.7%)

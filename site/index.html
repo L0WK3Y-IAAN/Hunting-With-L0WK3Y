@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" data-root="">
+<head>
+<meta charset="utf-8">
+<title>Hunting With L0WK3Y</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Bug bounty and CTF write-ups, tools, cheat sheets and curated resources from L0WK3Y, on a retro desktop. A plain version lives at /hub/.">
+<meta name="theme-color" content="#000000">
+<link rel="canonical" href="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/">
+<meta property="og:site_name" content="Hunting With L0WK3Y">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hunting With L0WK3Y">
+<meta property="og:description" content="Bug bounty and CTF write-ups, tools, cheat sheets and curated resources.">
+<meta property="og:url" content="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/">
+<meta property="og:image" content="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/assets/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/assets/og.png">
+<link rel="icon" type="image/png" href="assets/icon-64.png">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<link rel="alternate" type="application/atom+xml" title="Hunting With L0WK3Y" href="feed.xml">
+<link rel="stylesheet" href="assets/desktop.css">
+<noscript><meta http-equiv="refresh" content="0; url=hub/"></noscript>
+<script>
+/* Phones, touch screens and anyone who chose "Simple View" get the plain site. ?desktop forces this page. */
+(function () {
+  try {
+    if (/[?&]desktop\b/.test(location.search)) { localStorage.setItem('hwl-view', 'desktop'); return; }
+    var pref = localStorage.getItem('hwl-view');
+    var small = innerWidth < 900 || matchMedia('(pointer: coarse)').matches;
+    if (pref === 'hub' || (pref !== 'desktop' && small)) {
+      var m = location.hash.match(/^#open=(.+)$/);
+      location.replace(m ? decodeURIComponent(m[1]) : 'hub/');
+    }
+  } catch (e) { /* storage blocked: stay on the desktop */ }
+})();
+</script>
+</head>
+<body>
+<a class="skip" href="hub/">Switch to the simple, accessible version</a>
+<main id="desktop" aria-label="Desktop">
+  <div id="icons" role="group" aria-label="Desktop icons"></div>
+  <noscript><p style="padding:20px">This desktop needs JavaScript. <a href="hub/">Open the simple version</a>.</p></noscript>
+</main>
+<footer id="taskbar" aria-label="Taskbar">
+  <button type="button" id="start" aria-haspopup="menu" aria-expanded="false"><img alt="" width="20" height="20"><span>Start</span></button>
+  <div class="sep" aria-hidden="true"></div>
+  <div id="tasks" role="group" aria-label="Open windows"></div>
+  <div id="tray"><img id="tray-vol" alt="" width="16" height="16"><span id="clock" aria-label="Clock"></span></div>
+</footer>
+<script src="assets/icons95.js"></script>
+<script src="assets/desktop.js" defer></script>
+</body>
+</html>

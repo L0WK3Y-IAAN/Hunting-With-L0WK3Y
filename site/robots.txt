@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/sitemap.xml
