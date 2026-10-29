@@ -9,6 +9,7 @@ site/live/
 site/media/
 site/writeups/
 site/series/
+site/categories/
 site/feed.xml
 site/sitemap.xml
 .venv/

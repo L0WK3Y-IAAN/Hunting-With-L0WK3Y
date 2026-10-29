@@ -285,6 +285,9 @@ def slug(s: str) -> str:
 
 
 # ---------------------------------------------------------------- item building
+CATEGORY_BY_PLATFORM: dict[str, str] = {}
+
+
 class Builder:
     def __init__(self) -> None:
         self.gd = git_dates()
@@ -340,7 +343,12 @@ class Builder:
             item["_unit"] = str(fm["unit"]).strip() if fm.get("unit") else None
             item["_slug"] = slug(str(fm["slug"])) if fm.get("slug") else None
             item["_src"], item["_body"] = md, body
-            item["tags"] = [t for t in item["tags"] if t.lower() != item["platform"].lower()]
+            folder_cat = item["category"]
+            override = str(fm["category"]).strip() if fm.get("category") else CATEGORY_BY_PLATFORM.get(item["platform"])
+            if override:
+                item["category"] = override
+                item["tags"] += [folder_cat]            # e.g. PortSwigger "Information disclosure" stays searchable
+            item["tags"] = [t for t in item["tags"] if t.lower() not in (item["platform"].lower(), item["category"].lower())]
         self.add(**item)
 
     # --- Write-ups/<Platform>/.../<Category>/<Lab>/(README.md | <anything>.md)
@@ -466,9 +474,6 @@ NUM_WORDS = {w: i for i, w in enumerate(
     "ZERO ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN FOURTEEN FIFTEEN "
     "SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY".split())}
 NUM_RE = re.compile(r"\b(" + "|".join(w for w in NUM_WORDS if w != "ZERO") + r")\b")
-SERIES_UNITS = {"Injured Android": "flags", "PortSwigger Academy": "labs", "PentesterLab": "exercises"}
-
-
 def natural_number(title: str) -> int | None:
     m = NUM_RE.search(title)          # FLAG TWO, FLAG ELEVEN ... (upper-case words only)
     if m:
@@ -477,21 +482,10 @@ def natural_number(title: str) -> int | None:
     return int(m.group()) if m else None
 
 
-def unit_for(name: str, entries: list[dict]) -> str:
-    for e in entries:
-        if e.get("_unit"):
-            return e["_unit"]
-    if sum(1 for e in entries if re.match(r"(?i)^flag\b", e["title"])) > len(entries) / 2:
-        return "flags"
-    return SERIES_UNITS.get(name, "write-ups")
-
-
 def assign_series(items: list[dict]) -> list[dict]:
-    """Group write-ups into series and give every write-up its hub URL, order and neighbours."""
+    """Group write-ups by category (or an explicit `series:`), and give every write-up its hub URL,
+    order and neighbours. Inside a group that spans several platforms, entries are grouped by platform."""
     ws = [i for i in items if i["type"] == "writeups"]
-    per_platform: dict[str, int] = {}
-    for i in ws:
-        per_platform[i["platform"]] = per_platform.get(i["platform"], 0) + 1
 
     # unique, stable page slugs: writeups/<platform>/<name>/
     seen: set[str] = set()
@@ -506,10 +500,9 @@ def assign_series(items: list[dict]) -> list[dict]:
 
     groups: dict[str, list[dict]] = {}
     for i in ws:
-        name = i["_series"] or (i["platform"] if per_platform[i["platform"]] >= 2 else None)
+        name = i["_series"] or i["category"]
         i["series"] = name
-        if name:
-            groups.setdefault(name, []).append(i)
+        groups.setdefault(name, []).append(i)
 
     def key(i: dict):
         if i["_order"] is not None:
@@ -520,33 +513,47 @@ def assign_series(items: list[dict]) -> list[dict]:
     series = []
     used: set[str] = set()
     for name, entries in groups.items():
-        entries.sort(key=key)
-        sslug, n = slug(name) or "series", 2
+        sslug, n = slug(name) or "category", 2
         while sslug in used:
             sslug, n = f"{slug(name)}-{n}", n + 1
         used.add(sslug)
+
+        # platforms, most recently active first
+        latest_by_plat: dict[str, str] = {}
+        for e in entries:
+            latest_by_plat[e["platform"]] = max(latest_by_plat.get(e["platform"], ""), e["date"])
+        platforms = sorted(latest_by_plat, key=lambda p: (latest_by_plat[p], p.lower()), reverse=True)
+        multi = len(platforms) > 1
+        entries.sort(key=lambda e: ((platforms.index(e["platform"]) if multi else 0),) + key(e))
+
+        by_group: dict[str | None, list[dict]] = {}
+        for e in entries:
+            e["group"] = e["platform"] if multi else None
+            by_group.setdefault(e["group"], []).append(e)
+        for members in by_group.values():             # prev/next and "part x of y" stay inside one platform
+            for idx, e in enumerate(members):
+                e["series_pos"], e["series_total"] = idx + 1, len(members)
+                e["series_prev"] = members[idx - 1]["id"] if idx else None
+                e["series_next"] = members[idx + 1]["id"] if idx + 1 < len(members) else None
+        for e in entries:
+            e["series_slug"] = sslug
+
         counts: dict[str, int] = {}
         for e in entries:
             for t in e["tags"]:
                 counts[t] = counts.get(t, 0) + 1
         top = [t for t, _ in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0].lower()))][:5]
-        cats = list(dict.fromkeys(e["category"] for e in entries))
-        for idx, e in enumerate(entries):
-            e["series_slug"], e["series_pos"] = sslug, idx + 1
-            e["series_prev"] = entries[idx - 1]["id"] if idx else None
-            e["series_next"] = entries[idx + 1]["id"] if idx + 1 < len(entries) else None
-            e["group"] = e["category"] if len(cats) > 1 else None
-        platforms = list(dict.fromkeys(e["platform"] for e in entries))
+        unit = next((e["_unit"] for e in entries if e.get("_unit")), "write-ups")
         series.append({
-            "slug": sslug, "name": name, "href": f"series/{sslug}/",
-            "platform": platforms[0] if len(platforms) == 1 else None,
-            "count": len(entries), "unit": unit_for(name, entries),
+            "slug": sslug, "name": name, "href": f"categories/{sslug}/",
+            "platform": platforms[0] if not multi else None, "platforms": platforms,
+            "count": len(entries), "unit": unit,
             "latest": max(e["date"] for e in entries), "earliest": min(e["date"] for e in entries),
             "tags": top, "items": [e["id"] for e in entries],
         })
     for i in ws:
         i.setdefault("series_slug", None)
-    series.sort(key=lambda s: (s["latest"], s["name"]), reverse=True)
+    series.sort(key=lambda s: (-s["count"], s["name"].lower()))
     return series
 
 
@@ -623,6 +630,14 @@ def update_readme(items: list[dict]) -> bool:
     return False
 
 
+def load_categories() -> dict:
+    """scripts/categories.json maps a platform folder to the category it should be filed under."""
+    try:
+        return json.loads((ROOT / "scripts" / "categories.json").read_text(encoding="utf-8")).get("by_platform", {})
+    except (OSError, ValueError):
+        return {}
+
+
 def load_profile() -> dict:
     default = {"name": "L0WK3Y", "handle": "l0wk3y", "tagline": "Bug bounty hunter & mobile security researcher",
                "bio": "", "links": []}
@@ -634,7 +649,7 @@ def load_profile() -> dict:
 
 
 def clean_generated() -> None:
-    for d in ("writeups", "series", "media"):
+    for d in ("writeups", "series", "categories", "media"):
         shutil.rmtree(SITE / d, ignore_errors=True)
 
 
@@ -648,6 +663,7 @@ def main() -> int:
         print("warning: shallow git clone, so dates fall back to the oldest fetched commit. "
               "Use `fetch-depth: 0` / `git fetch --unshallow`.", file=sys.stderr)
 
+    CATEGORY_BY_PLATFORM.update(load_categories())
     b = Builder()
     res = ROOT / "Resources"
     b.scan_writeups(res / "Personal" / "Write-ups")

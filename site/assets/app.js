@@ -105,18 +105,23 @@
     link(c, it.href, it.title);
     if (it.description) c.append(el('p', { className: 'desc' }, ...highlight(it.description)));
     const chips = chipList(it.tags); if (chips) c.append(chips);
-    c.append(footRow(time(it.date), it.minutes && el('span', { textContent: `${it.minutes} min read` }),
-      it.series && el('span', { className: 'sp', textContent: `${it.series} · ${it.series_pos}/${byId.seriesCount[it.series_slug]}` })));
+    c.append(footRow(time(it.date), it.minutes && el('span', { className: 'min', textContent: `${it.minutes} min read` }),
+      it.series && el('span', { className: 'sp', textContent: it.series })));
     return wrap(c);
   }
   function seriesCard(s) {
     const c = el('article', { className: 'card series-card' });
-    const label = el('div', { className: 'label' }, 'Series');
+    const label = el('div', { className: 'label' }, 'Category');
     if (isNew(s.latest)) label.append(el('span', { className: 'new', textContent: 'New' }));
     c.append(label);
     link(c, s.href, s.name);
     c.append(el('div', { className: 'big' }, String(s.count), el('small', { textContent: plural(s.count, s.unit) })));
-    const chips = chipList(s.tags); if (chips) c.append(chips);
+    if (s.platforms.length) {                              // where the entries come from (plain labels, not filters)
+      const ul = el('ul', { className: 'chips', ariaLabel: 'Platforms' });
+      s.platforms.slice(0, 3).forEach((p) => ul.append(el('li', {}, el('span', { className: 'chip static', textContent: p }))));
+      if (s.platforms.length > 3) ul.append(el('li', {}, el('span', { className: 'chip more', textContent: `+${s.platforms.length - 3}` })));
+      c.append(ul);
+    }
     c.append(footRow(el('span', {}, 'Latest ', time(s.latest))));
     return wrap(c);
   }
@@ -187,17 +192,17 @@
     let shown = 0;
 
     if (wantType('writeups') && sm.length) {
-      box.append(section('series', 'Series', sm.length, sm.map(seriesCard)));
+      box.append(section('series', 'Categories', sm.length, sm.map(seriesCard)));
       shown += sm.length;
     }
     groups.forEach((g) => {
       if (!wantType(g.id)) return;
       let list = byGroup[g.id].slice().sort(sorters[state.sort]);
       let note;
-      if (g.id === 'writeups' && !filtering) {            // standalone only: series entries live inside their series
-        list = list.filter((i) => !i.series && (state.type !== 'all' || !latestIds.has(i.id)));
+      if (g.id === 'writeups' && !filtering && state.type === 'all') {   // overview: categories above, only uncategorised ones here
+        list = list.filter((i) => !i.series && !latestIds.has(i.id));
         if (!list.length) return;
-        note = `${list.length} standalone`;
+        note = `${list.length} uncategorised`;
       }
       if (!list.length) return;
       box.append(section(g.id, g.label, list.length, list.map((i) => CARD[i.type](i)), note));
@@ -415,8 +420,7 @@
     }
     items = D.items; series = D.series;
     byId = Object.fromEntries(items.map((i) => [i.id, i]));
-    byId.seriesCount = Object.fromEntries(series.map((s) => [s.slug, s.count]));
-    series.forEach((s) => { s._tags = [...new Set(s.items.flatMap((id) => byId[id].tags))]; });
+        series.forEach((s) => { s._tags = [...new Set(s.items.flatMap((id) => byId[id].tags))]; });
     groups = GROUPS.filter((g) => items.some((i) => g.types.includes(i.type)));     // hide empty sections
     latestIds = new Set(items.filter((i) => i.type !== 'curated').sort(sorters.new).slice(0, 5).map((i) => i.id));
     hero();

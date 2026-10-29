@@ -45,7 +45,7 @@ Add files in the usual place and push. That is all.
 
 | Content | Where | What becomes one card |
 | --- | --- | --- |
-| Write-up | `Resources/Personal/Write-ups/<Platform>/<Category>/<Lab>/README.md` (or `<Lab>.md`) | each Markdown file, rendered as its own page on the hub |
+| Write-up | `Resources/Personal/Write-ups/<Platform>/<Category>/<Lab>/README.md` (or `<Lab>.md`) | each Markdown file, rendered as its own page and filed under its category |
 | Tool | `Resources/Personal/Tools/<Lang>/<Tool>/` with a `README.md`, or a loose script | each folder or script |
 | Cheat sheet | `Resources/Personal/Cheat Sheets/<Name>/` with a `README.md` and/or `index.html` | each folder (an `index.html` is hosted on the site) |
 | Curated link | a bullet `- [name](url) - description - Topics: a, b` in `Resources/External/*/README.md` | each bullet (language and topics are also pulled from the GitHub API) |
@@ -61,9 +61,10 @@ description: One sentence for the card.   # default: first paragraph (markdown/e
 date: 2026-10-30                          # default: date the file was first committed (moves keep it)
 tags: [sqli, web, burp]                   # category and sub-folders are added automatically
 platform: PortSwigger Academy             # default: the first folder under Write-ups/
-series: Web Basics                        # default: see "Series" below
-order: 3                                  # position inside a series (default: FLAG ONE/TWO.., trailing numbers, then date)
-unit: labs                                # series counter label, e.g. "12 flags" (default: "write-ups")
+category: Web                             # default: the folder above the lab (PortSwigger is filed under Web via scripts/categories.json)
+series: Web Basics                        # optional: replaces the category as the grouping, see "Categories" below
+order: 3                                  # position inside its group (default: FLAG ONE/TWO.., trailing numbers, then date)
+unit: labs                                # counter label on the category card (default: "write-ups")
 difficulty: medium                        # easy | medium | hard | insane, shown as a badge
 draft: true                               # hide the file from the site
 ---
@@ -71,11 +72,12 @@ draft: true                               # hide the file from the site
 
 `date` always wins over git, so editing a write-up never reshuffles the timeline. Other optional fields: `updated`, `slug` (override the URL).
 
-### Series
-A **series** is a group of related write-ups shown as one card with a count, latest date and topic tags, plus its own page listing every entry in order.
-- By default the **platform folder is the series** when it holds two or more write-ups (Injured Android, PortSwigger Academy, ...).
-- Put `series: Some Name` in frontmatter to override that, or to group write-ups across platforms. A series can have a single entry.
-- Entries are ordered by `order`, then by number words and trailing numbers in the title (`FLAG TWO`, `Android 07`), then by date. When a series spans several categories, the series page groups them under headings.
+### Categories
+The hub groups write-ups by **category**: one card (and one page) per category, e.g. Android, Web, Mobile, Reverse Engineering, LLM Red Teaming. A category page lists its write-ups grouped by platform (Injured Android, PentesterLab, ...), each in order.
+- The category is the folder above the lab (`<Platform>/<Category>/<Lab>`), so the repo layout stays as it is.
+- To file a whole platform under another category without moving files, add it to `scripts/categories.json` (PortSwigger Academy is mapped to **Web**; its original topic folders such as "Information disclosure" remain searchable tags).
+- To override a single write-up, set `category:` in its frontmatter. To group write-ups some other way, set `series: Some Name` and that replaces the category as the group.
+- Order inside a platform: `order`, then number words and trailing numbers in the title (`FLAG TWO`, `Android 07`), then date.
 
 ### Profile links
 Edit `site/profile.json` for the bio and the links in the hero. Links with an empty `"url"` (HackerOne is a placeholder) are hidden until you fill them in.

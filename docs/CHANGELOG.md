@@ -1,7 +1,7 @@
 # Hub redesign: changelog
 
 ## Content
-- **Series:** write-ups group into series cards (platform folder by default, `series:` frontmatter overrides). Each series has its own page; entries are ordered by `order`, number words (`FLAG TWO`) and trailing numbers, then date.
+- **Categories:** write-ups group by category (Android, Web, Mobile, ...), one card and one page each, with entries grouped by platform inside. `scripts/categories.json` files a platform under another category (PortSwigger Academy -> Web) without touching the repo layout; `category:` or `series:` frontmatter overrides per write-up. Entries are ordered by `order`, number words (`FLAG TWO`) and trailing numbers, then date.
 - **Reading pages:** every write-up renders as its own page at `writeups/<platform>/<name>/` with ~70ch typography, highlighted code with language labels and copy buttons, sticky table of contents (dropdown on mobile), read time, tags, series prev/next, reading progress bar, "view source on GitHub" and per-page Open Graph/JSON-LD tags. Repo images are copied into the site and given width/height so pages don't jump.
 - **Metadata:** frontmatter `title`, `date`, `description`, `tags`, `platform`, `series`, `difficulty` (plus `order`, `unit`, `slug`, `updated`, `draft`). Auto descriptions strip markdown and emoji and cut at a sentence or word boundary.
 - **Dates:** git "created" dates now follow renames and moves, so reorganising folders no longer changes chronology.

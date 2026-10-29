@@ -411,7 +411,7 @@ def header(root: str) -> str:
       <span>hunting<b>.with</b>(<i>l0wk3y</i>)</span>
     </a>
     <nav class="nav" id="nav" aria-label="Sections">
-      <a href="{root}#series">Series</a><a href="{root}#writeups">Write-ups</a><a href="{root}#toolbox">Toolbox</a>
+      <a href="{root}#series">Categories</a><a href="{root}#writeups">Write-ups</a><a href="{root}#toolbox">Toolbox</a>
     </nav>
     <div class="actions">
       <button type="button" id="open-palette" class="icon-btn pal" aria-label="Search the site" aria-keyshortcuts="Control+K Meta+K">{ICON_SEARCH}<span class="lbl">Search</span><kbd>Ctrl K</kbd></button>
@@ -486,11 +486,12 @@ def write_article(it: dict, by_id: dict, series_by_slug: dict) -> None:
     if it.get("difficulty"):
         meta.append(diff_chip(it["difficulty"]))
     if sr:
-        meta.append(f'<span>Part {it["series_pos"]} of {sr["count"]}</span>')
+        meta.append(f'<span>{esc(it["group"] or sr["name"])} · {it["series_pos"]} of {it["series_total"]}</span>')
     meta_html = "".join(f"<li>{m}</li>" for m in meta)
 
-    plat = f'<a class="plat" href="{root}{sr["href"]}">{esc(it["platform"])}</a>' if sr and sr["platform"] else \
-        f'<span class="plat">{esc(it["platform"])}</span>'
+    plat = f'<span class="plat">{esc(it["platform"])}</span>'
+    if sr:
+        plat += f' <span class="sep" aria-hidden="true">/</span> <a class="plat" href="{root}{sr["href"]}">{esc(sr["name"])}</a>'
     desc = it["description"]
     desc_html = '<p class="a-desc">' + esc(desc) + "</p>" if desc else ""
     ld = json.dumps({"@context": "https://schema.org", "@type": "TechArticle", "headline": it["title"],
@@ -540,7 +541,7 @@ def write_series(sr: dict, by_id: dict) -> None:
         if multi and e["group"] != last_group:
             if rows:
                 rows.append("</ol>")
-            rows.append(f'<h2 class="grp">{esc(e["group"] or "Other")}</h2><ol class="entries" start="{n}">')
+            rows.append(f'<h2 class="grp">{esc(e["group"] or "Other")}</h2><ol class="entries">')
             last_group = e["group"]
         elif not rows:
             rows.append('<ol class="entries">')
@@ -549,22 +550,23 @@ def write_series(sr: dict, by_id: dict) -> None:
             bits.append(diff_chip(e["difficulty"]))
         desc_html = '<span class="desc">' + esc(e["description"]) + "</span>" if e["description"] else ""
         meta_html = " · ".join(bits)
-        rows.append(f'<li><a class="entry" href="{root}{e["href"]}"><span class="num" aria-hidden="true">{n:02d}</span>'
+        rows.append(f'<li><a class="entry" href="{root}{e["href"]}"><span class="num" aria-hidden="true">{e["series_pos"]:02d}</span>'
                     f'<span class="body"><strong>{esc(e["title"])}</strong>{desc_html}'
                     f'<span class="meta">{meta_html}</span></span></a></li>')
     rows.append("</ol>")
     first = entries[0]
     unit = sr["unit"] if sr["count"] != 1 else sr["unit"].rstrip("s")
-    desc = f'{sr["count"]} {unit} from {sr["name"]}, latest {long_date(sr["latest"])}.'
-    page = head(title=f'{sr["name"]} series', desc=desc, root=root, path=href)
+    plats = sr["platforms"]
+    desc = f'{sr["count"]} {unit} filed under {sr["name"]} from {len(plats)} platform{"s" if len(plats) != 1 else ""}, latest {long_date(sr["latest"])}.'
+    page = head(title=f'{sr["name"]} write-ups', desc=desc, root=root, path=href)
     page += header(root)
     page += f"""<main id="content" class="wrap series-wrap">
-  {crumbs(root, [("Series", root + "#series"), (sr["name"], None)])}
+  {crumbs(root, [("Categories", root + "#series"), (sr["name"], None)])}
   <header class="a-head">
-    <p class="eyebrow"><span class="plat">Series</span></p>
+    <p class="eyebrow"><span class="plat">Category</span></p>
     <h1>{esc(sr["name"])}</h1>
     <ul class="a-meta"><li><strong>{sr["count"]}</strong> {esc(unit)}</li><li>Latest <time datetime="{sr["latest"]}">{long_date(sr["latest"])}</time></li>
-    <li>Started {long_date(sr["earliest"])}</li></ul>
+    <li>{len(plats)} platform{"s" if len(plats) != 1 else ""}</li></ul>
     {tag_chips(root, sr["tags"])}
     <p><a class="btn primary" href="{root}{first["href"]}">Start with {esc(first["title"])} →</a></p>
   </header>
@@ -622,7 +624,7 @@ def write_search(items: list[dict], series: list[dict]) -> None:
     rows = []
     kinds = {"writeups": "Write-up", "tools": "Tool", "cheatsheets": "Cheat sheet", "projects": "Project", "curated": "Link"}
     for s in series:
-        rows.append({"t": s["name"], "k": "Series", "u": s["href"], "s": f'{s["count"]} {s["unit"]}'})
+        rows.append({"t": s["name"], "k": "Category", "u": s["href"], "s": f'{s["count"]} {s["unit"]}'})
     tag_counts: dict[str, int] = {}
     for i in items:
         for t in i["tags"]:
@@ -655,4 +657,4 @@ def render_all(items, series, profile, stats, root, site, site_url, site_name, g
     write_feed(items)
     write_sitemap(items, series)
     write_search(items, series)
-    print(f"rendered {n} write-up pages, {len(series)} series pages")
+    print(f"rendered {n} write-up pages, {len(series)} category pages")

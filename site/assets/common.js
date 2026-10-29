@@ -32,7 +32,7 @@
 
   /* ---------- command palette ---------- */
   let data = null, overlay, input, list, active = 0, shown = [], lastFocus;
-  const KIND_RANK = { Series: 0, 'Write-up': 1, Tool: 2, 'Cheat sheet': 2, Project: 2, Link: 3, Tag: 4 };
+  const KIND_RANK = { Category: 0, 'Write-up': 1, Tool: 2, 'Cheat sheet': 2, Project: 2, Link: 3, Tag: 4 };
 
   async function load() {
     if (data) return data;
@@ -42,7 +42,7 @@
   const hay = (r) => r._h || (r._h = (r.t + ' ' + r.k + ' ' + (r.s || '') + ' ' + (r.g || '')).toLowerCase());
   function search(q) {
     const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
-    if (!terms.length) return data.filter((r) => r.k === 'Series' || r.k === 'Write-up').slice(0, 12);
+    if (!terms.length) return data.filter((r) => r.k === 'Category' || r.k === 'Write-up').slice(0, 12);
     const out = [];
     for (const r of data) {
       const h = hay(r), t = r.t.toLowerCase();
