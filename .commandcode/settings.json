@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Shell(cd:*)",
+      "mcp__notion__notion-search",
+      "mcp__notion__notion-fetch",
+      "mcp__notion__notion-get-file-download-urls"
+    ],
+    "deny": [],
+    "defaultMode": "default"
+  }
+}

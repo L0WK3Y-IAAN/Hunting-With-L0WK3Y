@@ -40,6 +40,7 @@ This resource hub is a living document, and will be constantly updated with reso
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| Wiz | [Prompt Airlines CTF](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Wiz/LLM%20Red%20Teaming/Prompt%20Airlines%20CTF/README.md) | LLM Red Teaming | 10-29-2026 |
 | Bugforge.io | [CopyPasta - Daily](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Bugforge.io/Web/CopyPasta%20-%20Daily/README.md) | Web | 03-25-2026 |
 | Bugforge.io | [Gift Lab - Daily](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Bugforge.io/Web/Gift%20Lab%20-%20Daily/README.md) | Web | 03-25-2026 |
 | Bugforge.io | [CopyPasta](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/tree/main/Resources/Personal/Write-ups/Bugforge.io/Web/CopyPasta/README.md) | Web | 03-25-2026 |
