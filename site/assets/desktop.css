@@ -11,7 +11,7 @@
   --font: "MS Sans Serif", Tahoma, "Segoe UI", Verdana, Arial, sans-serif;
 }
 * { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; overflow: hidden; background: var(--bg); color: var(--iron); font: 14px/1.25 var(--font); }
+html, body { height: 100%; margin: 0; overflow: hidden; background: #000; color: var(--iron); font: 14px/1.25 var(--font); }
 button, input, select { font: inherit; color: inherit; }
 img { image-rendering: pixelated; }
 :focus-visible { outline: 1px dotted var(--iron); outline-offset: -4px; }
@@ -22,15 +22,18 @@ body.dragging iframe { pointer-events: none; }
 body.dragging { user-select: none; }
 
 /* ---------------------------------------------------------------- desktop + icons */
-#desktop { position: fixed; inset: 0 0 var(--tb) 0; overflow: hidden; }
+#desktop { position: fixed; inset: 0 0 var(--tb) 0; overflow: hidden; background: #000; }
+/* wallpaper: a square, centred, feathered into the black so the image's own edge never shows */
+#desktop::before { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; aspect-ratio: 1; transform: translateX(-50%); pointer-events: none;
+  background: url(wallpaper.webp) center / cover no-repeat; -webkit-mask-image: radial-gradient(closest-side, #000 80%, transparent 100%); mask-image: radial-gradient(closest-side, #000 80%, transparent 100%); }
 #icons { position: absolute; inset: 0; padding: 12px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 98px); grid-auto-columns: 96px; align-content: start; justify-content: start; gap: 6px 4px; }
 .dicon { width: 92px; min-height: 90px; padding: 6px 2px 4px; background: none; border: 0; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: default; text-align: center; }
 .dicon img { width: 32px; height: 32px; flex: none; }
-.dicon span { max-width: 88px; padding: 1px 3px; overflow-wrap: anywhere; font-size: 13px; line-height: 1.2; color: var(--iron); }
+.dicon span { max-width: 88px; padding: 1px 3px; overflow-wrap: anywhere; font-size: 13px; line-height: 1.2; color: #fff; text-shadow: 1px 1px 0 #000, 0 0 6px #000; }
 .dicon.sel span, .dicon:focus-visible span { background: var(--slate); color: #fff; outline: 1px dotted #fff; outline-offset: -1px; }
 .dicon:focus-visible { outline: 0; }
 .dicon.sel img { filter: sepia(1) hue-rotate(170deg) saturate(2.5) brightness(.75); }
-.brand-mark { position: absolute; right: 20px; bottom: 16px; text-align: right; color: #85574d; font: bold 28px/1 var(--font); letter-spacing: -.02em; pointer-events: none; }
+.brand-mark { position: absolute; right: 20px; bottom: 16px; text-align: right; color: #ff8fab; text-shadow: 0 0 12px #ff2d6f; font: bold 28px/1 var(--font); letter-spacing: -.02em; pointer-events: none; }
 .brand-mark small { display: block; font: 13px var(--font); letter-spacing: 0; margin-top: 4px; }
 
 /* ---------------------------------------------------------------- windows */
