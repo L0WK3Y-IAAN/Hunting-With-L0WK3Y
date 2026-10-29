@@ -6,3 +6,8 @@ __pycache__/
 site/data/
 site/img/
 site/live/
+site/media/
+site/writeups/
+site/series/
+site/feed.xml
+site/sitemap.xml

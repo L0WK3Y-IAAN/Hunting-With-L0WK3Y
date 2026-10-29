@@ -2,15 +2,18 @@
 """Scan the repo's content folders and generate the data the hub site reads.
 
 Outputs (all git-ignored, rebuilt on every run):
-  site/data/index.json   the content index
+  site/data/index.json   the content index (+ search.json for the command palette)
+  site/writeups/ series/ one static page per write-up and per series
+  site/media/            images referenced by write-ups
+  site/feed.xml, sitemap.xml
   site/img/              copy of src/img (logo, favicon)
   site/live/...          copies of any content folder that ships an index.html
 
 Optional:
   --readme   also rewrite the "Latest Blog Posts" table in README.md
 
-Standard library only. Needs full git history for accurate dates
-(actions/checkout with fetch-depth: 0); falls back to file mtime otherwise.
+Needs `pip install -r scripts/requirements.txt` (markdown-it-py, pygments) for the reading pages,
+and full git history for accurate dates (actions/checkout with fetch-depth: 0).
 """
 from __future__ import annotations
 
@@ -18,6 +21,7 @@ import argparse
 import json
 import os
 import re
+import urllib.request
 import shutil
 import subprocess
 import sys
@@ -31,6 +35,7 @@ SITE = ROOT / "site"
 REPO = "L0WK3Y-IAAN/Hunting-With-L0WK3Y"
 BRANCH = "main"
 SITE_NAME = "Hunting With L0WK3Y"
+SITE_URL = "https://l0wk3y-iaan.github.io/Hunting-With-L0WK3Y/"
 GITHUB = f"https://github.com/{REPO}"
 
 # Type id -> label, in the order the sections appear on the site.
@@ -53,11 +58,14 @@ FRONT_RE = re.compile(r"\A---\s*\n(.*?)\n---\s*(?:\n|\Z)", re.S)
 
 # ---------------------------------------------------------------- git dates
 def git_dates() -> dict[str, tuple[int, int]]:
-    """path -> (created, last_modified) as unix timestamps, from one git pass."""
+    """path -> (created, last_modified) as unix timestamps, from one git pass.
+
+    Renames/moves carry the original creation date, so reorganising folders
+    does not reshuffle chronology. Deleted-then-re-added paths keep their first date.
+    """
     try:
         out = subprocess.run(
-            ["git", "-c", "core.quotepath=off", "log", "--reverse", "--no-renames",
-             "--format=@%ct", "--name-only"],
+            ["git", "-c", "core.quotepath=off", "log", "--reverse", "-M", "--format=@%ct", "--name-status"],
             cwd=ROOT, capture_output=True, text=True, check=True).stdout
     except (subprocess.CalledProcessError, FileNotFoundError):
         return {}
@@ -66,9 +74,17 @@ def git_dates() -> dict[str, tuple[int, int]]:
     for line in out.splitlines():
         if line.startswith("@") and line[1:].isdigit():
             ts = int(line[1:])
-        elif line.strip():
-            created = dates.get(line, (ts, ts))[0]
-            dates[line] = (created, ts)
+            continue
+        parts = line.split("\t")
+        if len(parts) < 2 or not parts[0]:
+            continue
+        status = parts[0][0]
+        if status == "R" and len(parts) >= 3:
+            created = dates.get(parts[1], (ts, ts))[0]
+            dates[parts[2]] = (dates.get(parts[2], (created, ts))[0], ts)
+        elif status in "AMC":
+            path = parts[-1]
+            dates[path] = (dates.get(path, (ts, ts))[0], ts)
     return dates
 
 
@@ -134,12 +150,33 @@ def as_list(v) -> list[str]:
     return [t.strip() for t in str(v).split(",") if t.strip()]
 
 
+EMOJI_RE = re.compile("[\U0001F000-\U0001FAFF\u2190-\u21FF\u2300-\u23FF\u25A0-\u27BF\u2900-\u297F\u2B00-\u2BFF"
+                      "\uFE0F\u200D\u20E3]+")
+
+
 def strip_md(s: str) -> str:
     s = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", s)
     s = re.sub(r"\[([^\]]+)\]\([^)]*\)", r"\1", s)
     s = re.sub(r"<[^>]+>", "", s)
     s = re.sub(r"`+|\*+|~~|(?<!\w)_+|_+(?!\w)", "", s)
+    s = EMOJI_RE.sub("", s)
     return re.sub(r"\s+", " ", s).strip()
+
+
+def truncate(text: str, limit: int = 200) -> str:
+    """Cut at a sentence end if one lands in a sensible spot, else at a word boundary."""
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit + 1]
+    ends = [m.end() for m in re.finditer(r"[.!?](?=\s|$)", cut)]
+    ends = [e for e in ends if e >= limit * 0.5]
+    if ends:
+        return cut[:ends[-1]].strip()
+    cut = cut[:limit]
+    if not text[limit].isspace():        # we are mid-word: back up to the previous space
+        cut = cut.rsplit(" ", 1)[0] if " " in cut else cut
+    return cut.rstrip(" ,;:-–—(") + "…"
 
 
 def first_heading(body: str) -> str | None:
@@ -152,7 +189,7 @@ def first_heading(body: str) -> str | None:
     return None
 
 
-def first_paragraph(body: str, limit: int = 220) -> str:
+def first_paragraph(body: str, limit: int = 200) -> str:
     """First real prose paragraph: skips headings, images, tables, code, html, bare labels."""
     in_code = False
     para: list[str] = []
@@ -166,13 +203,12 @@ def first_paragraph(body: str, limit: int = 220) -> str:
         if not s:
             if para:
                 text = strip_md(" ".join(para))
-                if len(text) >= 25 and not text.endswith(":") and not re.match(r"^https?://\S+$", text):
-                    return text if len(text) <= limit else text[:limit].rsplit(" ", 1)[0] + "…"
+                if len(text) >= 25 and not text.endswith(":") and not re.match(r"^https?://\S+\.?$", text):
+                    return truncate(text, limit)
                 para = []
             continue
         if s.startswith(("#", "|", "![", "<", "---", "***", "===", "- ", "* ", "+ ")) or re.match(r"^\d+\.\s", s):
-            if para:
-                para = []
+            para = []
             continue
         if s.startswith(">"):
             s = s.lstrip("> ").strip()
@@ -210,8 +246,7 @@ def code_comment(text: str, limit: int = 200) -> str:
         c = m.group(1).strip(" =-*")
         if c:
             lines.append(c)
-    out = " ".join(lines)
-    return out if len(out) <= limit else out[:limit].rsplit(" ", 1)[0] + "…"
+    return truncate(" ".join(lines), limit)
 
 
 def fmt_date(ts: int) -> str:
@@ -294,6 +329,18 @@ class Builder:
         )
         if extra:
             item.update(extra)
+        if type_ == "writeups":
+            # frontmatter overrides; `_`-prefixed keys never reach the JSON
+            if fm.get("platform"):
+                item["platform"] = str(fm["platform"])
+            if fm.get("difficulty"):
+                item["difficulty"] = str(fm["difficulty"])
+            item["_series"] = str(fm["series"]).strip() if fm.get("series") else None
+            item["_order"] = float(fm["order"]) if re.match(r"^-?\d+(\.\d+)?$", str(fm.get("order", ""))) else None
+            item["_unit"] = str(fm["unit"]).strip() if fm.get("unit") else None
+            item["_slug"] = slug(str(fm["slug"])) if fm.get("slug") else None
+            item["_src"], item["_body"] = md, body
+            item["tags"] = [t for t in item["tags"] if t.lower() != item["platform"].lower()]
         self.add(**item)
 
     # --- Write-ups/<Platform>/.../<Category>/<Lab>/(README.md | <anything>.md)
@@ -414,6 +461,128 @@ class Builder:
                 i += 1
 
 
+# ---------------------------------------------------------------- series
+NUM_WORDS = {w: i for i, w in enumerate(
+    "ZERO ONE TWO THREE FOUR FIVE SIX SEVEN EIGHT NINE TEN ELEVEN TWELVE THIRTEEN FOURTEEN FIFTEEN "
+    "SIXTEEN SEVENTEEN EIGHTEEN NINETEEN TWENTY".split())}
+NUM_RE = re.compile(r"\b(" + "|".join(w for w in NUM_WORDS if w != "ZERO") + r")\b")
+SERIES_UNITS = {"Injured Android": "flags", "PortSwigger Academy": "labs", "PentesterLab": "exercises"}
+
+
+def natural_number(title: str) -> int | None:
+    m = NUM_RE.search(title)          # FLAG TWO, FLAG ELEVEN ... (upper-case words only)
+    if m:
+        return NUM_WORDS[m.group(1)]
+    m = re.search(r"\d+", title)     # Android 07
+    return int(m.group()) if m else None
+
+
+def unit_for(name: str, entries: list[dict]) -> str:
+    for e in entries:
+        if e.get("_unit"):
+            return e["_unit"]
+    if sum(1 for e in entries if re.match(r"(?i)^flag\b", e["title"])) > len(entries) / 2:
+        return "flags"
+    return SERIES_UNITS.get(name, "write-ups")
+
+
+def assign_series(items: list[dict]) -> list[dict]:
+    """Group write-ups into series and give every write-up its hub URL, order and neighbours."""
+    ws = [i for i in items if i["type"] == "writeups"]
+    per_platform: dict[str, int] = {}
+    for i in ws:
+        per_platform[i["platform"]] = per_platform.get(i["platform"], 0) + 1
+
+    # unique, stable page slugs: writeups/<platform>/<name>/
+    seen: set[str] = set()
+    for i in ws:
+        base = f"{slug(i['platform'])}/{i['_slug'] or slug(i['name'])}"
+        cand, n = base, 2
+        while cand in seen:
+            cand, n = f"{base}-{n}", n + 1
+        seen.add(cand)
+        i["slug"] = cand
+        i["href"] = f"writeups/{cand}/"
+
+    groups: dict[str, list[dict]] = {}
+    for i in ws:
+        name = i["_series"] or (i["platform"] if per_platform[i["platform"]] >= 2 else None)
+        i["series"] = name
+        if name:
+            groups.setdefault(name, []).append(i)
+
+    def key(i: dict):
+        if i["_order"] is not None:
+            return (0, i["_order"], i["date"], i["title"])
+        n = natural_number(i["title"])
+        return (1, n, i["date"], i["title"]) if n is not None else (2, 0, i["date"], i["title"].lower())
+
+    series = []
+    used: set[str] = set()
+    for name, entries in groups.items():
+        entries.sort(key=key)
+        sslug, n = slug(name) or "series", 2
+        while sslug in used:
+            sslug, n = f"{slug(name)}-{n}", n + 1
+        used.add(sslug)
+        counts: dict[str, int] = {}
+        for e in entries:
+            for t in e["tags"]:
+                counts[t] = counts.get(t, 0) + 1
+        top = [t for t, _ in sorted(counts.items(), key=lambda kv: (-kv[1], kv[0].lower()))][:5]
+        cats = list(dict.fromkeys(e["category"] for e in entries))
+        for idx, e in enumerate(entries):
+            e["series_slug"], e["series_pos"] = sslug, idx + 1
+            e["series_prev"] = entries[idx - 1]["id"] if idx else None
+            e["series_next"] = entries[idx + 1]["id"] if idx + 1 < len(entries) else None
+            e["group"] = e["category"] if len(cats) > 1 else None
+        platforms = list(dict.fromkeys(e["platform"] for e in entries))
+        series.append({
+            "slug": sslug, "name": name, "href": f"series/{sslug}/",
+            "platform": platforms[0] if len(platforms) == 1 else None,
+            "count": len(entries), "unit": unit_for(name, entries),
+            "latest": max(e["date"] for e in entries), "earliest": min(e["date"] for e in entries),
+            "tags": top, "items": [e["id"] for e in entries],
+        })
+    for i in ws:
+        i.setdefault("series_slug", None)
+    series.sort(key=lambda s: (s["latest"], s["name"]), reverse=True)
+    return series
+
+
+# ---------------------------------------------------------------- curated enrichment
+def enrich_curated(items: list[dict]) -> None:
+    """Show where a link goes, and add language/topic chips from the GitHub API (best effort)."""
+    token = os.environ.get("GITHUB_TOKEN") or os.environ.get("GH_TOKEN")
+    for i in items:
+        if i["type"] != "curated":
+            continue
+        u = urllib.parse.urlparse(i["url"])
+        host = u.netloc.removeprefix("www.")
+        i["display"] = host + u.path.rstrip("/")
+        m = re.match(r"^/([\w.-]+)/([\w.-]+)/?$", u.path)
+        if host != "github.com" or not m:
+            continue
+        req = urllib.request.Request(f"https://api.github.com/repos/{m.group(1)}/{m.group(2)}",
+                                     headers={"Accept": "application/vnd.github+json", "User-Agent": "hwl-hub-build"})
+        if token:
+            req.add_header("Authorization", f"Bearer {token}")
+        try:
+            with urllib.request.urlopen(req, timeout=6) as r:
+                meta = json.load(r)
+        except Exception as e:                      # offline, rate-limited, renamed: all fine
+            print(f"  (no GitHub metadata for {i['display']}: {type(e).__name__})", file=sys.stderr)
+            continue
+        extra = ([meta["language"]] if meta.get("language") else []) + [t for t in meta.get("topics", [])][:6]
+        kind = i["tags"][0] if i["tags"] else ""
+        rest = [t for t in i["tags"][1:] if t.lower() not in {x.lower() for x in extra}]
+        i["tags"] = dedupe([kind] + extra + rest)
+        if meta.get("language"):
+            i["language"] = meta["language"]
+        if not i["description"] and meta.get("description"):
+            i["description"] = truncate(strip_md(meta["description"]), 200)
+
+
 # ---------------------------------------------------------------- outputs
 def copy_assets(b: Builder) -> None:
     img_src = ROOT / "src" / "img"
@@ -454,9 +623,25 @@ def update_readme(items: list[dict]) -> bool:
     return False
 
 
+def load_profile() -> dict:
+    default = {"name": "L0WK3Y", "handle": "l0wk3y", "tagline": "Bug bounty hunter & mobile security researcher",
+               "bio": "", "links": []}
+    f = SITE / "profile.json"
+    try:
+        return {**default, **json.loads(f.read_text(encoding="utf-8"))}
+    except (OSError, ValueError):
+        return default
+
+
+def clean_generated() -> None:
+    for d in ("writeups", "series", "media"):
+        shutil.rmtree(SITE / d, ignore_errors=True)
+
+
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--readme", action="store_true", help="also refresh the README 'Latest Blog Posts' table")
+    ap.add_argument("--offline", action="store_true", help="skip GitHub API lookups for curated links")
     args = ap.parse_args()
 
     if is_shallow():
@@ -472,12 +657,34 @@ def main() -> int:
     b.scan_folders(ROOT / "Projects", "projects")
 
     b.items.sort(key=lambda i: (i["date"], i["title"].lower()), reverse=True)
+    series = assign_series(b.items)
+    if args.offline:
+        for i in b.items:
+            if i["type"] == "curated":
+                u = urllib.parse.urlparse(i["url"])
+                i["display"] = u.netloc.removeprefix("www.") + u.path.rstrip("/")
+    else:
+        enrich_curated(b.items)
+
     counts = {t: sum(1 for i in b.items if i["type"] == t) for t in TYPES}
+    ws = [i for i in b.items if i["type"] == "writeups"]
+    profile = load_profile()
+    stats = {"writeups": len(ws), "platforms": len({i["platform"] for i in ws}), "series": len(series),
+             "updated": max((i["updated"] for i in b.items), default="")}
+
+    # render the reading pages, series pages, feed, sitemap and palette index
+    import hub_pages
+    clean_generated()
+    hub_pages.render_all(b.items, series, profile, stats, ROOT, SITE, SITE_URL, SITE_NAME, GITHUB)
+
+    public = [{k: v for k, v in i.items() if not k.startswith("_")} for i in b.items]
     data = {
-        "site": {"name": SITE_NAME, "repo": GITHUB, "branch": BRANCH},
+        "site": {"name": SITE_NAME, "repo": GITHUB, "branch": BRANCH, "url": SITE_URL},
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+        "profile": profile, "stats": stats,
         "types": [{"id": t, "label": l, "count": counts[t]} for t, l in TYPES.items()],
-        "items": b.items,
+        "series": series,
+        "items": public,
     }
     out = SITE / "data" / "index.json"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -485,7 +692,7 @@ def main() -> int:
     copy_assets(b)
 
     print(f"wrote {out.relative_to(ROOT)}: {len(b.items)} items " +
-          ", ".join(f"{TYPES[t]}={n}" for t, n in counts.items()))
+          ", ".join(f"{TYPES[t]}={n}" for t, n in counts.items()) + f", series={len(series)}")
     if args.readme:
         print("README.md updated" if update_readme(b.items) else "README.md already up to date")
     return 0
