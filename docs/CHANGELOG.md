@@ -36,3 +36,4 @@
 - Phones, touch screens, narrow windows and no-JS visitors are sent to `/hub/`; `?desktop` overrides.
 - Icons are the Windows 98 set from the Windows98Scaled icon pack (32px and 16px true-colour frames extracted to `site/assets/icons98/`); the Start flag, tray speaker and message-box icons (not in the pack) are drawn in code. Credit and MIT license for the window-chrome inspiration are in `site/assets/LICENSE-windows-95.txt`.
 - Desktop wallpaper: neon wireframe on black (`site/assets/wallpaper.webp` is the still; save an animated `site/assets/wallpaper.gif` next to it and it plays on top); icon labels are white with a shadow so they stay readable.
+- PortSwigger Academy progress (levels, per-topic bars and status) is parsed from README.md at build time: a section on the hub, a `PortSwigger` window on the desktop (Start > Programs, Run `labs`), and a palette entry.

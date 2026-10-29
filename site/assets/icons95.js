@@ -33,7 +33,7 @@ window.ICONS95 = (() => {
     mail: [['k', 1, 3, 14, 10], ['w', 2, 4, 12, 8], ['k', 2, 4, 1, 1], ['k', 3, 5, 1, 1], ['k', 4, 6, 1, 1], ['k', 5, 7, 2, 1], ['k', 9, 7, 2, 1], ['k', 11, 6, 1, 1], ['k', 12, 5, 1, 1], ['k', 13, 4, 1, 1]],
   };
   // Windows 98 icons (32px and 16px frames) shipped in assets/icons98/; anything not listed is drawn below
-  const WIN98 = new Set(['folder', 'folderOpen', 'doc', 'code', 'notepad', 'computer', 'globe', 'favorites', 'bin', 'exe', 'book', 'tools', 'search', 'run', 'shutdown', 'rss', 'help']);
+  const WIN98 = new Set(['folder', 'folderOpen', 'doc', 'code', 'notepad', 'computer', 'globe', 'favorites', 'bin', 'exe', 'book', 'tools', 'search', 'run', 'shutdown', 'rss', 'help', 'lock']);
   const cache = {};
   function icon(name, size = 32) {
     if (WIN98.has(name)) return `assets/icons98/${name}-${size <= 16 ? 16 : 32}.png`;

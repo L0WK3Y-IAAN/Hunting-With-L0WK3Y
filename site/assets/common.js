@@ -34,7 +34,7 @@
 
   /* ---------- command palette ---------- */
   let data = null, overlay, input, list, active = 0, shown = [], lastFocus;
-  const KIND_RANK = { Category: 0, 'Write-up': 1, Tool: 2, 'Cheat sheet': 2, Project: 2, Link: 3, Tag: 4 };
+  const KIND_RANK = { Category: 0, Progress: 1, 'Write-up': 1, Tool: 2, 'Cheat sheet': 2, Project: 2, Link: 3, Tag: 4 };
 
   async function load() {
     if (data) return data;

@@ -622,9 +622,12 @@ def write_sitemap(items: list[dict], series: list[dict]) -> None:
         encoding="utf-8")
 
 
-def write_search(items: list[dict], series: list[dict]) -> None:
+def write_search(items: list[dict], series: list[dict], portswigger: dict | None = None) -> None:
     rows = []
     kinds = {"writeups": "Write-up", "tools": "Tool", "cheatsheets": "Cheat sheet", "projects": "Project", "curated": "Link"}
+    if portswigger:
+        o = portswigger["overall"]
+        rows.append({"t": "PortSwigger Academy progress", "k": "Progress", "u": "hub/#progress", "s": f'{o["done"]}/{o["total"]} labs', "g": "portswigger academy labs apprentice practitioner expert"})
     for s in series:
         rows.append({"t": s["name"], "k": "Category", "u": s["href"], "s": f'{s["count"]} {s["unit"]}'})
     tag_counts: dict[str, int] = {}
@@ -643,7 +646,7 @@ def write_search(items: list[dict], series: list[dict]) -> None:
     out.write_text(json.dumps(rows, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
 
 
-def render_all(items, series, profile, stats, root, site, site_url, site_name, github) -> None:
+def render_all(items, series, profile, stats, root, site, site_url, site_name, github, portswigger=None) -> None:
     global ROOT, SITE, SITE_URL, SITE_NAME, GITHUB, REPO_SLUG
     ROOT, SITE, SITE_URL, SITE_NAME, GITHUB = root, site, site_url, site_name, github
     REPO_SLUG = github.removeprefix("https://github.com/")
@@ -658,5 +661,5 @@ def render_all(items, series, profile, stats, root, site, site_url, site_name, g
         write_series(s, by_id)
     write_feed(items)
     write_sitemap(items, series)
-    write_search(items, series)
+    write_search(items, series, portswigger)
     print(f"rendered {n} write-up pages, {len(series)} category pages")

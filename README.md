@@ -82,6 +82,9 @@ The hub groups write-ups by **category**: one card (and one page) per category, 
 ### Desktop view
 `site/index.html` + `site/assets/desktop.{css,js}` render the same `data/index.json` as a Windows 98-style desktop: each category is a folder (platforms are sub-folders), the Toolbox, Favorites (curated links) and Projects are folders, and a write-up opens in its own draggable window (an iframe of its static page in `?embed` mode). Start > Find (or Ctrl K) searches everything, Run opens things by name, and `#open=<page path>` links straight to a window. Add content as usual and the desktop updates itself; there is nothing desktop-specific to maintain. `?desktop` forces the desktop on small screens, and Start > Simple View (or the "Desktop view" link on the hub) switches between the two. The desktop look is inspired by the "Windows 95" CodePen by Gabrielle Wee (MIT, see `site/assets/LICENSE-windows-95.txt`); the icons are Windows 98 icons (`site/assets/icons98/`, © Microsoft, from the Windows98Scaled icon pack), with a few drawn fallbacks in `site/assets/icons95.js`.
 
+### PortSwigger progress
+The "My PortSwigger Academy Progress" list and the "Topic Progress" table in this README are the source of truth. The build parses them, so editing the numbers here and pushing updates the progress section on the hub, the PortSwigger window on the desktop, and the search palette. Keep the existing row format (`| Topic | Labs | solved/total | status emoji | MM/DD/YYYY |`, status 🟢 done, 🔵 in progress, 🔴 not started).
+
 ### Profile links
 Edit `site/profile.json` for the bio and the links in the hero. Links with an empty `"url"` (HackerOne is a placeholder) are hidden until you fill them in.
 

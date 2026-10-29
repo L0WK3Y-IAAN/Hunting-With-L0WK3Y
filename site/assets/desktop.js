@@ -333,6 +333,7 @@
     const line = (t) => doc.append(document.createTextNode(t + '\n'));
     doc.append(el('h1', { textContent: 'ABOUT ME.TXT' }));
     line(`${p.name || 'L0WK3Y'} · ${p.tagline || ''}`); line(''); line(p.bio || ''); line('');
+    if (D.portswigger) line(`portswigger ${D.portswigger.overall.done}/${D.portswigger.overall.total} labs`);
     line(`write-ups   ${st.writeups}`); line(`platforms   ${st.platforms}`); line(`categories  ${st.series}`); line(`updated     ${fmt(st.updated)}`); line('');
     line('Find me:');
     (p.links || []).filter((l) => l.url).forEach((l) => { doc.append(document.createTextNode(`  ${l.label.padEnd(10)}`)); doc.append(el('a', { href: l.url, target: '_blank', rel: 'noopener me', textContent: l.url })); doc.append('\n'); });
@@ -347,6 +348,40 @@
     dialog({ id: 'about-desktop', title: 'About Hunting Desktop', ico: 'computer', w: 420, body: [
       'Hunting Desktop 98', `${D.stats.writeups} write-ups in ${D.stats.series} categories, rebuilt from the repo on every push.`,
       'Window chrome inspired by the "Windows 95" CodePen by Gabrielle Wee (MIT License). Icons: Windows 98 icon pack.'], buttons: [{ label: 'OK', def: true }] });
+  }
+
+  /* ---------- PortSwigger progress (from README.md via data/index.json) ---------- */
+  const pbar = (done, total, label) => {
+    const b = el('div', { className: 'pbar' }, el('i', { style: `width:${total ? (100 * done / total).toFixed(1) : 0}%` }));
+    b.setAttribute('role', 'progressbar'); b.setAttribute('aria-label', label);
+    b.setAttribute('aria-valuemin', '0'); b.setAttribute('aria-valuemax', String(total)); b.setAttribute('aria-valuenow', String(done));
+    return b;
+  };
+  function openPortSwigger() {
+    const ps = D.portswigger;
+    if (!ps) { alertBox('PortSwigger Academy', 'No PortSwigger progress found in README.md.', 'info'); return; }
+    const win = openWindow({ id: 'portswigger', title: 'PortSwigger Academy - Progress', icon: 'lock', w: 600, h: 520 });
+    if (win.body.childElementCount) return;
+    const pane = el('div', { className: 'pane psw' });
+    const top = el('div', { className: 'ps-top' }, el('b', { textContent: `${ps.overall.done} of ${ps.overall.total} labs solved` }), el('span', { textContent: ps.updated ? ` · updated ${fmt(ps.updated)}` : '' }));
+    pane.append(top);
+    ps.levels.forEach((l) => pane.append(el('div', { className: 'ps-lv' }, el('span', { textContent: l.label }), pbar(l.done, l.total, `${l.label} labs solved`), el('span', { className: 'n', textContent: `${l.done}/${l.total}  ${l.pct}%` }))));
+    const tbl = el('table', { className: 'det ps-tbl' }), cg = el('colgroup');
+    ['46%', '26%', '12%', '16%'].forEach((w) => cg.append(el('col', { style: 'width:' + w })));
+    tbl.append(cg, el('thead', {}, el('tr', {}, ...['Topic', 'Progress', 'Solved', 'Status'].map((t) => el('th', { textContent: t })))));
+    const tb = el('tbody');
+    const ST = { done: 'Complete', progress: 'In progress', todo: 'Not started' };
+    [...new Set(ps.topics.map((t) => t.group))].forEach((g) => {
+      tb.append(el('tr', { className: 'grp' }, el('td', { colSpan: 4, textContent: g })));
+      ps.topics.filter((t) => t.group === g).forEach((t) => tb.append(el('tr', { className: 'row' }, el('td', { textContent: t.name }), el('td', {}, pbar(t.done, t.total, `${t.name} labs solved`)), el('td', { textContent: `${t.done}/${t.total}` }), el('td', { textContent: ST[t.status] }))));
+    });
+    tbl.append(tb); pane.append(tbl);
+    const open = el('button', { type: 'button', className: 'btn', textContent: 'Open Academy' });
+    open.addEventListener('click', () => window.open(ps.url, '_blank', 'noopener'));
+    const mine = el('button', { type: 'button', className: 'btn', textContent: 'My write-ups' });
+    mine.addEventListener('click', () => { const web = model.cats.find((c) => c.name === 'Web'); if (web) openExplorer(web); });
+    win.body.append(menubar([{ label: 'File', items: () => [{ label: 'Open Academy in New Tab', action: () => window.open(ps.url, '_blank', 'noopener') }, '-', { label: 'Close', action: () => win.close() }] }, { label: 'Help', items: () => [{ label: 'About Hunting Desktop', action: aboutDesktop }] }]),
+      el('div', { className: 'toolbar' }, open, mine), pane, el('div', { className: 'status' }, el('div', { textContent: `${ps.topics.length} topics · numbers come from README.md` })));
   }
 
   /* ---------- find + run ---------- */
@@ -375,7 +410,7 @@
   function runCommand(raw) {
     const q = raw.trim().toLowerCase();
     if (!q) return true;
-    const special = { hub: goHub, simple: goHub, exit: goHub, about: openAbout, whoami: openAbout, find: () => openFind(), github: () => window.open(D.site.repo, '_blank', 'noopener'), feed: () => window.open('feed.xml', '_blank', 'noopener'), rss: () => window.open('feed.xml', '_blank', 'noopener'), shutdown: shutDown, help: aboutDesktop };
+    const special = { hub: goHub, simple: goHub, exit: goHub, about: openAbout, whoami: openAbout, portswigger: openPortSwigger, ps: openPortSwigger, labs: openPortSwigger, find: () => openFind(), github: () => window.open(D.site.repo, '_blank', 'noopener'), feed: () => window.open('feed.xml', '_blank', 'noopener'), rss: () => window.open('feed.xml', '_blank', 'noopener'), shutdown: shutDown, help: aboutDesktop };
     if (special[q]) { special[q](); return true; }
     const folders = [...model.cats, model.toolbox, model.favs, model.projects].filter((f) => f.children.length);
     const f = folders.find((x) => x.name.toLowerCase() === q) || folders.find((x) => x.name.toLowerCase().startsWith(q));
@@ -420,6 +455,7 @@
   function buildDesktop() {
     iconsBox.replaceChildren();
     deskIcon('About Me', 'notepad', openAbout);
+    if (D.portswigger) deskIcon('PortSwigger', 'lock', openPortSwigger);
     model.cats.forEach((c) => deskIcon(c.name, 'folder', () => openExplorer(c)));
     [model.toolbox, model.favs, model.projects].forEach((f) => { if (f.children.length) deskIcon(f.name, f.icon, () => openExplorer(f)); });
     deskIcon('Find', 'search', () => openFind());
@@ -452,7 +488,7 @@
       } else { b.addEventListener('mouseenter', () => startEl.querySelectorAll('li.open').forEach((x) => x.classList.remove('open'))); b.addEventListener('click', () => { closeStart(); fn(); }); li.append(b); }
       return li;
     };
-    const programs = sub('Programs', [...model.cats.map((c) => [c.name, 'folder', () => openExplorer(c)]), ...[model.toolbox, model.favs, model.projects].filter((f) => f.children.length).map((f) => [f.name, f.icon, () => openExplorer(f)])]);
+    const programs = sub('Programs', [...model.cats.map((c) => [c.name, 'folder', () => openExplorer(c)]), ...(D.portswigger ? [['PortSwigger Progress', 'lock', openPortSwigger]] : []), ...[model.toolbox, model.favs, model.projects].filter((f) => f.children.length).map((f) => [f.name, f.icon, () => openExplorer(f)])]);
     const docs = sub('Documents', items.filter((i) => i.type === 'writeups').slice(0, 8).map((i) => [i.title, 'doc', () => openDoc(i)]), 'Newest write-ups');
     const ul = el('ul', {}, entry('Programs', 'folderOpen', null, programs), entry('Documents', 'doc', null, docs), entry('Find…', 'search', openFind), entry('Run…', 'run', openRun), entry('Help', 'help', aboutDesktop), el('hr'), entry('Simple View', 'globe', goHub), entry('Shut Down…', 'shutdown', shutDown));
     startEl = el('div', { id: 'start-menu' }, el('div', { className: 'side' }, el('b', { innerHTML: 'Hunting <i>98</i>' })), ul);

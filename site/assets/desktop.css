@@ -158,3 +158,16 @@ table.det col.c1 { width: 46%; } table.det col.c2 { width: 20%; } table.det col.
 #off { position: fixed; inset: 0; z-index: 99999; background: #000; color: #e98a3a; display: grid; place-items: center; text-align: center; font: 22px/1.4 var(--font); cursor: pointer; }
 
 @media (pointer: coarse) { .dicon { padding: 10px 2px; } .btn { height: 34px; } }
+
+/* PortSwigger window: Win98-style segmented progress bars */
+.pbar { height: 16px; background: #fff; box-shadow: var(--field); padding: 2px; }
+.pbar i { display: block; height: 100%; background: repeating-linear-gradient(90deg, var(--slate) 0 8px, #fff 8px 10px); }
+.psw { padding: 10px 12px; background: #fff; }
+.ps-top { margin-bottom: 8px; }
+.ps-lv { display: grid; grid-template-columns: 96px 1fr 110px; gap: 10px; align-items: center; margin: 6px 0; }
+.ps-lv .n { text-align: right; white-space: nowrap; }
+.ps-tbl { margin-top: 14px; }
+.ps-tbl th { position: static; }
+.ps-tbl tr.grp td { background: var(--g2); font-weight: bold; padding: 3px 6px; }
+.ps-tbl td .pbar { height: 12px; padding: 1px; }
+.ps-tbl td .pbar i { background: repeating-linear-gradient(90deg, var(--slate) 0 5px, #fff 5px 7px); }

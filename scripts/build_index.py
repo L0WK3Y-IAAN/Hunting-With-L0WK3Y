@@ -630,6 +630,46 @@ def update_readme(items: list[dict]) -> bool:
     return False
 
 
+def parse_portswigger() -> dict | None:
+    """Read the PortSwigger Academy progress from README.md (the source of truth), so updating the README
+    updates the site. Expects the "My PortSwigger Academy Progress" list and the "Topic Progress" table."""
+    try:
+        text = (ROOT / "README.md").read_text(encoding="utf-8")
+    except OSError:
+        return None
+    levels = []
+    for m in re.finditer(r"(Apprentice|Practitioner|Expert)\*\*:\s*(\d+)\s*/\s*(\d+)", text):
+        done, total = int(m.group(2)), int(m.group(3))
+        levels.append({"id": m.group(1).lower(), "label": m.group(1), "done": done, "total": total,
+                       "pct": round(100 * done / total, 1) if total else 0.0})
+    topics, group = [], ""
+    status_by_emoji = {"🟢": "done", "🔵": "progress", "🔴": "todo"}
+    for line in text.splitlines():
+        if not line.startswith("|") or "---" in line:
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) < 5:
+            continue
+        head = re.sub(r"[*]", "", cells[0]).strip()
+        if not any(cells[1:]):                                   # group row: | **Server-side topics 🟧** | | | | |
+            group = EMOJI_RE.sub("", head).strip()
+            continue
+        pm = re.match(r"^(\d+)\s*/\s*(\d+)$", cells[2])
+        if not pm or not cells[1].isdigit():
+            continue                                             # header row or a different table
+        d = re.match(r"^(\d{2})/(\d{2})/(\d{4})$", cells[4])
+        done, total = int(pm.group(1)), int(pm.group(2))
+        topics.append({"group": group, "name": head, "labs": int(cells[1]), "done": done, "total": total,
+                       "status": next((v for k, v in status_by_emoji.items() if k in cells[3]), "todo"),
+                       "updated": f"{d.group(3)}-{d.group(1)}-{d.group(2)}" if d else ""})
+    if not levels and not topics:
+        return None
+    t_done, t_total = sum(t["done"] for t in topics), sum(t["total"] for t in topics)
+    return {"levels": levels, "topics": topics, "url": "https://portswigger.net/web-security",
+            "overall": {"done": sum(l["done"] for l in levels) or t_done, "total": sum(l["total"] for l in levels) or t_total},
+            "updated": max((t["updated"] for t in topics), default="")}
+
+
 def load_categories() -> dict:
     """scripts/categories.json maps a platform folder to the category it should be filed under."""
     try:
@@ -691,13 +731,14 @@ def main() -> int:
     # render the reading pages, series pages, feed, sitemap and palette index
     import hub_pages
     clean_generated()
-    hub_pages.render_all(b.items, series, profile, stats, ROOT, SITE, SITE_URL, SITE_NAME, GITHUB)
+    portswigger = parse_portswigger()
+    hub_pages.render_all(b.items, series, profile, stats, ROOT, SITE, SITE_URL, SITE_NAME, GITHUB, portswigger)
 
     public = [{k: v for k, v in i.items() if not k.startswith("_")} for i in b.items]
     data = {
         "site": {"name": SITE_NAME, "repo": GITHUB, "branch": BRANCH, "url": SITE_URL},
         "generated": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
-        "profile": profile, "stats": stats,
+        "profile": profile, "stats": stats, "portswigger": portswigger,
         "types": [{"id": t, "label": l, "count": counts[t]} for t, l in TYPES.items()],
         "series": series,
         "items": public,

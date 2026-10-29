@@ -168,6 +168,43 @@
     return sec;
   }
 
+  /* ---------- PortSwigger progress (parsed from README.md at build time) ---------- */
+  function meter(done, total, label) {
+    const m = el('div', { className: 'meter' }, el('i', { style: `width:${total ? (100 * done / total).toFixed(1) : 0}%` }));
+    m.setAttribute('role', 'progressbar'); m.setAttribute('aria-label', label);
+    m.setAttribute('aria-valuemin', '0'); m.setAttribute('aria-valuemax', String(total)); m.setAttribute('aria-valuenow', String(done));
+    return m;
+  }
+  const STATUS = { done: 'Complete', progress: 'In progress', todo: 'Not started' };
+  function progressSection() {
+    const ps = D.portswigger;
+    const sec = el('section', { className: 'section fade', id: 'progress' });
+    sec.setAttribute('aria-labelledby', 'progress-h');
+    sec.append(el('h2', { className: 'sec-h', id: 'progress-h' }, el('span', { className: 'mono', textContent: '>', ariaHidden: 'true' }), 'PortSwigger progress', el('small', { textContent: `${ps.overall.done} / ${ps.overall.total} labs` })));
+    const card = el('div', { className: 'ps-card' });
+    const head = el('div', { className: 'ps-head' }, el('p', { className: 'muted', textContent: 'Web Security Academy' + (ps.updated ? ` · updated ${fmt(ps.updated)}` : '') }));
+    const links = el('div', { className: 'ps-links' });
+    const a1 = el('a', { href: ps.url, target: '_blank', rel: 'noopener', textContent: 'Open the Academy ↗' });
+    const a2 = el('a', { href: '?q=portswigger', textContent: 'My write-ups' });
+    links.append(a1, a2); head.append(links); card.append(head);
+    const ul = el('ul', { className: 'ps-levels' });
+    ps.levels.forEach((l) => ul.append(el('li', { className: 'lv-' + l.id }, el('span', { className: 'ps-name', textContent: l.label }), meter(l.done, l.total, `${l.label} labs solved`), el('span', { className: 'ps-num', textContent: `${l.done}/${l.total} · ${l.pct}%` }))));
+    card.append(ul);
+    if (ps.topics.length) {
+      const det = el('details', { className: 'ps-topics' }, el('summary', { textContent: `Topic breakdown (${ps.topics.length} topics)` }));
+      const groups = [...new Set(ps.topics.map((t) => t.group))];
+      groups.forEach((g) => {
+        det.append(el('h3', { textContent: g }));
+        const list = el('ul', { className: 'ps-rows' });
+        ps.topics.filter((t) => t.group === g).forEach((t) => list.append(el('li', {}, el('span', { className: 'ps-topic', textContent: t.name }), meter(t.done, t.total, `${t.name} labs solved`), el('span', { className: 'ps-num', textContent: `${t.done}/${t.total}` }), el('span', { className: 'ps-status st-' + t.status, textContent: STATUS[t.status] }))));
+        det.append(list);
+      });
+      card.append(det);
+    }
+    sec.append(card);
+    return sec;
+  }
+
   function renderLatest() {
     const wrapEl = $('#latest-wrap');
     const showing = !state.q && !state.tags.length && state.type === 'all';
@@ -197,6 +234,7 @@
       box.append(section('series', 'Categories', sm.length, sm.map(seriesCard)));
       shown += sm.length;
     }
+    if (D.portswigger && !filtering && state.type === 'all') { box.append(progressSection()); shown += 1; }
     groups.forEach((g) => {
       if (!wantType(g.id)) return;
       let list = byGroup[g.id].slice().sort(sorters[state.sort]);

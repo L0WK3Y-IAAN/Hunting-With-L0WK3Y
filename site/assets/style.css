@@ -420,3 +420,33 @@ html.embed .a-head h1 { font-size: 1.9rem; }
 html.embed .eyebrow a { pointer-events: none; }
 html.embed .prose { font-size: 16px; }
 html.embed .pn { max-width: none; }
+
+/* ============================================================ PortSwigger progress */
+.ps-card { background: var(--card); border: 1px solid var(--line); border-radius: var(--r); padding: var(--s5); }
+.ps-head { display: flex; justify-content: space-between; align-items: center; gap: var(--s3); flex-wrap: wrap; margin-bottom: var(--s4); }
+.ps-head p { margin: 0; font: 14px var(--mono); }
+.ps-links { display: flex; gap: var(--s4); font-size: 14px; }
+.ps-levels, .ps-rows { list-style: none; margin: 0; padding: 0; }
+.ps-levels li { display: grid; grid-template-columns: 110px minmax(0, 1fr) 132px; gap: var(--s4); align-items: center; padding: var(--s2) 0; }
+.ps-name { font-weight: 600; }
+.lv-apprentice .ps-name { color: var(--accent); } .lv-practitioner .ps-name { color: var(--plat); } .lv-expert .ps-name { color: var(--c-kw); }
+.ps-num { font: 13px var(--mono); color: var(--muted); white-space: nowrap; min-width: 6.5ch; text-align: right; }
+.meter { height: 12px; background: var(--bg-2); border: 1px solid var(--line-2); border-radius: 999px; overflow: hidden; }
+.meter i { display: block; height: 100%; border-radius: 999px; background: var(--accent); min-width: 0; }
+.lv-practitioner .meter i { background: var(--plat); } .lv-expert .meter i { background: var(--c-kw); }
+.ps-topics { margin-top: var(--s4); border-top: 1px solid var(--line); padding-top: var(--s3); }
+.ps-topics summary { cursor: pointer; font-weight: 600; padding: var(--s2) 0; }
+.ps-topics h3 { font: 600 13px var(--mono); text-transform: uppercase; letter-spacing: .08em; color: var(--plat); margin: var(--s5) 0 var(--s2); }
+.ps-rows li { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) 56px 96px; gap: var(--s3); align-items: center; padding: 5px 0; font-size: 14px; }
+.ps-rows .meter { height: 8px; }
+.ps-topic { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ps-status { font: 12px var(--mono); text-align: right; color: var(--muted); }
+.st-done { color: var(--accent); } .st-progress { color: var(--plat); }
+@media (max-width: 767px) {
+  .ps-card { padding: var(--s4); }
+  .ps-levels li { grid-template-columns: 1fr auto; row-gap: 4px; }
+  .ps-levels .meter { grid-column: 1 / -1; grid-row: 2; }
+  .ps-rows li { grid-template-columns: 1fr auto; row-gap: 4px; }
+  .ps-rows .meter { grid-column: 1 / -1; grid-row: 2; }
+  .ps-rows .ps-status { grid-column: 2; grid-row: 1; display: none; }
+}
