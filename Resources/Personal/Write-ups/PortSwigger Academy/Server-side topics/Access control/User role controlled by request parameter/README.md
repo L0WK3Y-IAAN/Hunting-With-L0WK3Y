@@ -1,3 +1,6 @@
+---
+title: "PortSwigger Academy — User role controlled by request parameter (Web) Walkthrough"
+---
 # User role controlled by request parameter
 
 <aside>

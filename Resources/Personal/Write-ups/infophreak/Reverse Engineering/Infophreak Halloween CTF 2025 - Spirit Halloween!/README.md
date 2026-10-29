@@ -1,3 +1,6 @@
+---
+title: "Infophreak — Halloween CTF 2025: Spirit Halloween! (Reverse Engineering) Walkthrough"
+---
 # IP Halloween 2025 - Spirit Halloween! Walkthrough
 
 <aside>

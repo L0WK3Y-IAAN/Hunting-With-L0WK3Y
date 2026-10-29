@@ -1,3 +1,6 @@
+---
+title: "Wiz — Prompt Airlines CTF (LLM Red Teaming) Walkthrough"
+---
 # Wiz Prompt Airlines CTF - Technical Write-up & Vulnerability Analysis
 
 > ✈️ **Goal:** manipulate the Prompt Airlines customer service chatbot into booking a free flight. The CTF has 5 challenges worth 10 points each and was made by Wiz Research (@nirohfeld and @shirtamari). Everything below comes from my own screenshots.

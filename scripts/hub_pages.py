@@ -350,12 +350,12 @@ _MD = _md()
 
 def render_body(body: str, md_dir: Path, page_slug: str, root: str, title: str):
     tokens = _MD.parse(body)
-    # drop the first H1 only when it just repeats the page title (the template renders the title itself);
-    # a different first H1 is a real section heading and stays (demoted to h2 by the sanitizer)
+    # drop the first H1 when it is the document's opening line (an exported title) or repeats the page title;
+    # an H1 further down is a real section heading and stays (demoted to h2 by the sanitizer)
     norm = lambda x: re.sub(r"[^a-z0-9]+", " ", x.lower()).strip()
     for i, t in enumerate(tokens):
         if t.type == "heading_open" and t.tag == "h1":
-            if i + 2 < len(tokens) and tokens[i + 2].type == "heading_close" and norm(tokens[i + 1].content) == norm(title):
+            if i + 2 < len(tokens) and tokens[i + 2].type == "heading_close" and (i == 0 or norm(tokens[i + 1].content) == norm(title)):
                 del tokens[i:i + 3]
             break
         if t.type == "heading_open":

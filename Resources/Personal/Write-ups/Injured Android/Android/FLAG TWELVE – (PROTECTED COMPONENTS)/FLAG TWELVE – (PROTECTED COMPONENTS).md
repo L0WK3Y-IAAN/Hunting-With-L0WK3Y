@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Twelve: Protected Components (Android) Walkthrough"
+order: 12
+---
 # FLAG TWELVE – (PROTECTED COMPONENTS)
 
 For this challenge, you will have to downgrade to SDK 30 (Android 11) as this exploit no longer works on versions 12+ (Explanation towards the bottom). In this challenge, you want to access `FlagTwelveProtectedActivity` and execute its success function `F()`, which gives you the flag.

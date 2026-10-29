@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flags Eight & Nine: AWS + Firebase (Android) Walkthrough"
+order: 8
+---
 # FLAG EIGHT & NINE – (AWS + Firebase)
 
 ### Eight

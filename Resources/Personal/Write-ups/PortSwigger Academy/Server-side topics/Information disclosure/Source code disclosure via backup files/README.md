@@ -1,3 +1,6 @@
+---
+title: "PortSwigger Academy — Source code disclosure via backup files (Web) Walkthrough"
+---
 # Source code disclosure via backup files
 
 <aside>

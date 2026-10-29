@@ -1,3 +1,6 @@
+---
+title: "Bugforge.io — CopyPasta Daily (Web) Walkthrough"
+---
 # CopyPasta
 
 

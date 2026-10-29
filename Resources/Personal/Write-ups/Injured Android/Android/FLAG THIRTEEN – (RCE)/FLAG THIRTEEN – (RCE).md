@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Thirteen: RCE (Android) Walkthrough"
+order: 13
+---
 # FLAG THIRTEEN – (RCE)
 
 For this walkthrough I will cover both the "Intended" RCE path (recovering the secret from the binary) and the "Bypass" path (submitting the secret via Deep Link). It also includes a Web-Based PoC to demonstrate real-world exploitation.

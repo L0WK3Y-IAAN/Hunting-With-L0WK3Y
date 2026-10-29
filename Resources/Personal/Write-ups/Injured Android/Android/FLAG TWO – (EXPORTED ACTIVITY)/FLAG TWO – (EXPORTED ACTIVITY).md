@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Two: Exported Activity (Android) Walkthrough"
+order: 2
+---
 # FLAG TWO – (EXPORTED ACTIVITY)
 
 ![image.png](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/raw/main/Resources/Personal/Write-ups/Injured%20Android/Android/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/FLAG%20TWO%20%E2%80%93%20(EXPORTED%20ACTIVITY)/image.png)

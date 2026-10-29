@@ -1,3 +1,6 @@
+---
+title: "PortSwigger Academy — Information disclosure on debug page (Web) Walkthrough"
+---
 # Information disclosure on debug page
 
 ```

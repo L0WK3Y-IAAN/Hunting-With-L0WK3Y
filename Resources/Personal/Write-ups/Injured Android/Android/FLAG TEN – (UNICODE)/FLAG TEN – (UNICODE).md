@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Ten: Unicode (Android) Walkthrough"
+order: 10
+---
 # FLAG TEN – (UNICODE)
 
 This challenge was a bit tricky as it didn’t make much sense to me as to where to find the email and searching for “android unicode collision” mostly returns other writeup’s for this challenge, so instead I will breakdown the code and explain how it works for anyone that is curious. The email `John@Gıthub.com` works because of a **Unicode Collision**. The character `ı` (Latin Small Letter Dotless I) is distinct from the standard `i`, so it bypasses the "No Cheating" check. However, when converted to uppercase, both `ı` and `i` become the same character `I`, satisfying the validation check that unlocks the flag.
