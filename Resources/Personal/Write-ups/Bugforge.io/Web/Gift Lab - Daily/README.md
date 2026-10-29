@@ -1,3 +1,6 @@
+---
+title: "Bugforge.io — Gift Lab Daily (Web) Walkthrough"
+---
 # Gift Lab
 
 

@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Eleven: Deep Links (Android) Walkthrough"
+order: 11
+---
 # FLAG ELEVEN – (DEEP LINKS)
 
 **Flag 11** tests your ability to identify entry points in the `AndroidManifest.xml` (Deep Links) and correlate them with data stored in a backend database (Firebase). The challenge is to find the correct scheme to launch the activity and then identify the specific database key hint.

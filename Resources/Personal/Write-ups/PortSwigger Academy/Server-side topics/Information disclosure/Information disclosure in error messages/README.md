@@ -1,3 +1,6 @@
+---
+title: "PortSwigger Academy — Information disclosure in error messages (Web) Walkthrough"
+---
 # Information disclosure in error messages
 
 <aside>

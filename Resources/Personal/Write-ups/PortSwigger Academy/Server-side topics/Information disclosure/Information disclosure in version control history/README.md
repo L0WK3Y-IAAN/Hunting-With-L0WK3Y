@@ -1,3 +1,6 @@
+---
+title: "PortSwigger Academy — Information disclosure in version control history (Web) Walkthrough"
+---
 # Information disclosure in version control history
 
 <aside>

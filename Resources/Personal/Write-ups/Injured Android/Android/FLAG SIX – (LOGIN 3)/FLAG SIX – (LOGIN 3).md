@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Six: Login 3 (Android) Walkthrough"
+order: 6
+---
 # FLAG SIX – (LOGIN 3)
 
 This flag follows the same DES decryption process as flag five, all we have to do is keep the same Cyberchef recipe and replace the input value with the new Base64 input.

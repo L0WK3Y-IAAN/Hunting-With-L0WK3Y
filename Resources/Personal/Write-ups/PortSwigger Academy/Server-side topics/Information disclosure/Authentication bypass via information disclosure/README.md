@@ -1,3 +1,6 @@
+---
+title: "PortSwigger Academy — Authentication bypass via information disclosure (Web) Walkthrough"
+---
 # Authentication bypass via information disclosure
 
 <aside>

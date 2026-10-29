@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Seven: SQLite (Android) Walkthrough"
+order: 7
+---
 # FLAG SEVEN – (SQLITE)
 
 For FlagSeven an SQL database has data written to it consisting of Base64 subtitle, and an encoded string from the class and method `h.c`.

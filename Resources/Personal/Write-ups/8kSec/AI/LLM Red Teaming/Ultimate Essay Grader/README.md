@@ -1,3 +1,6 @@
+---
+title: "8kSec — Ultimate Essay Grader (LLM Red Teaming) Walkthrough"
+---
 # Exploiting the Ultimate Essay Grader: A Prompt Injection Deep Dive
 
 ![img0](https://i.imgur.com/TfzwtOD.png)

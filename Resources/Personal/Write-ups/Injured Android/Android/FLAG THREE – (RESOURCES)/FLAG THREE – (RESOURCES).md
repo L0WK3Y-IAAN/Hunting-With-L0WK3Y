@@ -1,3 +1,7 @@
+---
+title: "Injured Android — Flag Three: Resources (Android) Walkthrough"
+order: 3
+---
 # FLAG THREE – (RESOURCES)
 
 For FlagThree there is another string input comparison where the text given to `editText` is turned into a string and compared with the resource string `cmVzb3VyY2VzX3lv` to see if they match.
