@@ -151,6 +151,9 @@ python3 -m http.server -d site 8000           # then open http://localhost:8000
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| HackTheBox | [Spookifier](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/HackTheBox/Web/Spookifier/README.md) | Web | 10-31-2026 |
+| HackTheBox | [OnlyHack](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/HackTheBox/Web/OnlyHack/README.md) | Web | 10-31-2026 |
+| HackTheBox | [Dont Overreact](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/HackTheBox/Mobile/Dont%20Overreact/README.md) | Mobile | 10-31-2026 |
 | Wiz | [Prompt Airlines CTF](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/Wiz/LLM%20Red%20Teaming/Prompt%20Airlines%20CTF/README.md) | LLM Red Teaming | 10-29-2026 |
 | Bugforge.io | [Gift Lab - Daily](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/Bugforge.io/Web/Gift%20Lab%20-%20Daily/README.md) | Web | 03-25-2026 |
 | Bugforge.io | [CopyPasta - Daily](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/Bugforge.io/Web/CopyPasta%20-%20Daily/README.md) | Web | 03-25-2026 |
