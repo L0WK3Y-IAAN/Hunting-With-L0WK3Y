@@ -105,7 +105,7 @@ def render_code(code: str, info: str) -> str:
         guess = guess_lang(code)
         raw = guess if guess != "text" else ("javascript" if raw == "jsx" else "text")
     lang = EXT_LANG.get(raw, raw) or guess_lang(code)
-    label = raw or lang
+    label = EXT_LANG.get(raw, raw) or lang      # py -> python, sh -> bash, txt -> text
     try:
         lexer = get_lexer_by_name(lang)
     except ClassNotFound:

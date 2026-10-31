@@ -240,7 +240,7 @@ a.plat:hover { text-decoration: underline; }
 .a-meta { list-style: none; display: flex; flex-wrap: wrap; gap: var(--s2) var(--s4); margin: 0 0 var(--s4); padding: 0; font: 14px var(--mono); color: var(--muted); }
 .a-meta li + li::before { content: "·"; margin-right: var(--s4); color: var(--faint); }
 .diff { display: inline-block; border: 1px solid currentColor; border-radius: 6px; padding: 0 8px; font: 600 12px/1.7 var(--mono); text-transform: uppercase; letter-spacing: .05em; color: var(--warn); }
-.diff-easy { color: var(--accent); }
+.diff-easy, .diff-very-easy { color: var(--accent); }
 .diff-hard, .diff-insane { color: #fb7185; }
 :root[data-theme="light"] .diff-hard, :root[data-theme="light"] .diff-insane { color: #be123c; }
 
