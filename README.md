@@ -75,7 +75,7 @@ draft: true                               # hide the file from the site
 ### Categories
 The hub groups write-ups by **category**: one card (and one page) per category, e.g. Android, Web, Mobile, Reverse Engineering, LLM Red Teaming. A category page lists its write-ups grouped by platform (Injured Android, PentesterLab, ...), each in order.
 - The category is the folder above the lab (`<Platform>/<Category>/<Lab>`), so the repo layout stays as it is.
-- To file a whole platform under another category without moving files, add it to `scripts/categories.json` (PortSwigger Academy is mapped to **Web**; its original topic folders such as "Information disclosure" remain searchable tags).
+- To re-file write-ups under another category without moving files, edit `scripts/categories.json`: `by_platform` maps a whole platform (PortSwigger Academy -> **Web**) and `by_category` maps a folder category (Android -> **Mobile**). The original folder category stays as a searchable tag, so the Android write-ups sit in Mobile and the `Android` tag filters them.
 - To override a single write-up, set `category:` in its frontmatter. To group write-ups some other way, set `series: Some Name` and that replaces the category as the group.
 - Order inside a platform: `order`, then number words and trailing numbers in the title (`FLAG TWO`, `Android 07`), then date.
 

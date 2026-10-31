@@ -1,5 +1,6 @@
 ---
 title: HackTheBox — APKey (Mobile) Walkthrough
+tags: [Android]
 ---
 ![banner](https://i.imgur.com/qIr832s.png)
 

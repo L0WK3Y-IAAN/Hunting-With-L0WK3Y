@@ -1,6 +1,9 @@
 {
-  "_comment": "File a platform under a category on the hub while keeping the repo folder layout. A write-up can also set `category:` in its frontmatter.",
+  "_comment": "File write-ups under a different category on the hub while keeping the repo folder layout. The original folder category stays as a tag (e.g. Android). A write-up can also set `category:` in its frontmatter.",
   "by_platform": {
     "PortSwigger Academy": "Web"
+  },
+  "by_category": {
+    "Android": "Mobile"
   }
 }

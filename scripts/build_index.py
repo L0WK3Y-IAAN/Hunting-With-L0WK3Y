@@ -286,6 +286,7 @@ def slug(s: str) -> str:
 
 # ---------------------------------------------------------------- item building
 CATEGORY_BY_PLATFORM: dict[str, str] = {}
+CATEGORY_BY_CATEGORY: dict[str, str] = {}
 
 
 class Builder:
@@ -344,7 +345,8 @@ class Builder:
             item["_slug"] = slug(str(fm["slug"])) if fm.get("slug") else None
             item["_src"], item["_body"] = md, body
             folder_cat = item["category"]
-            override = str(fm["category"]).strip() if fm.get("category") else CATEGORY_BY_PLATFORM.get(item["platform"])
+            override = (str(fm["category"]).strip() if fm.get("category")
+                        else CATEGORY_BY_PLATFORM.get(item["platform"]) or CATEGORY_BY_CATEGORY.get(folder_cat))
             if override:
                 item["category"] = override
                 item["tags"] += [folder_cat]            # e.g. PortSwigger "Information disclosure" stays searchable
@@ -671,9 +673,10 @@ def parse_portswigger() -> dict | None:
 
 
 def load_categories() -> dict:
-    """scripts/categories.json maps a platform folder to the category it should be filed under."""
+    """scripts/categories.json re-files write-ups without moving them: `by_platform` (a platform folder -> category)
+    and `by_category` (a folder category -> category). The original folder category stays as a searchable tag."""
     try:
-        return json.loads((ROOT / "scripts" / "categories.json").read_text(encoding="utf-8")).get("by_platform", {})
+        return json.loads((ROOT / "scripts" / "categories.json").read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return {}
 
@@ -703,7 +706,9 @@ def main() -> int:
         print("warning: shallow git clone, so dates fall back to the oldest fetched commit. "
               "Use `fetch-depth: 0` / `git fetch --unshallow`.", file=sys.stderr)
 
-    CATEGORY_BY_PLATFORM.update(load_categories())
+    cfg = load_categories()
+    CATEGORY_BY_PLATFORM.update(cfg.get("by_platform", {}))
+    CATEGORY_BY_CATEGORY.update(cfg.get("by_category", {}))
     b = Builder()
     res = ROOT / "Resources"
     b.scan_writeups(res / "Personal" / "Write-ups")
