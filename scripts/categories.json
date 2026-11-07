@@ -4,6 +4,7 @@
     "PortSwigger Academy": "Web"
   },
   "by_category": {
-    "Android": "Mobile"
+    "Android": "Mobile",
+    "iOS": "Mobile"
   }
 }
