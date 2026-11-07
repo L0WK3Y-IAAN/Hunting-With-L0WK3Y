@@ -4,6 +4,8 @@ tags: [iOS]
 ---
 # Injecta Vault (MHC-CTF) - CTF Walkthrough & Methodology
 
+![Injecta Vault](img/banner.webp)
+
 Target: `Vault.ipa` (Mobile Hacking Lab, bundle id `com.mobilehackinglab.Vault`),
 Swift UIKit app, debug-dylib build ("Injecta Vault"), iOS 27 VM (vphone, `iPhone17,3`).
 
