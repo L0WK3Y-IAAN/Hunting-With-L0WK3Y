@@ -151,6 +151,7 @@ python3 -m http.server -d site 8000           # then open http://localhost:8000
 
 | Platform | Lab | Category | Date Posted |
 | --- | --- | --- | --- |
+| Mobile Hacking Lab | [Injecta Vault](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/Mobile%20Hacking%20Lab/iOS/Injecta%20Vault/README.md) | Mobile | 11-07-2026 |
 | PortSwigger Academy | [Username enumeration via subtly different responses](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Authentication/Username%20enumeration%20via%20subtly%20different%20responses/README.md) | Web | 10-31-2026 |
 | PortSwigger Academy | [Username enumeration via different responses](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Authentication/Username%20enumeration%20via%20different%20responses/README.md) | Web | 10-31-2026 |
 | PortSwigger Academy | [User role can be modified in user profile](https://github.com/L0WK3Y-IAAN/Hunting-With-L0WK3Y/blob/main/Resources/Personal/Write-ups/PortSwigger%20Academy/Server-side%20topics/Access%20control/User%20role%20can%20be%20modified%20in%20user%20profile/README.md) | Web | 10-31-2026 |
